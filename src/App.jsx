@@ -15,6 +15,7 @@ import Services from './pages/Services.jsx'
 import Financeiro from './pages/Financeiro.jsx'
 import Configuracoes from './pages/Configuracoes.jsx'
 import ClientLanding from './pages/client/ClientLanding.jsx'
+import ClientRegister from './pages/client/ClientRegister.jsx'
 
 const ROUTES = {
   welcome: '/',
@@ -34,11 +35,13 @@ const ROUTES = {
   configuracoes: '/configuracoes',
   mais: '/mais',
   client: '/cliente',
+  clientRegister: '/cliente/cadastro',
 }
 
 const routeFromPath = (path) => {
   const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#\/?/, '') : ''
   if (hash) {
+    if (hash === 'cadastro' || hash === 'cliente/cadastro' || hash === 'client-register') return 'clientRegister'
     if (hash === 'cliente' || hash === 'agendar' || hash === 'client') return 'client'
     if (hash === 'configuracoes' || hash === 'mais') return 'configuracoes'
     if (hash === 'financeiro') return 'financeiro'
@@ -56,6 +59,7 @@ const routeFromPath = (path) => {
     if (hash === 'plans' || hash === 'planos') return 'plans'
   }
   const p = path || (typeof window !== 'undefined' ? window.location.pathname : '/')
+  if (p.startsWith('/cliente/cadastro') || p.startsWith('/cadastro')) return 'clientRegister'
   if (p.startsWith('/cliente') || p.startsWith('/agendar') || p.startsWith('/agendamento')) return 'client'
   if (p.startsWith(ROUTES.configuracoes) || p.startsWith(ROUTES.mais)) return 'configuracoes'
   if (p.startsWith(ROUTES.financeiro)) return 'financeiro'
@@ -154,10 +158,18 @@ export default function App() {
         <Success onContinue={() => navigate('onboarding')} />
       ) : route === 'plans' ? (
         <Plans onBack={goBack} onContinue={() => navigate('success')} />
+      ) : route === 'clientRegister' ? (
+        <ClientRegister
+          onBack={() => navigate('client')}
+          onContinue={(clientData) => {
+            console.log('Cliente cadastrada:', clientData)
+            alert(`Bem-vinda, ${clientData.name}! Cadastro realizado com sucesso! Próxima etapa em desenvolvimento.`)
+          }}
+        />
       ) : route === 'client' ? (
         <ClientLanding
           onNavigateAdmin={() => navigate('dashboard')}
-          onBookNow={() => alert('Próxima etapa: Seleção de serviços da cliente!')}
+          onBookNow={() => navigate('clientRegister')}
         />
       ) : (
         <Welcome
@@ -170,7 +182,7 @@ export default function App() {
       <aside className="portal-dev-switcher" aria-label="Alternar visão entre manicure e cliente">
         <button
           type="button"
-          className={`portal-dev-btn ${route !== 'client' ? 'is-active' : ''}`}
+          className={`portal-dev-btn ${route !== 'client' && route !== 'clientRegister' ? 'is-active' : ''}`}
           onClick={() => navigate('dashboard')}
           title="Ver o painel e ferramentas da Manicure (Admin)"
         >
@@ -178,7 +190,7 @@ export default function App() {
         </button>
         <button
           type="button"
-          className={`portal-dev-btn ${route === 'client' ? 'is-active' : ''}`}
+          className={`portal-dev-btn ${route === 'client' || route === 'clientRegister' ? 'is-active' : ''}`}
           onClick={() => navigate('client')}
           title="Ver a página pública de agendamento da Cliente"
         >

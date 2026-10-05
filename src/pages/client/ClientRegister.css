@@ -1,0 +1,439 @@
+/* ==========================================================================
+   Bella Nails - Client Register Page (Etapa de Cadastro do Cliente)
+   ========================================================================== */
+
+.clr-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: var(--w, 430px);
+  margin: 0 auto;
+  position: relative;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  box-shadow: 0 0 36px rgba(0, 0, 0, 0.12);
+}
+
+/* ==========================================================================
+   Barra Superior: Voltar + Stepper
+   ========================================================================== */
+.clr-top-nav {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.clr-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(235, 205, 214, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b4b57;
+  box-shadow: 0 2px 8px rgba(140, 50, 75, 0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.clr-back-btn:hover {
+  background: #fdf5f7;
+  color: #9c223c;
+  transform: scale(1.05);
+}
+
+.clr-back-btn:active {
+  transform: scale(0.95);
+}
+
+.clr-back-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.clr-nav-placeholder {
+  width: 36px;
+  height: 36px;
+}
+
+/* Stepper de Progresso (Passo 1 de 3) */
+.clr-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.clr-step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid #8e2840;
+  background: #ffffff;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.clr-step-dot.is-active {
+  background: #8e2840;
+  border-color: #8e2840;
+  width: 13px;
+  height: 13px;
+}
+
+.clr-step-line {
+  width: 26px;
+  height: 1.5px;
+  background: #8e2840;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Banner Superior com Foto e Frase Ilustrada
+   ========================================================================== */
+.clr-header-banner-wrap {
+  position: relative;
+  width: 100%;
+  /* 457 / 1024 = 44.6% onde a curva atinge o centro */
+  height: calc(min(100vw, var(--w, 430px)) * 0.446);
+  background: transparent;
+  overflow: visible;
+}
+
+.clr-header-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Avatar Centralizado com Borda Branca e Badge de Coração */
+.clr-avatar-badge-wrap {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+}
+
+.clr-avatar-circle {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fce6ec 0%, #f6ced7 100%);
+  border: 3.5px solid #ffffff;
+  box-shadow: 0 4px 16px rgba(142, 40, 64, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.clr-avatar-icon {
+  width: 30px;
+  height: 30px;
+  color: #4f2734;
+}
+
+.clr-avatar-heart-badge {
+  position: absolute;
+  bottom: 0px;
+  right: -1px;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: #8e2840;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.clr-avatar-heart-badge svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* ==========================================================================
+   Conteúdo Principal: Formulário e Textos
+   ========================================================================== */
+.clr-main-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 22px 14px 22px;
+  position: relative;
+  z-index: 5;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.clr-heading-group {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.clr-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0 0 3px 0;
+  letter-spacing: -0.3px;
+}
+
+.clr-subtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #6d515a;
+  margin: 0;
+  max-width: 295px;
+  line-height: 1.35;
+}
+
+/* Card Destaque: Rápido e Seguro */
+.clr-info-card-wrap {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.clr-info-card-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 3px 12px rgba(180, 70, 95, 0.07);
+}
+
+/* Formulário de Cadastro */
+.clr-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.clr-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.clr-input-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: #5c3b47;
+}
+
+.clr-label-icon {
+  width: 16px;
+  height: 16px;
+  color: #5c3b47;
+}
+
+.clr-label-icon.is-whatsapp {
+  color: #5c3b47;
+}
+
+.clr-text-input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #ebd3da;
+  background: #ffffff;
+  padding: 0 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #2e131d;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.clr-text-input::placeholder {
+  color: #bca4ad;
+}
+
+.clr-text-input:focus {
+  border-color: #8e2840;
+  box-shadow: 0 0 0 3px rgba(142, 40, 64, 0.1);
+}
+
+/* Linha de Telefone com DDD e Bandeira */
+.clr-phone-input-row {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid #ebd3da;
+  background: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.clr-phone-input-row:focus-within {
+  border-color: #8e2840;
+  box-shadow: 0 0 0 3px rgba(142, 40, 64, 0.1);
+}
+
+.clr-country-selector {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.clr-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.clr-country-code {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: #3b1e28;
+}
+
+.clr-country-arrow {
+  width: 12px;
+  height: 12px;
+  color: #6b4b57;
+}
+
+.clr-phone-divider {
+  width: 1px;
+  height: 22px;
+  background: #e8d0d7;
+  margin: 0 2px;
+}
+
+.clr-phone-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  height: 100%;
+  padding: 0 10px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #2e131d;
+  outline: none;
+}
+
+.clr-phone-input::placeholder {
+  color: #bca4ad;
+}
+
+/* Botão Continuar */
+.clr-submit-btn {
+  width: 100%;
+  height: 50px;
+  border-radius: 999px;
+  background: #8e2840;
+  color: #ffffff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(142, 40, 64, 0.32);
+  margin-top: 4px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.clr-submit-btn:hover {
+  background: #782035;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(142, 40, 64, 0.4);
+}
+
+.clr-submit-btn:active {
+  transform: scale(0.98);
+}
+
+.clr-btn-arrow {
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.15s ease;
+}
+
+.clr-submit-btn:hover .clr-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   3 Badges de Confiança (Dados protegidos, Atendimento, Mais beleza)
+   ========================================================================== */
+.clr-trust-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.clr-trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.clr-trust-icon {
+  width: 18px;
+  height: 18px;
+  color: #9c223c;
+}
+
+.clr-trust-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: #6e525c;
+  line-height: 1.22;
+}
+
+/* ==========================================================================
+   Onda Decorativa com Coração no Rodapé (Edge-to-Edge)
+   ========================================================================== */
+.clr-footer-wave-wrap {
+  width: 100%;
+  margin-top: auto;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.clr-footer-wave-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

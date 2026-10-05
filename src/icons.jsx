@@ -637,6 +637,21 @@ export const DoodleHeart = (p) => (
   </svg>
 )
 
+export const LotusIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M12 4c-1.5 4-2.5 8.5 0 13 2.5-4.5 1.5-9 0-13z" />
+    <path d="M12 17c-3-2-6.5-2.5-9-1 0 4 3 6 9 6s9-2 9-6c-2.5-1.5-6-1-9 1z" />
+    <path d="M5.5 14C4.5 9.5 8 5.5 12 4c4 1.5 7.5 5.5 6.5 10" />
+  </svg>
+)
+
+export const UserOutlineIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <circle cx="12" cy="7.5" r="4" />
+    <path d="M4 20.5c0-4 3.5-7 8-7s8 3 8 7" />
+  </svg>
+)
+
 
 
 
