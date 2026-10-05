@@ -1,0 +1,285 @@
+/*
+ * Tela de Boas-vindas da Configuração – Bella Nails
+ * 100% idêntica ao design, sem o botão 'Pular' e sem as bolinhas de paginação.
+ */
+.onboarding-screen {
+  position: relative;
+  width: var(--w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(var(--safe-top) + var(--u) * 14) 0 calc(var(--safe-bottom) + var(--u) * 14);
+  font-family: var(--font-sans);
+  color: var(--body-text);
+  background:
+    radial-gradient(120% 40% at 85% 8%, rgba(255, 255, 255, 0.75), transparent 60%),
+    radial-gradient(90% 30% at 10% 30%, rgba(255, 244, 246, 0.8), transparent 70%),
+    radial-gradient(120% 30% at 50% 92%, rgba(255, 238, 241, 0.9), transparent 70%),
+    linear-gradient(180deg, #fbeef0 0%, #f7e3e6 35%, #f3d8dc 60%, #f6e0e3 85%, #f3d6da 100%);
+}
+
+/* ---------- Header ---------- */
+.onb-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(var(--u) * 44);
+  flex-shrink: 0;
+}
+
+.onb-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.onb-logo .logo-name {
+  font-family: var(--font-script);
+  font-size: calc(var(--u) * 29);
+  line-height: 1.12;
+  color: var(--crimson);
+  letter-spacing: calc(var(--u) * 0.2);
+}
+
+.onb-logo .logo-sub {
+  margin-top: calc(var(--u) * -2.5);
+  font-size: calc(var(--u) * 4.4);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: calc(var(--u) * 1.6);
+  padding-left: calc(var(--u) * 1.6);
+  color: #8e5c69;
+}
+
+/* ---------- Hero ---------- */
+.onb-hero {
+  position: relative;
+  z-index: 3;
+  padding: 0 calc(var(--ux) * 10) 0 calc(var(--ux) * 25);
+  margin-top: calc(var(--u) * 8);
+  flex-shrink: 0;
+}
+
+.onb-title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: calc(var(--u) * 20.6);
+  line-height: calc(var(--u) * 23.4);
+  letter-spacing: calc(var(--u) * -0.15);
+  color: var(--wine);
+}
+
+.onb-title span,
+.onb-lead span,
+.onb-quote span {
+  display: block;
+  white-space: nowrap;
+}
+
+.onb-title-heart {
+  display: inline-block;
+  width: calc(var(--u) * 14);
+  height: calc(var(--u) * 13);
+  margin-left: calc(var(--u) * 3);
+  color: var(--crimson);
+  vertical-align: calc(var(--u) * -1);
+  transform: rotate(-6deg);
+  animation: heartPulse 2.8s ease-in-out infinite;
+}
+
+.onb-lead {
+  margin-top: calc(var(--u) * 12);
+  font-size: calc(var(--u) * 9.1);
+  line-height: calc(var(--u) * 14.8);
+  letter-spacing: calc(var(--u) * -0.05);
+  color: var(--body-text);
+}
+
+/* ---------- Lista dos 5 Passos ---------- */
+.onb-steps-list {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 5.5);
+  margin: calc(var(--u) * 13) calc(var(--ux) * 20) 0;
+  flex-shrink: 0;
+}
+
+.onb-step-item {
+  display: flex;
+  align-items: center;
+  height: calc(var(--u) * 32);
+  padding: 0 calc(var(--ux) * 14);
+  border-radius: calc(var(--u) * 10);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68) 0%, rgba(255, 250, 252, 0.52) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 calc(var(--u) * 3) calc(var(--u) * 10) rgba(160, 50, 80, 0.04);
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 0.2s ease;
+  animation: stepIn 0.5s ease-out both;
+}
+
+.onb-step-item:hover,
+.onb-step-item:active {
+  transform: translateY(calc(var(--u) * -1.5)) scale(1.015);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 calc(var(--u) * 5) calc(var(--u) * 14) rgba(160, 50, 80, 0.08);
+}
+
+.onb-step-icon-wrap {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(var(--u) * 18);
+  height: calc(var(--u) * 18);
+}
+
+.onb-step-icon {
+  width: calc(var(--u) * 16);
+  height: calc(var(--u) * 16);
+  color: var(--crimson);
+}
+
+.onb-step-text {
+  margin-left: calc(var(--ux) * 12);
+  font-size: calc(var(--u) * 8.4);
+  font-weight: 500;
+  color: #791c3d;
+  letter-spacing: calc(var(--u) * -0.05);
+}
+
+/* ---------- Foto da mão esmaltada de fundo ---------- */
+.onb-hand-bg {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: calc(var(--u) * 30);
+  width: 100%;
+  height: calc(var(--u) * 270);
+  object-fit: cover;
+  object-position: 50% 60%;
+  transform: scaleX(-1);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 70%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 70%, transparent 100%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Frase inspiracional com corações ---------- */
+.onb-quote {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--u) * 16);
+  height: calc(var(--u) * 52);
+  flex-shrink: 0;
+}
+
+.onb-loop-heart {
+  position: absolute;
+  left: calc(var(--ux) * 21);
+  top: calc(var(--u) * -2);
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 34);
+  color: var(--crimson);
+  transform: rotate(-8deg);
+  animation: floatHeart 4s ease-in-out infinite alternate;
+}
+
+.onb-quote p {
+  position: absolute;
+  left: calc(var(--ux) * 21 + var(--u) * 20);
+  top: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: calc(var(--u) * 11.2);
+  line-height: calc(var(--u) * 16.6);
+  color: var(--crimson);
+  text-shadow: 0 0 calc(var(--u) * 6) rgba(255, 240, 243, 0.9);
+}
+
+.oq1 { padding-left: calc(var(--u) * 9); }
+.oq2 { padding-left: calc(var(--u) * 14); }
+.oq3 {
+  padding-left: calc(var(--u) * 32);
+  display: flex !important;
+  align-items: center;
+  gap: calc(var(--u) * 2.5);
+}
+
+.onb-small-heart {
+  display: inline-block;
+  width: calc(var(--u) * 9);
+  height: calc(var(--u) * 8.5);
+  transform: rotate(-6deg);
+  animation: floatHeart 3s ease-in-out 0.5s infinite alternate;
+}
+
+/* ---------- Botão de Ação ---------- */
+.onb-cta {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: calc(var(--u) * 14) calc(var(--ux) * 14) calc(var(--u) * 10);
+  height: calc(var(--u) * 35);
+  border-radius: 999px;
+  color: #fff;
+  font-size: calc(var(--u) * 9.6);
+  font-weight: 500;
+  letter-spacing: calc(var(--u) * 0.05);
+  background: linear-gradient(180deg, #b3204f 0%, #a01744 50%, #8c1039 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 calc(var(--u) * 5) calc(var(--u) * 12) rgba(140, 16, 57, 0.28);
+  transition: transform 0.18s ease, filter 0.18s ease;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.onb-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.18) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shine 4s ease-in-out 1.2s infinite;
+}
+
+.onb-cta:active {
+  transform: scale(0.98);
+  filter: brightness(0.95);
+}
+
+.onb-cta .cta-arrow {
+  position: absolute;
+  right: calc(var(--ux) * 28);
+  width: calc(var(--u) * 11);
+  height: calc(var(--u) * 11);
+  transition: transform 0.2s ease;
+}
+
+.onb-cta:hover .cta-arrow {
+  transform: translateX(calc(var(--u) * 2));
+}
+
+/* ---------- Keyframe Animations ---------- */
+@keyframes stepIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--u) * 8));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

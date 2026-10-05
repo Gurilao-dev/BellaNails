@@ -1,0 +1,564 @@
+/* ==========================================================================
+   Configurações Screen (Aba Mais) - Bella Nails
+   ========================================================================== */
+
+.cfg-screen {
+  background:
+    radial-gradient(130% 50% at 85% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(90% 35% at 15% 15%, rgba(247, 222, 228, 0.6), transparent 70%),
+    linear-gradient(180deg, #fcf4f5 0%, #f7e6e9 14%, #fbf3f5 32%, #f8eff1 60%, #f6e8eb 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--w);
+  margin: 0 auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header Superior: Ícone de Engrenagem + "Configurações"
+   ========================================================================== */
+.cfg-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 18px 6px 18px;
+  position: relative;
+  z-index: 10;
+}
+
+.cfg-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cfg-header-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cfg-header-icon {
+  width: 25px;
+  height: 25px;
+  color: #9c223c;
+}
+
+.cfg-header-title {
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.3px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Corpo com Rolagem Fluida
+   ========================================================================== */
+.cfg-content-body {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 16px 90px 16px;
+  gap: 12px;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Segmented Control: Meu Negócio | Notificações | Pagamentos
+   ========================================================================== */
+.cfg-segments {
+  display: flex;
+  background: rgba(156, 34, 60, 0.05);
+  border: 1px solid rgba(156, 34, 60, 0.08);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 3px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cfg-segment-btn {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #886b76;
+  text-align: center;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cfg-segment-btn.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.25);
+  transform: scale(1.01);
+}
+
+.cfg-segment-btn:not(.is-active):hover {
+  color: #9c223c;
+  background: rgba(156, 34, 60, 0.04);
+}
+
+.cfg-segment-btn:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   Base Card Styles
+   ========================================================================== */
+.cfg-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 14px 15px;
+  box-shadow: 0 5px 18px rgba(140, 50, 75, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cfg-card:hover {
+  box-shadow: 0 7px 22px rgba(140, 50, 75, 0.08);
+}
+
+.cfg-card-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.cfg-card-header-icon {
+  width: 17px;
+  height: 17px;
+  color: #9c223c;
+  flex-shrink: 0;
+}
+
+.cfg-card-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #9c223c;
+  letter-spacing: -0.15px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Card 1: Informações do negócio
+   ========================================================================== */
+.cfg-business-content {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+}
+
+.cfg-salon-thumb-wrap {
+  width: 80px;
+  height: 108px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(140, 50, 75, 0.08);
+}
+
+.cfg-salon-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cfg-business-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cfg-business-name-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.cfg-name-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.cfg-business-name {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #9c223c;
+  line-height: 1.15;
+}
+
+.cfg-business-sub {
+  font-size: 12px;
+  color: #7a666e;
+  margin-top: 1px;
+}
+
+.cfg-edit-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(156, 34, 60, 0.22);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9c223c;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.cfg-edit-btn:hover {
+  background: rgba(156, 34, 60, 0.08);
+  border-color: #9c223c;
+  transform: scale(1.05);
+}
+
+.cfg-edit-btn:active {
+  transform: scale(0.92);
+}
+
+.cfg-edit-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.cfg-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cfg-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.cfg-contact-icon {
+  width: 14px;
+  height: 14px;
+  color: #9c223c;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.cfg-contact-text {
+  font-size: 11.5px;
+  color: #6d555e;
+  line-height: 1.25;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Card 2: Horário de funcionamento
+   ========================================================================== */
+.cfg-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.cfg-day-btn {
+  padding: 8px 0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.18s ease;
+  background: #fcecee;
+  color: #886b76;
+}
+
+.cfg-day-btn.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(156, 34, 60, 0.22);
+}
+
+.cfg-day-btn:active {
+  transform: scale(0.92);
+}
+
+.cfg-hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cfg-hour-box {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  border-radius: 10px;
+  padding: 7px 10px;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(140, 50, 75, 0.03);
+  transition: border-color 0.15s ease;
+}
+
+.cfg-hour-box:focus-within {
+  border-color: #9c223c;
+}
+
+.cfg-hour-input {
+  width: 100%;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #2e131d;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.cfg-hours-separator {
+  font-size: 12.5px;
+  color: #7a666e;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Card 3 & 4: Toggles (Pagamentos e Lembretes)
+   ========================================================================== */
+.cfg-toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.cfg-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1px 0;
+}
+
+.cfg-toggle-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cfg-item-icon {
+  width: 17px;
+  height: 17px;
+  color: #47323a;
+  flex-shrink: 0;
+}
+
+.cfg-item-label {
+  font-size: 13px;
+  color: #47323a;
+  font-weight: 500;
+}
+
+/* iOS Luxury Switch */
+.cfg-switch {
+  width: 44px;
+  height: 25px;
+  border-radius: 999px;
+  background: #e4d3d8;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.22s ease;
+  border: none;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.cfg-switch.is-checked {
+  background: #9c223c;
+}
+
+.cfg-switch-thumb {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: block;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.cfg-switch.is-checked .cfg-switch-thumb {
+  transform: translateX(19px);
+}
+
+/* ==========================================================================
+   Barra de Navegação Inferior (Tab Bar Fixa com 'Mais' Ativo)
+   ========================================================================== */
+.cfg-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--w);
+  height: calc(58px + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(243, 226, 231, 0.8);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -4px 16px rgba(140, 50, 75, 0.04);
+}
+
+.cfg-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+  color: #886b76;
+  font-size: 10.5px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.cfg-nav-item:active {
+  transform: scale(0.92);
+}
+
+.cfg-nav-item.is-active {
+  color: #9c223c;
+  font-weight: 600;
+}
+
+.cfg-nav-icon {
+  width: 21px;
+  height: 21px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cfg-nav-item.is-active .cfg-nav-icon {
+  transform: translateY(-1px) scale(1.08);
+}
+
+.cfg-nav-text {
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Modal Bottom Sheet de Edição
+   ========================================================================== */
+.cfg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 19, 29, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: animStaggerUp 0.2s ease both;
+}
+
+.cfg-modal-sheet {
+  width: var(--w);
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 16px 20px 32px 20px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15);
+  animation: animStaggerUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cfg-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: #e2c6ce;
+  border-radius: 999px;
+  margin: 0 auto 16px auto;
+}
+
+.cfg-sheet-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e131d;
+  margin-bottom: 14px;
+}
+
+.cfg-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.cfg-field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #7a666e;
+  font-weight: 500;
+}
+
+.cfg-field-input {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(243, 226, 231, 0.9);
+  background: #faf2f4;
+  font-size: 13.5px;
+  color: #2e131d;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.cfg-field-input:focus {
+  border-color: #9c223c;
+  background: #ffffff;
+}
+
+.cfg-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cfg-modal-btn-cancel {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  background: #f7e6e9;
+  color: #886b76;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.cfg-modal-btn-save {
+  flex: 2;
+  padding: 11px 0;
+  border-radius: 12px;
+  background: #9c223c;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(156, 34, 60, 0.25);
+}

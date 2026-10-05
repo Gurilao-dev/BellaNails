@@ -1,0 +1,792 @@
+/* ==========================================================================
+   Dashboard Screen (Painel Principal) - Bella Nails
+   ========================================================================== */
+
+.dash-screen {
+  background:
+    radial-gradient(130% 50% at 85% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(90% 35% at 15% 15%, rgba(247, 222, 228, 0.6), transparent 70%),
+    linear-gradient(180deg, #fcf4f5 0%, #f7e6e9 14%, #fbf3f5 32%, #f8eff1 60%, #f6e8eb 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Header Superior: Logo Centralizado + Hambúrguer à Direita
+   ========================================================================== */
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.dash-header-spacer {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.dash-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.dash-logo-title {
+  font-family: var(--font-script), 'Great Vibes', cursive;
+  font-size: 38px;
+  line-height: 1;
+  color: #9c223c;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+.dash-logo-sub {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: #8c6a74;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.dash-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: #9c223c;
+  border-radius: 8px;
+  transition: background 0.15s ease, transform 0.1s ease;
+  flex-shrink: 0;
+}
+
+.dash-menu-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.dash-menu-btn:hover {
+  background: rgba(156, 34, 60, 0.08);
+}
+
+.dash-menu-btn:active {
+  transform: scale(0.92);
+}
+
+/* ==========================================================================
+   Conteúdo do Dashboard
+   ========================================================================== */
+.dash-content-body {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 18px 84px 18px;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ==========================================================================
+   Seção de Saudação: Olá, Ana! + Foto de Perfil
+   ========================================================================== */
+.dash-greeting-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 2px 2px 2px;
+  position: relative;
+}
+
+.dash-greeting-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dash-greeting-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.dash-wave {
+  font-size: 22px;
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: -1px;
+}
+
+.dash-greeting-sub {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  color: #7b626c;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.dash-profile-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.dash-avatar-halo {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  padding: 2px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(120, 30, 50, 0.12);
+  overflow: hidden;
+}
+
+.dash-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.dash-role-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b1f2d;
+  cursor: pointer;
+  padding: 1px 4px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.dash-role-badge:hover {
+  background: rgba(75, 31, 45, 0.08);
+}
+
+.dash-role-chevron {
+  width: 11px;
+  height: 11px;
+  color: #4b1f2d;
+  stroke-width: 2.2;
+}
+
+/* ==========================================================================
+   Seção: Resumo do dia (Container Branco com 3 Métricas)
+   ========================================================================== */
+.dash-summary-section {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 16px 14px 14px 14px;
+  box-shadow: 0 6px 20px rgba(140, 50, 75, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.dash-summary-header {
+  margin-bottom: 12px;
+}
+
+.dash-summary-date {
+  font-family: var(--font-serif);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+}
+
+.dash-summary-desc {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: #886b76;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+.dash-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.dash-stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 13px 4px 11px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(140, 50, 75, 0.06);
+  border: 1px solid rgba(243, 226, 231, 0.7);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(140, 50, 75, 0.1);
+}
+
+.dash-stat-card.is-interactive {
+  cursor: pointer;
+  border-color: rgba(156, 34, 60, 0.25);
+  background: linear-gradient(180deg, #ffffff 0%, #fff7f8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-stat-card.is-interactive:hover {
+  border-color: rgba(156, 34, 60, 0.5);
+  box-shadow: 0 6px 20px rgba(156, 34, 60, 0.15);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.dash-stat-card.is-interactive:active {
+  transform: scale(0.96);
+}
+
+.dash-stat-badge-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 5px;
+  padding: 2px 7px;
+  background: rgba(156, 34, 60, 0.08);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #9c223c;
+  transition: all 0.15s ease;
+}
+
+.dash-stat-card.is-interactive:hover .dash-stat-badge-link {
+  background: #9c223c;
+  color: #ffffff;
+}
+
+.dash-arrow-small {
+  font-size: 9px;
+  transition: transform 0.15s ease;
+}
+
+.dash-stat-card.is-interactive:hover .dash-arrow-small {
+  transform: translate(1px, -1px);
+}
+
+.dash-stat-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fdecf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 7px;
+}
+
+.dash-stat-icon {
+  width: 17px;
+  height: 17px;
+  color: #9c223c;
+}
+
+.dash-stat-number {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 800;
+  color: #9c223c;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+
+.dash-stat-number.is-money {
+  font-size: 13.5px;
+  letter-spacing: -0.4px;
+}
+
+.dash-stat-label {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  color: #7b626c;
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Banner Inspirador ("Cada atendimento transforma histórias")
+   ========================================================================== */
+.dash-banner-section {
+  width: 100%;
+}
+
+.dash-banner-wrap {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(120, 30, 50, 0.14);
+  line-height: 0;
+}
+
+.dash-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   Seção: Próximos Atendimentos
+   ========================================================================== */
+.dash-appointments-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-appointments-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.dash-appointments-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.2px;
+}
+
+.dash-see-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #9c223c;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  padding: 2px 4px;
+}
+
+.dash-see-all-btn:hover {
+  opacity: 0.85;
+  transform: translateX(2px);
+}
+
+.dash-arrow {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.dash-appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dash-apt-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 9px 12px;
+  box-shadow: 0 3px 12px rgba(140, 50, 75, 0.05);
+  border: 1px solid rgba(243, 226, 231, 0.7);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dash-apt-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(140, 50, 75, 0.09);
+}
+
+.dash-apt-time {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #2e131d;
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.dash-apt-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(120, 30, 50, 0.12);
+  border: 1.5px solid #ffffff;
+}
+
+.dash-apt-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dash-apt-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dash-apt-name {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #8c1e36;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.dash-apt-service {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: #826872;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+  margin-top: 1px;
+}
+
+.dash-apt-status {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dash-apt-status.confirmed {
+  background: #d9f3e4;
+  color: #227947;
+}
+
+.dash-apt-status.pending {
+  background: #fde7c7;
+  color: #b76f11;
+}
+
+.dash-apt-chevron {
+  width: 13px;
+  height: 13px;
+  color: #9c223c;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   Barra de Navegação Inferior (Tab Bar com 5 Abas)
+   ========================================================================== */
+.dash-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--w);
+  height: calc(60px + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(230, 208, 215, 0.7);
+  box-shadow: 0 -4px 20px rgba(120, 30, 50, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 100;
+}
+
+.dash-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  gap: 3px;
+  color: #8c737d;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+  flex: 1;
+}
+
+.dash-nav-item:active {
+  transform: scale(0.92);
+}
+
+.dash-nav-item.is-active {
+  color: #9c223c;
+}
+
+.dash-nav-icon {
+  width: 21px;
+  height: 21px;
+}
+
+.dash-nav-text {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.dash-nav-item.is-active .dash-nav-text {
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Banner de Acesso ao Painel Financeiro
+   ========================================================================== */
+.dash-finance-access-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2f4 100%);
+  border: 1px solid rgba(156, 34, 60, 0.16);
+  border-radius: 16px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(156, 34, 60, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dash-finance-access-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(156, 34, 60, 0.4);
+  box-shadow: 0 6px 20px rgba(156, 34, 60, 0.12);
+}
+
+.dash-finance-access-card:active {
+  transform: scale(0.98);
+}
+
+.dash-finance-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-finance-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fdecf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.1);
+}
+
+.dash-finance-access-icon {
+  width: 22px;
+  height: 22px;
+  color: #9c223c;
+}
+
+.dash-finance-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dash-finance-headline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dash-finance-title {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #2e131d;
+}
+
+.dash-finance-tag-new {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #9c223c;
+  border-radius: 999px;
+  padding: 1px 6px;
+  letter-spacing: 0.3px;
+}
+
+.dash-finance-desc {
+  font-size: 11px;
+  color: #7b626c;
+  line-height: 1.25;
+}
+
+.dash-finance-action {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  background: rgba(156, 34, 60, 0.08);
+  border-radius: 999px;
+  color: #9c223c;
+  font-size: 11.5px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.dash-finance-access-card:hover .dash-finance-action {
+  background: #9c223c;
+  color: #ffffff;
+}
+
+.dash-finance-action-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==========================================================================
+   Modal Bottom Sheet "Mais"
+   ========================================================================== */
+.dash-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 19, 29, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: animStaggerUp 0.2s ease both;
+}
+
+.dash-modal-sheet {
+  width: var(--w);
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 16px 20px 36px 20px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15);
+  animation: animStaggerUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dash-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: #e2c6ce;
+  border-radius: 999px;
+  margin: 0 auto 16px auto;
+}
+
+.dash-sheet-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e131d;
+  margin-bottom: 14px;
+}
+
+.dash-sheet-links {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.dash-sheet-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: #faf2f4;
+  color: #47323a;
+  text-align: left;
+  transition: all 0.18s ease;
+  width: 100%;
+}
+
+.dash-sheet-link-btn:hover {
+  background: #f7e4e9;
+  transform: translateX(3px);
+}
+
+.dash-sheet-link-btn.is-highlight {
+  background: linear-gradient(135deg, #fdf0f3 0%, #fae2e8 100%);
+  border: 1px solid rgba(156, 34, 60, 0.2);
+}
+
+.dash-sheet-link-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9c223c;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(156, 34, 60, 0.08);
+}
+
+.dash-sheet-link-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.dash-sheet-link-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.dash-sheet-link-text strong {
+  font-size: 13.5px;
+  color: #2e131d;
+}
+
+.dash-sheet-link-text span {
+  font-size: 11.5px;
+  color: #7b626c;
+}
+
+.dash-sheet-chevron {
+  width: 16px;
+  height: 16px;
+  color: #9c223c;
+  flex-shrink: 0;
+}
+

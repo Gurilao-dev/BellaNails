@@ -1,0 +1,513 @@
+/*
+ * Tela de Checkout / Planos – Bella Nails
+ * 100% idêntica ao design fornecido, responsiva para qualquer celular.
+ */
+.checkout-screen {
+  position: relative;
+  width: var(--w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + var(--ux) * 10) 0 calc(var(--safe-bottom) + var(--ux) * 16);
+  background:
+    radial-gradient(110% 40% at 85% 0%, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(100% 30% at 10% 40%, rgba(255, 240, 244, 0.8), transparent 70%),
+    radial-gradient(120% 30% at 50% 100%, rgba(255, 235, 240, 0.9), transparent 70%),
+    linear-gradient(180deg, #fef5f7 0%, #fdeff2 25%, #fbe9ee 55%, #f9e2e8 100%);
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--font-sans);
+  color: #3b242e;
+}
+
+/* ---------- Foto da mão no fundo do topo direito ---------- */
+.checkout-bg-hand {
+  position: absolute;
+  top: 0;
+  right: calc(var(--ux) * -10);
+  width: calc(var(--ux) * 135);
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+  -webkit-mask-image: radial-gradient(circle at 65% 35%, black 45%, transparent 75%);
+  mask-image: radial-gradient(circle at 65% 35%, black 45%, transparent 75%);
+}
+
+/* ---------- Header ---------- */
+.checkout-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--ux) * 28);
+  padding: 0 calc(var(--ux) * 10);
+}
+
+.checkout-back {
+  position: absolute;
+  left: calc(var(--ux) * 10);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 20);
+  height: calc(var(--ux) * 20);
+  border-radius: 50%;
+  color: var(--crimson);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.checkout-back svg {
+  width: calc(var(--ux) * 12);
+  height: calc(var(--ux) * 12);
+}
+
+.checkout-back:active {
+  background: rgba(168, 25, 74, 0.08);
+  transform: translateY(-50%) scale(0.92);
+}
+
+.checkout-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.checkout-logo .logo-name {
+  font-family: var(--font-script);
+  font-size: calc(var(--ux) * 21);
+  line-height: 1.1;
+  color: var(--crimson);
+  letter-spacing: calc(var(--ux) * 0.2);
+}
+
+.checkout-logo .logo-sub {
+  margin-top: calc(var(--ux) * -2);
+  font-size: calc(var(--ux) * 4);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: calc(var(--ux) * 1.4);
+  padding-left: calc(var(--ux) * 1.4);
+  color: #8e5c69;
+}
+
+/* ---------- Tag Plano Profissional ---------- */
+.checkout-plan-tag {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: fit-content;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+  margin: calc(var(--ux) * 11) 0 0 calc(var(--ux) * 14);
+  padding: calc(var(--ux) * 2.8) calc(var(--ux) * 6.5);
+  border-radius: 999px;
+  background: #fde8ed;
+  border: 1px solid #f9ccd6;
+  color: #b51c4a;
+  font-size: calc(var(--ux) * 5.8);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 1px 3px rgba(181, 28, 74, 0.04);
+}
+
+.tag-crown {
+  width: calc(var(--ux) * 7.5);
+  height: calc(var(--ux) * 7.5);
+  color: #b51c4a;
+}
+
+/* ---------- Título ---------- */
+.checkout-title {
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--ux) * 8) calc(var(--ux) * 14) 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: calc(var(--ux) * 16.8);
+  line-height: calc(var(--ux) * 19.5);
+  letter-spacing: calc(var(--ux) * -0.2);
+  color: #27121b;
+}
+
+.checkout-title span {
+  display: block;
+}
+
+/* ---------- Texto de apoio + Coração ---------- */
+.checkout-lead-wrap {
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--ux) * 7) calc(var(--ux) * 14) 0;
+  padding-right: calc(var(--ux) * 22);
+}
+
+.checkout-lead {
+  font-size: calc(var(--ux) * 7.6);
+  line-height: calc(var(--ux) * 11.5);
+  color: #4b363e;
+}
+
+.checkout-lead span {
+  display: block;
+}
+
+.checkout-lead-heart {
+  position: absolute;
+  right: calc(var(--ux) * 6);
+  bottom: calc(var(--ux) * -3);
+  width: calc(var(--ux) * 13);
+  height: calc(var(--ux) * 13);
+  color: #cf3360;
+  transform: rotate(10deg);
+}
+
+/* ---------- Grid de 4 recursos rápidos ---------- */
+.quick-grid {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: calc(var(--ux) * 5.5);
+  margin: calc(var(--ux) * 13) calc(var(--ux) * 12) 0;
+}
+
+.quick-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: calc(var(--ux) * 8) calc(var(--ux) * 2) calc(var(--ux) * 7);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: calc(var(--ux) * 9);
+  box-shadow: 0 calc(var(--ux) * 2) calc(var(--ux) * 8) rgba(180, 50, 80, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+.quick-icon-box {
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 20);
+  height: calc(var(--ux) * 20);
+  margin-bottom: calc(var(--ux) * 5);
+  border-radius: calc(var(--ux) * 6);
+  background: #fdeef1;
+  color: #b51c4a;
+}
+
+.quick-icon {
+  width: calc(var(--ux) * 11.5);
+  height: calc(var(--ux) * 11.5);
+}
+
+.quick-l1 {
+  font-size: calc(var(--ux) * 6.3);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #351c24;
+}
+
+.quick-l2 {
+  margin-top: calc(var(--ux) * 1);
+  font-size: calc(var(--ux) * 5.6);
+  line-height: 1.15;
+  color: #8c737c;
+}
+
+/* ---------- Card Principal do Plano Profissional ---------- */
+.checkout-card {
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--ux) * 14) calc(var(--ux) * 12) 0;
+  padding: calc(var(--ux) * 13) calc(var(--ux) * 12) calc(var(--ux) * 14);
+  background: #ffffff;
+  border: 1.5px solid #d43b6a;
+  border-radius: calc(var(--ux) * 13);
+  box-shadow: 0 calc(var(--ux) * 5) calc(var(--ux) * 20) rgba(180, 40, 80, 0.08);
+}
+
+/* Badge Recomendado */
+.checkout-card-badge {
+  position: absolute;
+  top: calc(var(--ux) * -10);
+  right: calc(var(--ux) * 12);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+  height: calc(var(--ux) * 19);
+  padding: 0 calc(var(--ux) * 9);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b81c4e 0%, #8c0e35 100%);
+  color: #fff;
+  font-size: calc(var(--ux) * 6.8);
+  font-weight: 600;
+  box-shadow: 0 calc(var(--ux) * 3) calc(var(--ux) * 8) rgba(140, 14, 53, 0.28);
+}
+
+.badge-flame {
+  width: calc(var(--ux) * 7.5);
+  height: calc(var(--ux) * 7.5);
+  animation: flameFlicker 1.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.15) rotate(-6deg); }
+  50% { transform: scale(0.95) rotate(4deg); }
+  75% { transform: scale(1.1) rotate(-3deg); }
+}
+
+/* Topo do card */
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: calc(var(--ux) * 9);
+}
+
+.card-crown-box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 25);
+  height: calc(var(--ux) * 25);
+  border-radius: calc(var(--ux) * 7);
+  background: linear-gradient(160deg, #fde8ed 0%, #fbdfe6 100%);
+  color: #b51c4a;
+}
+
+.card-crown-icon {
+  width: calc(var(--ux) * 15);
+  height: calc(var(--ux) * 15);
+}
+
+.card-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 12.8);
+  font-weight: 600;
+  color: #2b141d;
+  line-height: 1.15;
+}
+
+.card-desc {
+  margin-top: calc(var(--ux) * 2.5);
+  font-size: calc(var(--ux) * 6.8);
+  line-height: 1.3;
+  color: #6d555e;
+}
+
+/* Preço e Calendário 3D */
+.card-price-row {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin-top: calc(var(--ux) * 9);
+  padding-bottom: calc(var(--ux) * 2);
+}
+
+.card-price {
+  line-height: 1;
+  color: #b51c4a;
+}
+
+.card-price .price-curr {
+  font-size: calc(var(--ux) * 13);
+  font-weight: 700;
+}
+
+.card-price .price-num {
+  font-size: calc(var(--ux) * 17);
+  font-weight: 800;
+  letter-spacing: calc(var(--ux) * -0.2);
+}
+
+.card-price .price-unit {
+  font-size: calc(var(--ux) * 10);
+  font-weight: 600;
+  color: #b51c4a;
+}
+
+/* Calendário 3D posicionado à direita do card */
+.card-3d-wrap {
+  position: absolute;
+  right: calc(var(--ux) * -4);
+  top: calc(var(--ux) * -8);
+  width: calc(var(--ux) * 58);
+  pointer-events: none;
+  z-index: 2;
+  animation: floatCalendar 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatCalendar {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(calc(var(--ux) * -4)) rotate(-1.5deg); }
+}
+
+.calendar-3d-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 calc(var(--ux) * 6) calc(var(--ux) * 10) rgba(180, 50, 80, 0.18));
+}
+
+/* Lista de 8 benefícios */
+.card-feature-list {
+  list-style: none;
+  margin-top: calc(var(--ux) * 8);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ux) * 4.6);
+}
+
+.card-feature-item {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 5);
+  font-size: calc(var(--ux) * 7);
+  color: #3b2730;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Os primeiros 4 itens deixam espaço para o calendário 3D */
+.card-feature-item:nth-child(-n + 4) {
+  max-width: 68%;
+}
+
+.card-check-icon {
+  flex: none;
+  width: calc(var(--ux) * 8.6);
+  height: calc(var(--ux) * 8.6);
+}
+
+/* ---------- Bloco de Garantias e Segurança ---------- */
+.guarantees-row {
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--ux) * 12) calc(var(--ux) * 12) 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: calc(var(--ux) * 10);
+  box-shadow: 0 calc(var(--ux) * 2) calc(var(--ux) * 8) rgba(180, 50, 80, 0.05);
+  backdrop-filter: blur(4px);
+  padding: calc(var(--ux) * 9) calc(var(--ux) * 2);
+}
+
+.guarantee-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 calc(var(--ux) * 2);
+}
+
+.guarantee-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background: #ecd4dc;
+}
+
+.guarantee-icon {
+  width: calc(var(--ux) * 12);
+  height: calc(var(--ux) * 12);
+  color: #c02554;
+  margin-bottom: calc(var(--ux) * 3);
+}
+
+.guarantee-l1 {
+  font-size: calc(var(--ux) * 6.2);
+  font-weight: 600;
+  line-height: 1.15;
+  color: #2e1721;
+}
+
+.guarantee-l2 {
+  margin-top: calc(var(--ux) * 1);
+  font-size: calc(var(--ux) * 5.5);
+  line-height: 1.15;
+  color: #7d656f;
+}
+
+/* ---------- Botão de Pagamento ---------- */
+.checkout-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+  margin: calc(var(--ux) * 12) calc(var(--ux) * 12) 0;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #b81c4e 0%, #8c0e35 100%);
+  color: #ffffff;
+  font-size: calc(var(--ux) * 8.6);
+  font-weight: 600;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 calc(var(--ux) * 4) calc(var(--ux) * 12) rgba(140, 14, 53, 0.28);
+  transition: transform 0.15s ease, filter 0.15s ease;
+  overflow: hidden;
+}
+
+.checkout-cta:active {
+  transform: scale(0.98);
+  filter: brightness(0.95);
+}
+
+.checkout-cta .cta-arrow {
+  position: absolute;
+  right: calc(var(--ux) * 16);
+  width: calc(var(--ux) * 10);
+  height: calc(var(--ux) * 10);
+}
+
+/* ---------- Rodapé de Segurança ---------- */
+.checkout-footer {
+  position: relative;
+  z-index: 3;
+  margin-top: calc(var(--ux) * 10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: calc(var(--ux) * 1.5);
+}
+
+.footer-lock-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+  font-size: calc(var(--ux) * 5.8);
+  color: #7b656e;
+  font-weight: 500;
+}
+
+.footer-lock-icon {
+  width: calc(var(--ux) * 7.5);
+  height: calc(var(--ux) * 7.5);
+  color: #7b656e;
+}
+
+.footer-sub {
+  font-size: calc(var(--ux) * 5.5);
+  color: #9c858e;
+}

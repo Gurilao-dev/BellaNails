@@ -1,0 +1,2328 @@
+/* ==========================================================================
+   Financeiro Screen - Bella Nails
+   ========================================================================== */
+
+.fin-screen {
+  background:
+    radial-gradient(130% 50% at 85% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+    radial-gradient(90% 35% at 15% 15%, rgba(247, 222, 228, 0.6), transparent 70%),
+    linear-gradient(180deg, #fcf4f5 0%, #f7e6e9 14%, #fbf3f5 32%, #f8eff1 60%, #f6e8eb 100%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--w);
+  margin: 0 auto;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header e Filtros Fixos no Topo (Sticky Header)
+   ========================================================================== */
+.fin-sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(252, 244, 245, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 14px 16px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid rgba(168, 25, 74, 0.06);
+  box-shadow: 0 4px 16px rgba(140, 40, 60, 0.04);
+}
+
+.fin-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.fin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fin-header-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fin-header-icon {
+  width: 25px;
+  height: 25px;
+  color: #9c223c;
+}
+
+.fin-header-title {
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.3px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Segmented Control: Resumo | Entradas | Despesas
+   ========================================================================== */
+.fin-segments {
+  display: flex;
+  background: rgba(156, 34, 60, 0.05);
+  border: 1px solid rgba(156, 34, 60, 0.08);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 3px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.fin-segments::-webkit-scrollbar {
+  display: none;
+}
+
+.fin-segment-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 6.5px 6px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #886b76;
+  text-align: center;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.fin-tab-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.fin-segment-btn.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.25);
+  transform: scale(1.01);
+}
+
+.fin-segment-btn:not(.is-active):hover {
+  color: #9c223c;
+  background: rgba(156, 34, 60, 0.04);
+}
+
+.fin-segment-btn:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   Month Selector: < Outubro de 2025 >
+   ========================================================================== */
+.fin-month-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  border-radius: 12px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px rgba(140, 50, 75, 0.04);
+}
+
+.fin-month-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  color: #9c223c;
+  transition: all 0.15s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.fin-month-nav-btn:hover {
+  background: rgba(156, 34, 60, 0.08);
+  transform: scale(1.1);
+}
+
+.fin-month-nav-btn:active {
+  transform: scale(0.92);
+}
+
+.fin-month-nav-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.fin-month-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2e131d;
+  letter-spacing: -0.1px;
+}
+
+/* ==========================================================================
+   Corpo com Rolagem Fluida
+   ========================================================================== */
+.fin-content-body {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px 110px 16px;
+  gap: 12px;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Cards Genéricos de Conteúdo
+   ========================================================================== */
+.fin-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 18px 18px 16px 18px;
+  box-shadow: 0 4px 20px rgba(140, 50, 75, 0.05);
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Bloco 1: Faturamento Hero
+   ========================================================================== */
+.fin-revenue-hero {
+  display: flex;
+  flex-direction: column;
+}
+
+.fin-rev-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-rev-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #7a666e;
+}
+
+.fin-growth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: #eafbf0;
+  color: #16a34a;
+  padding: 2.5px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.fin-trend-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.fin-rev-main-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.fin-rev-amount {
+  font-family: var(--font-serif), 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #230b14;
+  letter-spacing: -0.5px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.fin-calendar-badge-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9c223c;
+  opacity: 0.85;
+}
+
+.fin-cal-badge-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.fin-rev-sub {
+  font-size: 11.5px;
+  color: #7a666e;
+  margin: 4px 0 0 0;
+}
+
+/* Mini Cards de Métricas em Linha */
+.fin-metric-chips-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(243, 226, 231, 0.8);
+}
+
+.fin-metric-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #faf2f4;
+  padding: 8px 6px;
+  border-radius: 12px;
+}
+
+.fin-chip-label {
+  font-size: 10px;
+  color: #886b76;
+  font-weight: 500;
+}
+
+.fin-chip-val {
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.fin-metric-chip.is-inflow .fin-chip-val {
+  color: #16a34a;
+}
+
+.fin-metric-chip.is-expense .fin-chip-val {
+  color: #9c223c;
+}
+
+.fin-metric-chip.is-profit .fin-chip-val {
+  color: #801d36;
+}
+
+/* ==========================================================================
+   Bloco 2: Gráfico de Barras Semanal
+   ========================================================================== */
+.fin-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fin-chart-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0;
+}
+
+.fin-chart-hint {
+  font-size: 10.5px;
+  color: #a08c94;
+}
+
+.fin-bars-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 120px;
+  padding-top: 18px;
+  box-sizing: border-box;
+}
+
+.fin-bar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  width: 32px;
+}
+
+.fin-bar-tooltip {
+  position: absolute;
+  top: -20px;
+  background: #2e131d;
+  color: #ffffff;
+  padding: 3px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 20;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.fin-bar-track {
+  width: 14px;
+  height: 100%;
+  background: #f8e8ec;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.fin-bar-fill {
+  width: 100%;
+  border-radius: 999px;
+  transition: height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.fin-bar-fill.is-solid {
+  background: #9c223c;
+}
+
+.fin-bar-fill.is-highlight {
+  background: linear-gradient(180deg, #b82b49 0%, #9c223c 100%);
+  box-shadow: 0 0 8px rgba(156, 34, 60, 0.4);
+}
+
+.fin-bar-fill.is-light {
+  background: #f1b3c0;
+}
+
+.fin-bar-fill.is-dark {
+  background: #731227;
+}
+
+.fin-bar-day {
+  font-size: 10.5px;
+  color: #7a666e;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Bloco 3: Ranking de Serviços Mais Rentáveis
+   ========================================================================== */
+.fin-breakdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fin-breakdown-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.fin-trophy-icon {
+  width: 18px;
+  height: 18px;
+  color: #d97706;
+}
+
+.fin-breakdown-title {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0;
+}
+
+.fin-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fin-service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+.fin-service-row:hover,
+.fin-service-row.is-active {
+  background: #faf2f4;
+}
+
+.fin-service-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fin-service-rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9c223c;
+  width: 18px;
+}
+
+.fin-service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.fin-service-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #2e131d;
+}
+
+.fin-service-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: #f8e8ec;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fin-service-bar-fill {
+  height: 100%;
+  background: #9c223c;
+  border-radius: 999px;
+}
+
+.fin-service-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.fin-service-value {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #2e131d;
+}
+
+.fin-service-pct {
+  font-size: 10.5px;
+  color: #886b76;
+}
+
+/* ==========================================================================
+   SUB-ABAS: ENTRADAS & DESPESAS (Com Visual Bonitinho & Completo)
+   ========================================================================== */
+.fin-subtab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.fin-tab-actions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.fin-tab-heading {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.fin-tab-subheading {
+  font-size: 11.5px;
+  color: #886b76;
+  margin-top: 2px;
+  display: block;
+}
+
+.fin-tab-subheading strong {
+  color: #9c223c;
+}
+
+.fin-header-buttons-pair {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fin-action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #9c223c;
+  color: #ffffff;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(156, 34, 60, 0.25);
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.fin-action-pill-btn.is-secondary {
+  background: #ffffff;
+  color: #9c223c;
+  border: 1px solid rgba(156, 34, 60, 0.25);
+  box-shadow: 0 2px 6px rgba(140, 50, 75, 0.04);
+}
+
+.fin-action-pill-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.fin-action-pill-btn:active {
+  transform: scale(0.95);
+}
+
+.fin-pill-btn-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Overview Cards Grid */
+.fin-overview-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.fin-stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 10px 8px;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  box-shadow: 0 2px 8px rgba(140, 50, 75, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.fin-stat-caption {
+  font-size: 10px;
+  color: #886b76;
+  font-weight: 500;
+}
+
+.fin-stat-val {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 3px 0 1px 0;
+}
+
+.fin-stat-val.is-green { color: #16a34a; }
+.fin-stat-val.is-expense { color: #9c223c; }
+.fin-stat-val.is-amber { color: #b45309; }
+.fin-stat-val.is-purple { color: #7c3aed; }
+.fin-stat-val.is-wine { color: #9c223c; }
+
+.fin-stat-sub {
+  font-size: 9px;
+  color: #aa939b;
+}
+
+/* Filtros em Pílula */
+.fin-filter-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.fin-filter-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+.fin-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 11px;
+  background: #ffffff;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #7a666e;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.fin-filter-pill.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  border-color: #9c223c;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(156, 34, 60, 0.2);
+}
+
+.fin-mini-icon {
+  width: 13px;
+  height: 13px;
+}
+
+/* ==========================================================================
+   Lista de Entradas das Unhas (Cada Procedimento com Data e Valor)
+   ========================================================================== */
+.fin-inflows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fin-inflow-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  box-shadow: 0 2px 10px rgba(140, 50, 75, 0.04);
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fin-inflow-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(140, 50, 75, 0.08);
+}
+
+.fin-inflow-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fin-method-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fin-method-icon-wrap.pix {
+  background: #e8f7f0;
+  color: #0d9488;
+}
+
+.fin-method-icon-wrap.card_credit,
+.fin-method-icon-wrap.card_debit {
+  background: #f1ecf9;
+  color: #7c3aed;
+}
+
+.fin-method-icon-wrap.money {
+  background: #fef6e7;
+  color: #d97706;
+}
+
+.fin-method-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.fin-inflow-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.fin-inflow-top-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.fin-client-name {
+  font-size: 13.5px;
+  color: #2e131d;
+  font-weight: 600;
+}
+
+.fin-service-badge {
+  background: #fde8ed;
+  color: #9c223c;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1.5px 7px;
+  border-radius: 999px;
+}
+
+.fin-inflow-notes {
+  font-size: 11px;
+  color: #886b76;
+  margin: 1px 0 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fin-inflow-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: #9e858f;
+  margin-top: 2px;
+}
+
+.fin-meta-clock {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.fin-inflow-dot {
+  color: #d8c2c9;
+}
+
+.fin-inflow-pay-tag {
+  font-weight: 600;
+  color: #634b54;
+}
+
+.fin-inflow-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.fin-inflow-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.fin-item-delete-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c9a4ae;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fin-item-delete-btn:hover {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+.fin-item-delete-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ==========================================================================
+   Lista de Despesas (Custo Fixo e Variável com Produtos)
+   ========================================================================== */
+.fin-expenses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fin-expense-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  box-shadow: 0 2px 10px rgba(140, 50, 75, 0.04);
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fin-expense-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(140, 50, 75, 0.08);
+}
+
+.fin-expense-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.fin-expense-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fin-expense-icon-wrap.is-variable {
+  background: #f5f0fb;
+  color: #7c3aed;
+}
+
+.fin-expense-icon-wrap.is-fixed {
+  background: #fef3e6;
+  color: #b45309;
+}
+
+.fin-expense-icon-wrap svg {
+  width: 18px;
+  height: 18px;
+}
+
+.fin-expense-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.fin-expense-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.fin-expense-name {
+  font-size: 13.5px;
+  color: #2e131d;
+  font-weight: 600;
+}
+
+.fin-type-pill {
+  font-size: 9.5px;
+  font-weight: 600;
+  padding: 1.5px 7px;
+  border-radius: 999px;
+}
+
+.fin-type-pill.is-variable {
+  background: #f3ebfa;
+  color: #7c3aed;
+}
+
+.fin-type-pill.is-fixed {
+  background: #fef2e2;
+  color: #b45309;
+}
+
+.fin-expense-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: #9e858f;
+  margin-top: 2px;
+}
+
+.fin-expense-qty {
+  font-weight: 600;
+  color: #5c3b48;
+}
+
+.fin-expense-category {
+  color: #886b76;
+}
+
+.fin-expense-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.fin-expense-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #9c223c;
+}
+
+/* ==========================================================================
+   Catálogo de Produtos Cadastrados da Manicure
+   ========================================================================== */
+.fin-products-catalog-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-catalog-intro {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.fin-catalog-intro-text strong {
+  font-size: 12.5px;
+  color: #2e131d;
+  display: block;
+}
+
+.fin-catalog-intro-text p {
+  font-size: 11px;
+  color: #886b76;
+  margin: 2px 0 0 0;
+}
+
+.fin-mini-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #9c223c;
+  color: #ffffff;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.25);
+  transition: all 0.15s ease;
+}
+
+.fin-mini-add-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.fin-mini-add-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.fin-products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.fin-product-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid rgba(243, 226, 231, 0.85);
+  box-shadow: 0 2px 8px rgba(140, 50, 75, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  transition: transform 0.15s ease;
+}
+
+.fin-product-card:hover {
+  transform: translateY(-2px);
+}
+
+.fin-product-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-product-cat-tag {
+  font-size: 10px;
+  color: #886b76;
+  background: #faf2f4;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.fin-product-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9c223c;
+}
+
+.fin-product-name {
+  font-size: 12px;
+  color: #2e131d;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.3;
+  min-height: 32px;
+}
+
+.fin-product-buy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 0;
+  background: #fde8ed;
+  color: #9c223c;
+  border-radius: 8px;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fin-product-buy-btn:hover {
+  background: #9c223c;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   MODAIS & FORMULÁRIOS
+   ========================================================================== */
+.fin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.fin-modal-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 28px 28px 0 0;
+  padding: 0 20px calc(24px + var(--safe-bottom)) 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 32px rgba(40, 10, 20, 0.18);
+  animation: slideUp 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.fin-modal-drag-zone {
+  width: 100%;
+  padding: 12px 0 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  touch-action: none;
+}
+
+.fin-sheet-handle {
+  width: 44px;
+  height: 4.5px;
+  background: #dcb3bc;
+  border-radius: 4px;
+  margin: 0 auto;
+  transition: background 0.15s ease;
+}
+
+.fin-modal-drag-zone:hover .fin-sheet-handle {
+  background: #c694a0;
+}
+
+
+.fin-modal-header {
+  margin-bottom: 12px;
+}
+
+.fin-modal-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0;
+}
+
+.fin-modal-sub {
+  font-size: 12px;
+  color: #886b76;
+  margin: 3px 0 0 0;
+}
+
+.fin-toggle-cost-type {
+  display: flex;
+  background: #faf2f4;
+  border-radius: 12px;
+  padding: 3px;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.fin-cost-type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 6px;
+  border-radius: 9px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #886b76;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fin-cost-type-btn.is-active {
+  background: #ffffff;
+  color: #9c223c;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(140, 50, 75, 0.08);
+}
+
+.fin-btn-ico {
+  width: 14px;
+  height: 14px;
+}
+
+.fin-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fin-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.fin-form-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #47323a;
+}
+
+.fin-select-input,
+.fin-text-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(243, 226, 231, 0.95);
+  background: #faf7f8;
+  font-size: 13px;
+  color: #2e131d;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.fin-select-input:focus,
+.fin-text-input:focus {
+  outline: none;
+  border-color: #9c223c;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(156, 34, 60, 0.1);
+}
+
+.fin-quick-link-btn {
+  font-size: 11px;
+  color: #9c223c;
+  font-weight: 600;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 3px 0;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.fin-calc-summary-box {
+  background: #fdf3f5;
+  border: 1px dashed rgba(156, 34, 60, 0.3);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-calc-label {
+  font-size: 12px;
+  color: #886b76;
+  font-weight: 500;
+}
+
+.fin-calc-value {
+  font-size: 16px;
+  color: #9c223c;
+  font-weight: 800;
+}
+
+.fin-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.fin-cancel-btn {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 12px;
+  background: #f3e9ec;
+  color: #634b54;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fin-cancel-btn:hover {
+  background: #eadfe3;
+}
+
+.fin-submit-btn {
+  flex: 1.5;
+  padding: 11px 0;
+  border-radius: 12px;
+  background: #9c223c;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(156, 34, 60, 0.28);
+  transition: all 0.15s ease;
+}
+
+.fin-submit-btn:hover {
+  filter: brightness(1.05);
+}
+
+.fin-submit-btn:active {
+  transform: scale(0.97);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   Aba Ponto de Equilíbrio & Calculadora para Manicure
+   ========================================================================== */
+.fin-be-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+
+.fin-tab-title-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fin-be-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #fdf2f4;
+  color: #9c223c;
+  border: 1px solid rgba(156, 34, 60, 0.2);
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+/* HERO CARD: Ponto de Equilíbrio em Destaque */
+.fin-be-hero-card {
+  background: linear-gradient(145deg, #2e0813 0%, #4a0d1f 55%, #69152e 100%);
+  color: #ffffff;
+  border-radius: 22px;
+  padding: 20px 18px;
+  box-shadow: 0 10px 28px rgba(74, 13, 31, 0.35);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fin-be-hero-card::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.fin-be-hero-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fin-be-icon-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.fin-be-hero-icon {
+  width: 20px;
+  height: 20px;
+  color: #fce7ec;
+}
+
+.fin-be-hero-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fin-be-hero-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fce7ec;
+  letter-spacing: -0.2px;
+}
+
+.fin-be-hero-sublabel {
+  font-size: 11px;
+  color: rgba(252, 231, 236, 0.7);
+}
+
+.fin-be-target-number-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.fin-be-target-huge {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 52px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 0.95;
+  letter-spacing: -1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.fin-be-target-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fin-be-target-unit {
+  font-size: 17px;
+  font-weight: 700;
+  color: #f7bec9;
+}
+
+.fin-be-target-hint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.fin-be-target-hint strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Badges de Ritmo Diário e Semanal */
+.fin-be-paces-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.fin-be-pace-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 9px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fin-pace-icon {
+  width: 14px;
+  height: 14px;
+  color: #fbcfe8;
+}
+
+.fin-pace-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fin-pace-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.fin-pace-lbl {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Termômetro do Mês Atual */
+.fin-be-progress-box {
+  background: rgba(18, 2, 6, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.fin-be-prog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-be-prog-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #fcdde3;
+}
+
+.fin-be-prog-pct {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.fin-be-prog-bar-track {
+  width: 100%;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fin-be-prog-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f43f5e 0%, #fb7185 60%, #fda4af 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.fin-be-prog-bar-fill.is-complete {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+}
+
+.fin-be-prog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.fin-be-prog-footer strong {
+  color: #ffffff;
+}
+
+.fin-be-message-banner {
+  margin-top: 2px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.fin-be-message-banner.is-pending {
+  background: rgba(251, 146, 60, 0.18);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  color: #fed7aa;
+}
+
+.fin-be-message-banner.is-success {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #a7f3d0;
+}
+
+.fin-banner-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* CARDS PADRÃO DA CALCULADORA */
+.fin-be-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(235, 206, 214, 0.85);
+  padding: 18px 16px;
+  box-shadow: 0 4px 18px rgba(120, 25, 45, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fin-be-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fin-be-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fin-be-card-icon {
+  width: 18px;
+  height: 18px;
+  color: #9c223c;
+}
+
+.fin-be-card-icon.is-flame {
+  color: #e11d48;
+}
+
+.fin-be-card-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2e131d;
+  margin: 0;
+}
+
+.fin-be-card-desc {
+  font-size: 12px;
+  color: #7b626c;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* CAMPOS DE CONFIGURAÇÃO DE CUSTOS */
+.fin-be-field-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f6eaed;
+}
+
+.fin-be-field-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.fin-be-field-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-be-field-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #3f1e29;
+}
+
+.fin-field-ico {
+  width: 14px;
+  height: 14px;
+  color: #9c223c;
+}
+
+.fin-be-field-tag {
+  font-size: 10.5px;
+  color: #8c737d;
+  font-weight: 500;
+}
+
+.fin-be-fixed-toggle-row {
+  display: flex;
+  background: #fdf5f6;
+  border-radius: 12px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.fin-be-toggle-btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #7b626c;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.fin-be-toggle-btn.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(156, 34, 60, 0.22);
+}
+
+.fin-be-custom-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #fdf8f9;
+  border: 1px solid #f3d7de;
+  border-radius: 12px;
+  padding: 0 12px;
+  margin-top: 4px;
+}
+
+.fin-input-prefix {
+  font-size: 13px;
+  font-weight: 700;
+  color: #9c223c;
+  margin-right: 6px;
+}
+
+.fin-be-text-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2e131d;
+  outline: none;
+}
+
+.fin-be-fixed-items-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.fin-be-fixed-pill {
+  background: #fdf2f4;
+  border: 1px solid #f9dbe1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10.5px;
+  color: #6d4b56;
+}
+
+.fin-be-fixed-pill strong {
+  color: #9c223c;
+}
+
+/* STEPPERS E CHIPS */
+.fin-be-stepper-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fin-be-chips-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.fin-be-chip {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #eed8df;
+  background: #ffffff;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #5c3b47;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fin-be-chip:hover {
+  border-color: #9c223c;
+  color: #9c223c;
+}
+
+.fin-be-chip.is-active {
+  background: #9c223c;
+  border-color: #9c223c;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(156, 34, 60, 0.2);
+}
+
+.fin-be-custom-number-input {
+  display: inline-flex;
+  align-items: center;
+  background: #fcf4f5;
+  border: 1px solid #ebd3da;
+  border-radius: 10px;
+  padding: 0 8px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.fin-be-small-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 6px 2px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2e131d;
+  outline: none;
+}
+
+.fin-be-breakdown-box {
+  background: #faf2f4;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.fin-be-breakdown-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #7b5965;
+}
+
+.fin-be-breakdown-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fin-be-bd-chip {
+  background: #ffffff;
+  border: 1px solid #f0d8df;
+  border-radius: 8px;
+  padding: 3px 7px;
+  font-size: 10.5px;
+  color: #563944;
+}
+
+/* MARGEM DE CONTRIBUIÇÃO VISUAL */
+.fin-be-margin-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-be-margin-bar-wrap {
+  display: flex;
+  height: 32px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.fin-be-margin-bar-fill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 0 6px;
+  transition: width 0.3s ease;
+}
+
+.fin-be-margin-bar-fill.is-var {
+  background: #f43f5e;
+  color: #ffffff;
+}
+
+.fin-be-margin-bar-fill.is-margin {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.fin-be-margin-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.fin-be-mb-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.fin-be-mb-col.is-highlight {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 6px 8px;
+}
+
+.fin-be-mb-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #8c737d;
+  text-transform: uppercase;
+}
+
+.fin-be-mb-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: #2e131d;
+}
+
+.fin-be-mb-val.is-expense {
+  color: #dc2626;
+}
+
+.fin-be-mb-val.is-green {
+  color: #15803d;
+}
+
+.fin-be-mb-sub {
+  font-size: 9.5px;
+  color: #8a6c77;
+}
+
+.fin-be-mb-sign {
+  font-size: 16px;
+  font-weight: 700;
+  color: #baa4ac;
+}
+
+.fin-be-tip-box {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+
+.fin-tip-icon {
+  width: 16px;
+  height: 16px;
+  color: #d97706;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fin-be-tip-box p {
+  font-size: 11.5px;
+  color: #92400e;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* SIMULADOR DE SALÁRIO DOS SONHOS */
+.fin-be-target-presets-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.fin-be-target-presets-row::-webkit-scrollbar {
+  display: none;
+}
+
+.fin-be-goal-chip {
+  padding: 7px 12px;
+  border-radius: 12px;
+  border: 1px solid #ebd1d9;
+  background: #fdf8f9;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5d3b48;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.fin-be-goal-chip.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  border-color: #9c223c;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.25);
+}
+
+.fin-be-custom-goal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fcf4f6;
+  border: 1px solid #ebd2da;
+  border-radius: 12px;
+  padding: 0 12px;
+}
+
+.fin-be-goal-input {
+  border: none;
+  background: transparent;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2e131d;
+  outline: none;
+  width: 100%;
+}
+
+.fin-be-dream-result-card {
+  background: linear-gradient(135deg, #fdf2f4 0%, #fae6ea 100%);
+  border: 1px solid #f3c7d1;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fin-be-dream-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fin-dream-trophy-icon {
+  width: 24px;
+  height: 24px;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.fin-be-dream-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.fin-dream-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #2e131d;
+}
+
+.fin-dream-sub {
+  font-size: 11px;
+  color: #7b5965;
+}
+
+.fin-be-dream-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.fin-dream-metric-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 9px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 2px 6px rgba(120, 20, 40, 0.04);
+}
+
+.fin-dream-metric-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #7d656f;
+  line-height: 1.15;
+}
+
+.fin-dream-metric-val {
+  font-size: 15px;
+  font-weight: 800;
+  color: #2e131d;
+  margin-top: 2px;
+}
+
+.fin-dream-metric-val.is-wine {
+  color: #9c223c;
+}
+
+.fin-dream-metric-val.is-green {
+  color: #15803d;
+}
+
+.fin-dream-metric-hint {
+  font-size: 9.5px;
+  color: #8c757f;
+}
+
+/* SIMULADOR DE REAJUSTE DE PREÇO */
+.fin-be-reajuste-chips-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.fin-be-reajuste-chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+.fin-be-reajuste-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #ebd3da;
+  background: #ffffff;
+  color: #5c3b47;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.fin-be-reajuste-chip small {
+  font-size: 10px;
+  font-weight: 500;
+  color: #8c737d;
+}
+
+.fin-be-reajuste-chip.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  border-color: #9c223c;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.25);
+}
+
+.fin-be-reajuste-chip.is-active small {
+  color: #fce7ec;
+}
+
+.fin-be-reajuste-insight-card {
+  background: #fdf5f7;
+  border: 1px dashed #f1cad3;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.fin-reajuste-icon {
+  width: 18px;
+  height: 18px;
+  color: #9c223c;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.fin-reajuste-insight-text {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #5a3844;
+}
+
+.fin-reajuste-insight-text strong {
+  color: #2e131d;
+}
+
+.fin-reajuste-insight-text p {
+  margin: 3px 0 0 0;
+}
+
+/* TABELA DE CAPACIDADE DE ATENDIMENTOS POR DIA */
+.fin-be-capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.fin-be-capacity-card {
+  background: #ffffff;
+  border: 1px solid #ebd6dd;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.fin-be-capacity-card.is-target-achieved {
+  border-color: #10b981;
+  background: #f6fdf9;
+}
+
+.fin-cap-top {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.fin-cap-daily-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2e131d;
+}
+
+.fin-cap-month-count {
+  font-size: 10.5px;
+  color: #7b626c;
+}
+
+.fin-cap-fin-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(220, 180, 190, 0.4);
+}
+
+.fin-cap-fin-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fin-cap-fin-lbl {
+  font-size: 10.5px;
+  color: #8c737d;
+}
+
+.fin-cap-fin-val {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #2e131d;
+}
+
+.fin-cap-fin-val.is-green {
+  color: #15803d;
+}
+
+.fin-cap-badge-goal {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #dcfce7;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #15803d;
+  margin-top: 2px;
+}
+
+.fin-mini-goal-ico {
+  width: 12px;
+  height: 12px;
+  color: #15803d;
+}

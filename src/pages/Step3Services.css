@@ -1,0 +1,493 @@
+/*
+ * Tela: Serviços e preços (Passo 3 de 6)
+ * Estilo luxuoso, cards com fotos reais de unhas, botão tracejado de adicionar
+ * e botões inferiores perfeitamente calibrados (~38% Voltar / ~62% Continuar)
+ */
+
+.step3-screen {
+  position: relative;
+  width: var(--w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + var(--ux) * 12) calc(var(--ux) * 12) calc(var(--safe-bottom) + var(--ux) * 16);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--font-sans);
+  color: #2b1720;
+  background:
+    radial-gradient(100% 35% at 85% 0%, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(80% 30% at 10% 35%, rgba(255, 240, 245, 0.85), transparent 70%),
+    linear-gradient(180deg, #fdf8f9 0%, #fbf3f5 35%, #faedf1 75%, #f9e7ec 100%);
+  animation: step3FadeIn 0.35s ease-out;
+}
+
+@keyframes step3FadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Header: Voltar + "Passo 3 de 6" + 6 Barras de Progresso (3 Ativas)
+   ========================================================================== */
+.step3-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--ux) * 26);
+  flex-shrink: 0;
+}
+
+.step3-back-btn {
+  position: absolute;
+  left: calc(var(--ux) * -4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 22);
+  height: calc(var(--ux) * 22);
+  border-radius: 50%;
+  color: #9e1837;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.step3-back-btn svg {
+  width: calc(var(--ux) * 13);
+  height: calc(var(--ux) * 13);
+}
+
+.step3-back-btn:active {
+  background: rgba(158, 24, 55, 0.08);
+  transform: translateY(-50%) scale(0.92);
+}
+
+.step3-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ux) * 4);
+}
+
+.step3-count-text {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 7.4);
+  font-weight: 600;
+  color: #9e1837;
+  letter-spacing: 0.01em;
+}
+
+.step3-bars {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+}
+
+.step3-bar {
+  width: calc(var(--ux) * 13.5);
+  height: calc(var(--ux) * 2.8);
+  border-radius: 999px;
+  background: #ecd4dc;
+  transition: background 0.3s ease;
+}
+
+.step3-bar.active {
+  background: linear-gradient(90deg, #b01b44 0%, #921132 100%);
+  box-shadow: 0 1px 3px rgba(158, 24, 55, 0.25);
+}
+
+/* ==========================================================================
+   Título e Descrição
+   ========================================================================== */
+.step3-intro {
+  margin-top: calc(var(--ux) * 10);
+  flex-shrink: 0;
+}
+
+.step3-title {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 16.5);
+  font-weight: 600;
+  color: #211219;
+  letter-spacing: calc(var(--ux) * -0.2);
+  line-height: 1.22;
+}
+
+.step3-desc {
+  margin-top: calc(var(--ux) * 3);
+  font-size: calc(var(--ux) * 7.4);
+  line-height: calc(var(--ux) * 11);
+  color: #69525b;
+}
+
+/* ==========================================================================
+   Formulário e Lista de Cards de Serviços
+   ========================================================================== */
+.step3-form {
+  margin-top: calc(var(--ux) * 9);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.step3-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ux) * 5.5);
+}
+
+/* Card individual de serviço */
+.step3-card {
+  background: #ffffff;
+  border: 1px solid #ebd7dd;
+  border-radius: calc(var(--ux) * 8);
+  padding: calc(var(--ux) * 5.5) calc(var(--ux) * 6);
+  box-shadow: 0 calc(var(--ux) * 1) calc(var(--ux) * 4) rgba(150, 30, 60, 0.03);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 5.5);
+  transition: opacity 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.step3-card.is-inactive {
+  opacity: 0.65;
+  background: #fdfafb;
+}
+
+/* Thumbnail com a foto da manicure */
+.step3-thumb-wrap {
+  width: calc(var(--ux) * 32);
+  height: calc(var(--ux) * 36);
+  border-radius: calc(var(--ux) * 5.5);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f7e6ea;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.step3-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Conteúdo do card */
+.step3-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Linha superior: Nome + Editar + Switch */
+.step3-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--ux) * 3);
+}
+
+.step3-name {
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 7.6);
+  font-weight: 700;
+  color: #b51c4a;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.step3-actions-group {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3.5);
+  flex-shrink: 0;
+}
+
+/* Botão de edição (lápis) */
+.step3-edit-btn {
+  width: calc(var(--ux) * 12.8);
+  height: calc(var(--ux) * 12.8);
+  border-radius: calc(var(--ux) * 3.5);
+  background: #ffffff;
+  border: 1px solid #ebd6dd;
+  color: #8c737d;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, transform 0.15s;
+  padding: 0;
+}
+
+.step3-edit-btn:hover {
+  border-color: #b51c4a;
+  color: #b51c4a;
+}
+
+.step3-edit-btn:active {
+  transform: scale(0.92);
+}
+
+.step3-edit-icon {
+  width: calc(var(--ux) * 6.5);
+  height: calc(var(--ux) * 6.5);
+}
+
+/* Toggle Switch estilo iOS */
+.step3-switch {
+  position: relative;
+  width: calc(var(--ux) * 20);
+  height: calc(var(--ux) * 11.6);
+  border-radius: 999px;
+  background: #9b9195;
+  padding: calc(var(--ux) * 1.1);
+  cursor: pointer;
+  transition: background-color 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  border: 0;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.step3-switch.is-on {
+  background: #9e1837;
+}
+
+.step3-switch.is-off {
+  background: #9a9094;
+}
+
+.step3-switch .switch-thumb {
+  width: calc(var(--ux) * 9.4);
+  height: calc(var(--ux) * 9.4);
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 calc(var(--ux) * 0.8) calc(var(--ux) * 2) rgba(0, 0, 0, 0.26);
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateX(0);
+}
+
+.step3-switch.is-on .switch-thumb {
+  transform: translateX(calc(var(--ux) * 8.4));
+}
+
+/* Descrição curta */
+.step3-desc-text {
+  font-size: calc(var(--ux) * 5.8);
+  color: #7d6871;
+  line-height: 1.25;
+  margin-top: calc(var(--ux) * 1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Linha inferior: duração com relógio + preço */
+.step3-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: calc(var(--ux) * 3.5);
+}
+
+.step3-duration {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 2.2);
+  font-size: calc(var(--ux) * 6.2);
+  color: #7d6871;
+  font-weight: 500;
+}
+
+.step3-clock-icon {
+  width: calc(var(--ux) * 7.5);
+  height: calc(var(--ux) * 7.5);
+  color: #b51c4a;
+}
+
+.step3-price-box {
+  display: flex;
+  align-items: center;
+}
+
+.step3-price {
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 7.6);
+  font-weight: 700;
+  color: #b51c4a;
+  letter-spacing: -0.01em;
+}
+
+.step3-price-input {
+  width: calc(var(--ux) * 44);
+  height: calc(var(--ux) * 12);
+  border: 1px solid #b51c4a;
+  border-radius: calc(var(--ux) * 3);
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 6.8);
+  font-weight: 700;
+  color: #b51c4a;
+  text-align: right;
+  padding: 0 calc(var(--ux) * 2);
+  outline: none;
+  background: #ffffff;
+}
+
+/* ==========================================================================
+   Botão tracejado: Adicionar novo serviço
+   ========================================================================== */
+.step3-add-card {
+  width: 100%;
+  height: calc(var(--ux) * 27);
+  background: #fdf4f6;
+  border: 1.5px dashed #f0a8bc;
+  border-radius: calc(var(--ux) * 8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ux) * 5);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  margin-top: calc(var(--ux) * 2);
+}
+
+.step3-add-card:hover {
+  background: #fdeaf0;
+  border-color: #e58ca3;
+}
+
+.step3-add-card:active {
+  transform: scale(0.98);
+}
+
+.step3-add-plus {
+  width: calc(var(--ux) * 11.5);
+  height: calc(var(--ux) * 11.5);
+  border-radius: 50%;
+  background: #9e1837;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.step3-add-plus svg {
+  width: calc(var(--ux) * 6.5);
+  height: calc(var(--ux) * 6.5);
+}
+
+.step3-add-text {
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 7.4);
+  font-weight: 600;
+  color: #9e1837;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Botões Inferiores: Proporções Exatas do Design (~38% Voltar / ~62% Continuar)
+   ========================================================================== */
+.step3-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 6);
+  margin-top: calc(var(--ux) * 11);
+  margin-bottom: calc(var(--ux) * 12);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* Botão Voltar: proporção exata de ~38% da linha */
+.step3-btn-back {
+  flex: 0 0 38%;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  border: 1.5px solid #d45c75;
+  background: #ffffff;
+  color: #9e1837;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 8.4);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(158, 24, 55, 0.04);
+}
+
+.step3-btn-back:hover {
+  background: #fdf3f6;
+  border-color: #c94763;
+}
+
+.step3-btn-back:active {
+  transform: scale(0.97);
+  background: #fae7ed;
+}
+
+/* Botão Continuar: proporção exata de ~62% da linha com seta centrada */
+.step3-btn-continue {
+  flex: 1 1 62%;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(180deg, #9e1837 0%, #820e29 100%);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 8.4);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ux) * 4);
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 calc(var(--ux) * 4) calc(var(--ux) * 12) rgba(130, 14, 41, 0.28);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.step3-btn-continue:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 calc(var(--ux) * 5) calc(var(--ux) * 15) rgba(130, 14, 41, 0.34);
+}
+
+.step3-btn-continue:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+.step3-btn-arrow {
+  position: static;
+  width: calc(var(--ux) * 9.5);
+  height: calc(var(--ux) * 9.5);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.step3-btn-continue:hover .step3-btn-arrow {
+  transform: translateX(calc(var(--ux) * 2));
+}

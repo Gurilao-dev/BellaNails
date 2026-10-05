@@ -1,0 +1,464 @@
+/*
+ * Tela: Automatizações e conclusão (Passo 6 de 6)
+ * Design luxuoso, idêntico ao mockup com cards de mensagens, checkboxes do WhatsApp,
+ * card de celebração "Tudo pronto!" com raios festivos e botão "Ir para o painel".
+ */
+
+.conc-screen {
+  position: relative;
+  width: var(--w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + var(--ux) * 12) calc(var(--ux) * 12) calc(var(--safe-bottom) + var(--ux) * 16);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--font-sans);
+  color: #2b1720;
+  background:
+    radial-gradient(100% 35% at 85% 0%, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(80% 30% at 10% 35%, rgba(255, 240, 245, 0.85), transparent 70%),
+    linear-gradient(180deg, #fdf8f9 0%, #fbf3f5 35%, #faedf1 75%, #f9e7ec 100%);
+  animation: concFadeIn 0.35s ease-out;
+}
+
+@keyframes concFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Header: Voltar + "Passo 6 de 6" + 6 Barras Preenchidas
+   ========================================================================== */
+.conc-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--ux) * 26);
+  flex-shrink: 0;
+}
+
+.conc-back-btn {
+  position: absolute;
+  left: calc(var(--ux) * -4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 22);
+  height: calc(var(--ux) * 22);
+  border-radius: 50%;
+  color: #9e1837;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.conc-back-btn svg {
+  width: calc(var(--ux) * 13);
+  height: calc(var(--ux) * 13);
+}
+
+.conc-back-btn:active {
+  background: rgba(158, 24, 55, 0.08);
+  transform: translateY(-50%) scale(0.92);
+}
+
+.conc-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ux) * 4);
+}
+
+.conc-count-text {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 7.4);
+  font-weight: 600;
+  color: #9e1837;
+  letter-spacing: 0.01em;
+}
+
+.conc-bars {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+}
+
+.conc-bar {
+  width: calc(var(--ux) * 13.5);
+  height: calc(var(--ux) * 2.8);
+  border-radius: 999px;
+  background: #ecd4dc;
+  transition: background 0.3s ease;
+}
+
+.conc-bar.active {
+  background: linear-gradient(90deg, #b01b44 0%, #921132 100%);
+  box-shadow: 0 1px 3px rgba(158, 24, 55, 0.25);
+}
+
+/* ==========================================================================
+   Título e Descrição
+   ========================================================================== */
+.conc-intro {
+  margin-top: calc(var(--ux) * 10);
+  flex-shrink: 0;
+}
+
+.conc-title {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 16.5);
+  font-weight: 600;
+  color: #211219;
+  letter-spacing: calc(var(--ux) * -0.2);
+  line-height: 1.22;
+}
+
+.conc-desc {
+  margin-top: calc(var(--ux) * 3);
+  font-size: calc(var(--ux) * 7.4);
+  line-height: calc(var(--ux) * 11);
+  color: #69525b;
+}
+
+/* ==========================================================================
+   Formulário e Cards de Automatizações
+   ========================================================================== */
+.conc-form {
+  margin-top: calc(var(--ux) * 8);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.conc-card {
+  background: #ffffff;
+  border: 1px solid #ebd7dd;
+  border-radius: calc(var(--ux) * 8);
+  padding: calc(var(--ux) * 5.5) calc(var(--ux) * 6.5);
+  box-shadow: 0 calc(var(--ux) * 1) calc(var(--ux) * 3) rgba(150, 30, 60, 0.03);
+  margin-bottom: calc(var(--ux) * 5);
+  display: flex;
+  flex-direction: column;
+}
+
+.conc-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--ux) * 3);
+}
+
+.conc-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3.5);
+  flex: 1;
+}
+
+.conc-icon-wrap {
+  width: calc(var(--ux) * 10.5);
+  height: calc(var(--ux) * 10.5);
+  display: grid;
+  place-items: center;
+  color: #b51c4a;
+  flex-shrink: 0;
+}
+
+.conc-svg-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.conc-card-name {
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 7.5);
+  font-weight: 700;
+  color: #b51c4a;
+  letter-spacing: -0.01em;
+}
+
+.conc-card-sub {
+  font-size: calc(var(--ux) * 5.8);
+  color: #7d6871;
+  line-height: 1.3;
+  margin-top: calc(var(--ux) * 1.5);
+}
+
+/* Toggle Switch estilo iOS */
+.conc-switch {
+  position: relative;
+  width: calc(var(--ux) * 20);
+  height: calc(var(--ux) * 11.6);
+  border-radius: 999px;
+  background: #9b9195;
+  padding: calc(var(--ux) * 1.1);
+  cursor: pointer;
+  transition: background-color 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  align-items: center;
+  border: 0;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.conc-switch.is-on {
+  background: #9e1837;
+}
+
+.conc-switch.is-off {
+  background: #9a9094;
+}
+
+.conc-switch .switch-thumb {
+  width: calc(var(--ux) * 9.4);
+  height: calc(var(--ux) * 9.4);
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 calc(var(--ux) * 0.8) calc(var(--ux) * 2) rgba(0, 0, 0, 0.26);
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateX(0);
+}
+
+.conc-switch.is-on .switch-thumb {
+  transform: translateX(calc(var(--ux) * 8.4));
+}
+
+/* ==========================================================================
+   Checkboxes do WhatsApp (24h antes e 2h antes)
+   ========================================================================== */
+.conc-checkbox-group {
+  margin-top: calc(var(--ux) * 4);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ux) * 3);
+}
+
+.conc-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 4);
+  cursor: pointer;
+}
+
+.conc-check-box {
+  width: calc(var(--ux) * 10);
+  height: calc(var(--ux) * 10);
+  border-radius: calc(var(--ux) * 2.5);
+  background: #ecd7dd;
+  border: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s;
+}
+
+.conc-check-box.is-checked {
+  background: #9e1837;
+  color: #ffffff;
+}
+
+.conc-check-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.conc-check-text {
+  font-size: calc(var(--ux) * 6.5);
+  font-weight: 500;
+  color: #472b35;
+}
+
+/* ==========================================================================
+   Caixa de Preview de Mensagem e Política (com lápis de edição)
+   ========================================================================== */
+.conc-preview-box {
+  margin-top: calc(var(--ux) * 4);
+  background: #fdfbfc;
+  border: 1px solid #ebd4db;
+  border-radius: calc(var(--ux) * 4);
+  padding: calc(var(--ux) * 4) calc(var(--ux) * 4.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(var(--ux) * 3);
+}
+
+.conc-preview-text {
+  font-size: calc(var(--ux) * 5.9);
+  color: #5c454e;
+  line-height: 1.38;
+  flex: 1;
+}
+
+.conc-preview-textarea {
+  flex: 1;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 5.9);
+  color: #3b222c;
+  line-height: 1.38;
+  border: 1px solid #af1b44;
+  border-radius: calc(var(--ux) * 2);
+  padding: calc(var(--ux) * 2);
+  outline: none;
+  background: #ffffff;
+  resize: vertical;
+}
+
+.conc-pencil-btn {
+  width: calc(var(--ux) * 11.5);
+  height: calc(var(--ux) * 11.5);
+  border-radius: calc(var(--ux) * 3);
+  background: #ffffff;
+  border: 1px solid #ebd6dd;
+  color: #9e1837;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.conc-pencil-btn:hover {
+  border-color: #b51c4a;
+}
+
+.conc-pencil-btn:active {
+  transform: scale(0.92);
+}
+
+.conc-pencil-svg {
+  width: calc(var(--ux) * 6);
+  height: calc(var(--ux) * 6);
+}
+
+/* ==========================================================================
+   Card de Celebração: "Tudo pronto!" com Raios e Botão "Ir para o painel"
+   ========================================================================== */
+.conc-celebration-card {
+  background: linear-gradient(180deg, #fdf2f4 0%, #fde8ed 100%);
+  border: 1px solid #f9ccd6;
+  border-radius: calc(var(--ux) * 9);
+  padding: calc(var(--ux) * 8) calc(var(--ux) * 7) calc(var(--ux) * 8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: calc(var(--ux) * 4);
+  box-shadow: 0 calc(var(--ux) * 2) calc(var(--ux) * 6) rgba(181, 28, 74, 0.05);
+}
+
+/* Envoltório dos raios e círculo com checkmark */
+.conc-burst-wrap {
+  position: relative;
+  width: calc(var(--ux) * 32);
+  height: calc(var(--ux) * 32);
+  display: grid;
+  place-items: center;
+}
+
+.conc-check-halo {
+  width: calc(var(--ux) * 20);
+  height: calc(var(--ux) * 20);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #b81c4e 0%, #8c0e35 100%);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 calc(var(--ux) * 3) calc(var(--ux) * 8) rgba(140, 14, 53, 0.28);
+  z-index: 2;
+  position: relative;
+}
+
+.conc-burst-check {
+  width: calc(var(--ux) * 10);
+  height: calc(var(--ux) * 10);
+}
+
+.conc-sparkles-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.conc-ready-title {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 13.5);
+  font-weight: 600;
+  color: #29131c;
+  margin-top: calc(var(--ux) * 3);
+  letter-spacing: -0.01em;
+}
+
+.conc-ready-desc {
+  font-size: calc(var(--ux) * 6.5);
+  line-height: calc(var(--ux) * 9.5);
+  color: #735b65;
+  margin-top: calc(var(--ux) * 2.5);
+  max-width: 90%;
+}
+
+/* Botão final dentro do card: Ir para o painel → */
+.conc-btn-finish {
+  width: 100%;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(180deg, #9e1837 0%, #820e29 100%);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 8.4);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ux) * 4);
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 calc(var(--ux) * 4) calc(var(--ux) * 12) rgba(130, 14, 41, 0.28);
+  margin-top: calc(var(--ux) * 8);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+  user-select: none;
+}
+
+.conc-btn-finish:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 calc(var(--ux) * 5) calc(var(--ux) * 15) rgba(130, 14, 41, 0.34);
+}
+
+.conc-btn-finish:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+.conc-finish-arrow {
+  position: static;
+  width: calc(var(--ux) * 9.5);
+  height: calc(var(--ux) * 9.5);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.conc-btn-finish:hover .conc-finish-arrow {
+  transform: translateX(calc(var(--ux) * 2));
+}

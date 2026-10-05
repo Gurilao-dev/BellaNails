@@ -1,0 +1,433 @@
+/*
+ * Tela: Informações do salão (Passo 1 de 6)
+ * 100% idêntica ao design enviado pelo usuário.
+ */
+.step1-screen {
+  position: relative;
+  width: var(--w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + var(--ux) * 12) calc(var(--ux) * 14) calc(var(--safe-bottom) + var(--ux) * 16);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: var(--font-sans);
+  color: #3b232d;
+  background:
+    radial-gradient(100% 30% at 85% 0%, rgba(255, 255, 255, 0.95), transparent 60%),
+    radial-gradient(90% 30% at 10% 40%, rgba(255, 240, 245, 0.8), transparent 70%),
+    linear-gradient(180deg, #fef6f8 0%, #fdeff2 30%, #fbe8ed 70%, #fae2e8 100%);
+}
+
+/* ---------- Header do Passo ---------- */
+.step-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--ux) * 26);
+  flex-shrink: 0;
+}
+
+.step-back-btn {
+  position: absolute;
+  left: calc(var(--ux) * -4);
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: calc(var(--ux) * 22);
+  height: calc(var(--ux) * 22);
+  border-radius: 50%;
+  color: var(--crimson);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.step-back-btn svg {
+  width: calc(var(--ux) * 13);
+  height: calc(var(--ux) * 13);
+}
+
+.step-back-btn:active {
+  background: rgba(168, 25, 74, 0.08);
+  transform: translateY(-50%) scale(0.92);
+}
+
+.step-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ux) * 4);
+}
+
+.step-count-text {
+  font-size: calc(var(--ux) * 6.8);
+  font-weight: 600;
+  color: var(--crimson);
+  letter-spacing: 0.02em;
+}
+
+/* 6 barras de progresso com a primeira ativa (Passo 1 de 6) */
+.step-bars {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 3);
+}
+
+.step-bar {
+  width: calc(var(--ux) * 13.5);
+  height: calc(var(--ux) * 2.8);
+  border-radius: 999px;
+  background: #ecd5dc;
+  transition: background 0.3s ease;
+}
+
+.step-bar.active {
+  background: linear-gradient(90deg, #b81c4e 0%, #a01443 100%);
+  box-shadow: 0 1px 3px rgba(168, 25, 74, 0.25);
+}
+
+/* ---------- Título e Descrição da Etapa ---------- */
+.step-intro {
+  margin-top: calc(var(--ux) * 10);
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-family: var(--font-serif);
+  font-size: calc(var(--ux) * 16.5);
+  font-weight: 600;
+  color: #2b141d;
+  letter-spacing: calc(var(--ux) * -0.2);
+}
+
+.step-desc {
+  margin-top: calc(var(--ux) * 3);
+  font-size: calc(var(--ux) * 7.5);
+  line-height: calc(var(--ux) * 11);
+  color: #6a535c;
+}
+
+/* ---------- Formulário ---------- */
+.step-form {
+  margin-top: calc(var(--ux) * 10);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--ux) * 7);
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: calc(var(--ux) * 7.2);
+  font-weight: 600;
+  color: #431b28;
+  margin-bottom: calc(var(--ux) * 3);
+}
+
+.req-asterisk {
+  color: #cf2056;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+/* Inputs gerais */
+.form-input {
+  width: 100%;
+  height: calc(var(--ux) * 22);
+  padding: 0 calc(var(--ux) * 7);
+  border: 1px solid #ebd3da;
+  border-radius: calc(var(--ux) * 6);
+  background: #ffffff;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 7.8);
+  color: #3b222c;
+  box-shadow: 0 1px 2px rgba(160, 40, 70, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #b51c4a;
+  box-shadow: 0 0 0 3px rgba(181, 28, 74, 0.12);
+}
+
+/* Textarea de endereço */
+.form-textarea {
+  height: calc(var(--ux) * 32);
+  padding: calc(var(--ux) * 5) calc(var(--ux) * 7);
+  line-height: 1.35;
+  resize: none;
+}
+
+/* ---------- Linha de Fotos (Salão / Logo) ---------- */
+.photo-row {
+  display: flex;
+  gap: calc(var(--ux) * 8);
+}
+
+/* Card 1: Pré-visualização com letreiro neon */
+.salon-photo-preview {
+  position: relative;
+  width: calc(var(--ux) * 56);
+  height: calc(var(--ux) * 56);
+  border-radius: calc(var(--ux) * 7);
+  overflow: hidden;
+  box-shadow: 0 calc(var(--ux) * 3) calc(var(--ux) * 10) rgba(160, 40, 70, 0.12);
+  background: linear-gradient(145deg, #d38198 0%, #aa546e 100%);
+  flex-shrink: 0;
+}
+
+.uploaded-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.salon-neon-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--ux) * 6);
+  background:
+    radial-gradient(circle at 60% 30%, rgba(255, 230, 240, 0.4) 0%, transparent 60%),
+    linear-gradient(160deg, #be6e85 0%, #8f4258 100%);
+  box-sizing: border-box;
+}
+
+.neon-wall {
+  display: grid;
+  place-items: center;
+  margin-top: calc(var(--ux) * 3);
+}
+
+.neon-sign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: rotate(-2deg);
+}
+
+.neon-text {
+  font-family: var(--font-script);
+  font-size: calc(var(--ux) * 13);
+  color: #ffffff;
+  text-shadow:
+    0 0 4px #ffb3cb,
+    0 0 8px #ff7fa7,
+    0 0 16px #e93b6e;
+  line-height: 1;
+}
+
+.neon-heart {
+  font-size: calc(var(--ux) * 8);
+  color: #ffffff;
+  text-shadow:
+    0 0 4px #ffb3cb,
+    0 0 10px #ff7fa7;
+  margin-top: calc(var(--ux) * -2);
+}
+
+.neon-decor {
+  display: flex;
+  justify-content: space-between;
+  font-size: calc(var(--ux) * 11);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+/* Card 2: Adicionar foto ou logo */
+.photo-upload-box {
+  width: calc(var(--ux) * 56);
+  height: calc(var(--ux) * 56);
+  border-radius: calc(var(--ux) * 7);
+  border: 1.5px dashed #df8096;
+  background: rgba(255, 255, 255, 0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ux) * 3);
+  padding: calc(var(--ux) * 4);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.photo-upload-box:hover,
+.photo-upload-box:active {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #b51c4a;
+  transform: scale(0.98);
+}
+
+.upload-camera-icon {
+  width: calc(var(--ux) * 14);
+  height: calc(var(--ux) * 14);
+  color: #b51c4a;
+}
+
+.photo-upload-box span {
+  font-size: calc(var(--ux) * 5.8);
+  font-weight: 600;
+  color: #b51c4a;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+/* ---------- Telefone / WhatsApp com Bandeira ---------- */
+.phone-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.country-select {
+  position: absolute;
+  left: calc(var(--ux) * 6);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 2);
+  padding-right: calc(var(--ux) * 5);
+  border-right: 1px solid #ebd3da;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.flag-emoji {
+  font-size: calc(var(--ux) * 9.5);
+  line-height: 1;
+}
+
+.country-chevron {
+  width: calc(var(--ux) * 6);
+  height: calc(var(--ux) * 6);
+  color: #7d656f;
+}
+
+.phone-field {
+  padding-left: calc(var(--ux) * 28);
+}
+
+/* ---------- Instagram com Ícone ---------- */
+.instagram-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.instagram-icon {
+  position: absolute;
+  left: calc(var(--ux) * 7);
+  width: calc(var(--ux) * 11);
+  height: calc(var(--ux) * 11);
+  color: #c92257;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.instagram-field {
+  padding-left: calc(var(--ux) * 23);
+}
+
+/* ---------- Botões de Ação Inferiores ---------- */
+.step-actions {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--ux) * 6);
+  margin-top: calc(var(--ux) * 10);
+  margin-bottom: calc(var(--ux) * 12);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.step-btn-back {
+  flex: 0 0 38%;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  border: 1.5px solid #d45c75;
+  background: #ffffff;
+  color: #9e1837;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 8.4);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(158, 24, 55, 0.04);
+}
+
+.step-btn-back:hover {
+  background: #fdf3f6;
+  border-color: #c94763;
+}
+
+.step-btn-back:active {
+  transform: scale(0.97);
+  background: #fae7ed;
+}
+
+.step-btn-continue {
+  flex: 1 1 62%;
+  height: calc(var(--ux) * 26);
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(180deg, #9e1837 0%, #820e29 100%);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: calc(var(--ux) * 8.4);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--ux) * 4);
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 calc(var(--ux) * 4) calc(var(--ux) * 12) rgba(130, 14, 41, 0.28);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.step-btn-continue:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 calc(var(--ux) * 5) calc(var(--ux) * 15) rgba(130, 14, 41, 0.34);
+}
+
+.step-btn-continue:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+.step-btn-arrow {
+  position: static;
+  width: calc(var(--ux) * 9.5);
+  height: calc(var(--ux) * 9.5);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.step-btn-continue:hover .step-btn-arrow {
+  transform: translateX(calc(var(--ux) * 2));
+}
