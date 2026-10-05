@@ -135,6 +135,26 @@ export default function Configuracoes({ onNavigateTab }) {
         </section>
 
         {/* ===================================================================
+            Card de Acesso à Página Pública da Cliente
+            =================================================================== */}
+        <section className="cfg-client-link-card anim-stagger-item anim-delay-3">
+          <div className="cfg-client-link-info">
+            <span className="cfg-client-link-tag">Link de Agendamento da Cliente</span>
+            <strong className="cfg-client-link-url">bellanails.com/agendar</strong>
+            <p className="cfg-client-link-hint">
+              Página onde suas clientes escolhem serviços e agendam horários.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="cfg-client-link-btn"
+            onClick={() => onNavigateTab('client')}
+          >
+            <span>Ver página da Cliente 💅 →</span>
+          </button>
+        </section>
+
+        {/* ===================================================================
             Card 1: Informações do negócio
             =================================================================== */}
         <section

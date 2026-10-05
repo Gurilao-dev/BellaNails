@@ -607,6 +607,36 @@ export const LightbulbIcon = (p) => (
   </svg>
 )
 
+export const DiamondIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M6 3h12l4 7-10 11L2 10l4-7z" />
+    <path d="M2 10h20" />
+    <path d="M12 21L7.5 10 10 3" />
+    <path d="M12 21l4.5-11L14 3" />
+  </svg>
+)
+
+export const StarOutlineIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+)
+
+export const MenuBarsIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <line x1="4" y1="7" x2="20" y2="7" />
+    <line x1="4" y1="12" x2="20" y2="12" />
+    <line x1="4" y1="17" x2="20" y2="17" />
+  </svg>
+)
+
+export const DoodleHeart = (p) => (
+  <svg viewBox="0 0 52 32" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M16 26c-6-4-12-9-12-16 0-5 4-8 8.5-8 3.5 0 6 2 7.5 5 1.5-3 4-5 7.5-5 4.5 0 8.5 3 8.5 8 0 7-7 12-14 17l-6 3" />
+    <path d="M28 27c8-2 15 1 22-2" />
+  </svg>
+)
+
 
 
 

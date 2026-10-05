@@ -19,7 +19,7 @@ const features = [
 /* Espaço flexível: cresce proporcionalmente quando a tela é mais alta */
 const Gap = ({ name }) => <div className={`gap gap-${name}`} aria-hidden="true" />
 
-export default function Welcome({ onSubscribe }) {
+export default function Welcome({ onSubscribe, onViewClient }) {
   return (
     <main className="screen">
       <Gap name="top" />
@@ -89,6 +89,15 @@ export default function Welcome({ onSubscribe }) {
       <button id="subscribe-button" className="cta" type="button" onClick={onSubscribe}>
         <span>Assinar agora</span>
         <ArrowIcon className="cta-arrow" />
+      </button>
+
+      <button
+        id="btn-view-client-page"
+        type="button"
+        className="welcome-client-link"
+        onClick={onViewClient}
+      >
+        <span>Ver página da Cliente (Agendamento) 💅 →</span>
       </button>
 
       <Gap name="bottom" />

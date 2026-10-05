@@ -1,0 +1,481 @@
+/* ==========================================================================
+   Bella Nails - Client Landing Page (Área do Cliente)
+   ========================================================================== */
+
+.cl-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: var(--w, 430px);
+  margin: 0 auto;
+  position: relative;
+  background:
+    radial-gradient(120% 60% at 50% 100%, rgba(247, 222, 228, 0.7), transparent 60%),
+    linear-gradient(180deg, #1f0b12 0%, #2e101b 22%, #fbf1f3 48%, #faeaed 75%, #fcf4f5 100%);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   Hero Visual (Imagem de Fundo e Fade)
+   ========================================================================== */
+.cl-hero-section {
+  position: relative;
+  width: 100%;
+  height: 52vh;
+  min-height: 360px;
+  max-height: 480px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cl-hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cl-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+.cl-hero-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(18, 5, 9, 0.45) 0%,
+    rgba(18, 5, 9, 0.12) 32%,
+    rgba(251, 241, 243, 0.05) 58%,
+    rgba(251, 241, 243, 0.8) 84%,
+    #fbf1f3 100%
+  );
+  pointer-events: none;
+}
+
+/* Header com Logo e Botão de Menu */
+.cl-header-bar {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 0 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cl-logo-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.cl-logo-script {
+  font-family: var(--font-script, 'Great Vibes'), cursive;
+  font-size: 34px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 0.95;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.cl-logo-sub {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.cl-menu-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #ffffff;
+}
+
+.cl-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.05);
+}
+
+.cl-menu-btn:active {
+  transform: scale(0.95);
+}
+
+.cl-menu-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ==========================================================================
+   Conteúdo Principal (Textos e Chamadas)
+   ========================================================================== */
+.cl-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 24px 28px 24px;
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.cl-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: -12px;
+}
+
+.cl-kicker {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #a33b52;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.cl-title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.12;
+}
+
+.cl-title-line1 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #2e131d;
+  letter-spacing: -0.6px;
+}
+
+.cl-title-line2-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cl-title-line2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: 40px;
+  font-weight: 500;
+  color: #a33b52;
+  letter-spacing: -0.5px;
+}
+
+.cl-doodle-heart {
+  width: 48px;
+  height: 30px;
+  color: #a33b52;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.cl-description {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.48;
+  color: #5f4851;
+  margin: 6px 0 0 0;
+  max-width: 320px;
+}
+
+/* ==========================================================================
+   Botões de Ação (Agendar e WhatsApp)
+   ========================================================================== */
+.cl-actions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0 24px 0;
+}
+
+.cl-btn-primary {
+  width: 100%;
+  height: 52px;
+  border-radius: 999px;
+  background: #8e2840;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(142, 40, 64, 0.35);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cl-btn-primary:hover {
+  background: #782035;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 26px rgba(142, 40, 64, 0.42);
+}
+
+.cl-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.cl-btn-secondary {
+  width: 100%;
+  height: 50px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  color: #8e2840;
+  border: 1.5px solid #d4a9b4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(142, 40, 64, 0.06);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cl-btn-secondary:hover {
+  background: #ffffff;
+  border-color: #8e2840;
+  transform: translateY(-1px);
+}
+
+.cl-btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.cl-btn-icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.cl-btn-icon.is-whatsapp {
+  width: 20px;
+  height: 20px;
+  color: #8e2840;
+}
+
+/* ==========================================================================
+   Rodapé de Diferenciais / Benefícios
+   ========================================================================== */
+.cl-features-footer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  width: 100%;
+  padding-top: 14px;
+  border-top: 1px solid rgba(220, 180, 190, 0.45);
+}
+
+.cl-feature-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+}
+
+.cl-feature-icon-wrap {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cl-feature-icon {
+  width: 22px;
+  height: 22px;
+  color: #9c223c;
+}
+
+.cl-feature-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: #624851;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   Menu Drawer Lateral do Cliente
+   ========================================================================== */
+.cl-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 5, 10, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999;
+  display: flex;
+  justify-content: flex-end;
+  animation: clFadeIn 0.2s ease-out;
+}
+
+.cl-drawer-panel {
+  width: 82%;
+  max-width: 320px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -8px 0 32px rgba(40, 10, 20, 0.22);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 20px 24px 20px;
+  box-sizing: border-box;
+  animation: clSlideLeft 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.cl-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f6dfe4;
+}
+
+.cl-logo-box.is-drawer .cl-logo-script {
+  color: #9c223c;
+  text-shadow: none;
+}
+
+.cl-logo-box.is-drawer .cl-logo-sub {
+  color: #7b5965;
+  text-shadow: none;
+}
+
+.cl-drawer-close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fbf1f3;
+  color: #6d4b56;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cl-drawer-close-btn:hover {
+  background: #f3d7de;
+  color: #9c223c;
+}
+
+.cl-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  flex: 1;
+}
+
+.cl-drawer-link {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: #4b303b;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: all 0.15s ease;
+}
+
+.cl-drawer-link:hover,
+.cl-drawer-link.is-active {
+  background: #fdf2f4;
+  color: #9c223c;
+}
+
+.cl-drawer-divider {
+  height: 1px;
+  background: #f4dbe1;
+  margin: 10px 0;
+}
+
+.cl-drawer-admin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: #f9edf0;
+  border: 1px solid #f0d5dc;
+  border-radius: 14px;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #9c223c;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.cl-drawer-admin-btn:hover {
+  background: #f4dfe4;
+  border-color: #9c223c;
+}
+
+.cl-drawer-admin-tag {
+  font-size: 10px;
+  font-weight: 700;
+  background: #9c223c;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.cl-drawer-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: #8c737d;
+  padding-top: 14px;
+  border-top: 1px solid #f6dfe4;
+}
+
+@keyframes clSlideLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes clFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

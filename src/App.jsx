@@ -14,6 +14,7 @@ import Clientes from './pages/Clientes.jsx'
 import Services from './pages/Services.jsx'
 import Financeiro from './pages/Financeiro.jsx'
 import Configuracoes from './pages/Configuracoes.jsx'
+import ClientLanding from './pages/client/ClientLanding.jsx'
 
 const ROUTES = {
   welcome: '/',
@@ -32,11 +33,13 @@ const ROUTES = {
   financeiro: '/financeiro',
   configuracoes: '/configuracoes',
   mais: '/mais',
+  client: '/cliente',
 }
 
 const routeFromPath = (path) => {
   const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#\/?/, '') : ''
   if (hash) {
+    if (hash === 'cliente' || hash === 'agendar' || hash === 'client') return 'client'
     if (hash === 'configuracoes' || hash === 'mais') return 'configuracoes'
     if (hash === 'financeiro') return 'financeiro'
     if (hash === 'servicos') return 'servicos'
@@ -53,6 +56,7 @@ const routeFromPath = (path) => {
     if (hash === 'plans' || hash === 'planos') return 'plans'
   }
   const p = path || (typeof window !== 'undefined' ? window.location.pathname : '/')
+  if (p.startsWith('/cliente') || p.startsWith('/agendar') || p.startsWith('/agendamento')) return 'client'
   if (p.startsWith(ROUTES.configuracoes) || p.startsWith(ROUTES.mais)) return 'configuracoes'
   if (p.startsWith(ROUTES.financeiro)) return 'financeiro'
   if (p.startsWith(ROUTES.servicos)) return 'servicos'
@@ -150,9 +154,37 @@ export default function App() {
         <Success onContinue={() => navigate('onboarding')} />
       ) : route === 'plans' ? (
         <Plans onBack={goBack} onContinue={() => navigate('success')} />
+      ) : route === 'client' ? (
+        <ClientLanding
+          onNavigateAdmin={() => navigate('dashboard')}
+          onBookNow={() => alert('Próxima etapa: Seleção de serviços da cliente!')}
+        />
       ) : (
-        <Welcome onSubscribe={() => navigate('plans')} />
+        <Welcome
+          onSubscribe={() => navigate('plans')}
+          onViewClient={() => navigate('client')}
+        />
       )}
+
+      {/* Alternador Rápido de Ambiente: Admin (Manicure) vs Cliente (Agendamento) */}
+      <aside className="portal-dev-switcher" aria-label="Alternar visão entre manicure e cliente">
+        <button
+          type="button"
+          className={`portal-dev-btn ${route !== 'client' ? 'is-active' : ''}`}
+          onClick={() => navigate('dashboard')}
+          title="Ver o painel e ferramentas da Manicure (Admin)"
+        >
+          <span>👑 Manicure</span>
+        </button>
+        <button
+          type="button"
+          className={`portal-dev-btn ${route === 'client' ? 'is-active' : ''}`}
+          onClick={() => navigate('client')}
+          title="Ver a página pública de agendamento da Cliente"
+        >
+          <span>💅 Cliente</span>
+        </button>
+      </aside>
     </div>
   )
 }

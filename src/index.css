@@ -367,6 +367,31 @@ button {
   overflow: hidden;
 }
 
+.welcome-client-link {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px calc(var(--ux) * 14) 0 calc(var(--ux) * 14);
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px dashed rgba(160, 23, 68, 0.35);
+  border-radius: 999px;
+  color: var(--crimson);
+  font-family: var(--font-sans);
+  font-size: calc(var(--u) * 8.5);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.welcome-client-link:hover {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: var(--crimson);
+  transform: translateY(-1px);
+}
+
 .cta::after {
   content: '';
   position: absolute;
@@ -450,4 +475,52 @@ button {
     transition: none !important;
   }
 }
+
+/* ==========================================================================
+   Portal Dev Switcher: Alternar Visão Manicure (Admin) x Cliente
+   ========================================================================== */
+.portal-dev-switcher {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 999999;
+  display: flex;
+  background: rgba(26, 8, 14, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 3px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.portal-dev-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  white-space: nowrap;
+}
+
+.portal-dev-btn:hover {
+  color: #ffffff;
+}
+
+.portal-dev-btn.is-active {
+  background: #9c223c;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(156, 34, 60, 0.4);
+}
+
 
