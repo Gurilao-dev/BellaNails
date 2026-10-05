@@ -73,13 +73,28 @@ export default function ClientRegister({ onBack, onContinue }) {
           <ChevronLeftIcon className="clr-back-icon" />
         </button>
 
-        {/* Stepper: Passo 1 ativo (Cadastro) */}
+        {/* Stepper: Novo design com 3 etapas e rótulos */}
         <div className="clr-stepper" aria-label="Progresso do agendamento: Passo 1 de 3">
-          <span className="clr-step-dot is-active" />
-          <span className="clr-step-line" />
-          <span className="clr-step-dot" />
-          <span className="clr-step-line" />
-          <span className="clr-step-dot" />
+          <div className="clr-step-col is-active">
+            <div className="clr-step-circle is-active">
+              <span className="clr-step-inner-dot" />
+            </div>
+            <span className="clr-step-label is-active">Cadastro</span>
+          </div>
+
+          <div className="clr-step-connector" />
+
+          <div className="clr-step-col">
+            <div className="clr-step-circle is-pending" />
+            <span className="clr-step-label">Serviço</span>
+          </div>
+
+          <div className="clr-step-connector" />
+
+          <div className="clr-step-col">
+            <div className="clr-step-circle is-pending" />
+            <span className="clr-step-label">Confirmação</span>
+          </div>
         </div>
 
         {/* Espaçador para balancear com o botão voltar */}

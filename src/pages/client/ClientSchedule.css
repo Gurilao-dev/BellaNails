@@ -1,0 +1,872 @@
+/* ==========================================================================
+   Bella Nails - Client Schedule Page (Passo 3: Escolha o dia e horário)
+   Fidelidade 100% aos mockups com modal deslizante de escolha da profissional
+   ========================================================================== */
+
+.csch-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: var(--w, 430px);
+  margin: 0 auto;
+  position: relative;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  box-shadow: 0 0 36px rgba(0, 0, 0, 0.12);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #241518;
+  animation: cschScreenFadeIn 0.35s ease-out;
+}
+
+@keyframes cschScreenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Banner Superior Ilustrado (Bella Nails Studio de Unhas + Mãos Completa)
+   O fundo branco sobe até se esconder atrás da imagem
+   ========================================================================== */
+.csch-header-wrap {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+.csch-header-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================================================
+   Conteúdo Principal: Fundo Branco Sem Tela Sobre a Outra
+   ========================================================================== */
+.csch-main-card {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  padding: 0 16px 24px 16px;
+  box-sizing: border-box;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   Cabeçalho: título centralizado logo abaixo da onda, voltar à esquerda
+   ========================================================================== */
+.csch-heading-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+  margin-top: calc(var(--w, 412px) * -0.03);
+  margin-bottom: 18px;
+  padding: 0 40px;
+}
+
+/* Botão Voltar Circular Rosa com Seta Bordô */
+.csch-back-btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #FCEEF1;
+  border: 1px solid #F5D3DC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #741D31;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(116, 29, 49, 0.1);
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.csch-back-btn:hover {
+  background: #FADCE3;
+  color: #551122;
+  transform: scale(1.06) translateX(-2px);
+  box-shadow: 0 4px 12px rgba(116, 29, 49, 0.16);
+}
+
+.csch-back-btn:active {
+  transform: scale(0.92);
+}
+
+.csch-back-icon {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.6;
+}
+
+.csch-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.csch-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #200D12;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.csch-subtitle {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #6f5f65;
+  margin: 0 -40px;
+}
+
+/* ==========================================================================
+   Linha dos Dias da Semana (Seg 05, Ter 06 [ativo], Qua 07, Qui 08, Sex 09)
+   ========================================================================== */
+.csch-dates-row {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  z-index: 2;
+}
+
+.csch-date-card {
+  flex: 1;
+  min-width: 0;
+  height: 84px;
+  background: #FFFFFF;
+  border: 1px solid #F3D9DF;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(116, 29, 49, 0.04);
+  padding: 6px 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.csch-date-card:hover:not(.is-selected) {
+  border-color: #E8A8B6;
+  background: #FFF9FA;
+  transform: translateY(-2px);
+}
+
+.csch-date-weekday {
+  font-size: 12px;
+  font-weight: 500;
+  color: #7B686D;
+  text-transform: capitalize;
+}
+
+.csch-date-num {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #741D31;
+}
+
+.csch-date-month {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #7B686D;
+  text-transform: lowercase;
+}
+
+/* Estado Selecionado do Card de Data (Ter 06 out no mockup) */
+.csch-date-card.is-selected {
+  background: linear-gradient(145deg, #741D31 0%, #4D0E1C 100%);
+  border-color: #5C1525;
+  box-shadow: 0 8px 18px rgba(116, 29, 49, 0.35);
+  transform: scale(1.02);
+}
+
+.csch-date-card.is-selected .csch-date-weekday {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.csch-date-card.is-selected .csch-date-num {
+  color: #FFFFFF;
+}
+
+.csch-date-card.is-selected .csch-date-month {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ==========================================================================
+   Turnos e Horários (Manhã, Tarde, Noite)
+   ========================================================================== */
+.csch-periods-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+.csch-period-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Divisor Decorativo com Linhas e Ícone Central */
+.csch-period-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.csch-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #E8B4C0;
+}
+
+.csch-divider-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.csch-period-icon {
+  width: 16px;
+  height: 16px;
+  color: #741D31;
+  flex-shrink: 0;
+}
+
+.csch-period-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #4A0E1A;
+}
+
+/* Grade de Horários (4 colunas) */
+.csch-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+/* Chip de Horário */
+.csch-slot-btn {
+  min-width: 0;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1px solid #F5D3DC;
+  background: #FCEEF1;
+  color: #741D31;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.csch-slot-btn:hover:not(.is-unavailable):not(.is-selected) {
+  background: #FADCE3;
+  border-color: #E8A8B6;
+  transform: translateY(-1.5px);
+}
+
+.csch-slot-btn:active:not(.is-unavailable) {
+  transform: scale(0.95);
+}
+
+/* Horário Selecionado (14:00 no mockup) */
+.csch-slot-btn.is-selected {
+  background: linear-gradient(135deg, #741D31 0%, #4D0E1C 100%);
+  border-color: #741D31;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(116, 29, 49, 0.35);
+  transform: scale(1.02);
+}
+
+/* Horário Indisponível (11:30 e 19:00 no mockup) */
+.csch-slot-btn.is-unavailable {
+  background: #ECECEE;
+  border-color: #E2E2E6;
+  color: #A6A4A7;
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   Legenda de Status dos Horários
+   ========================================================================== */
+.csch-legend-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 2;
+  margin-bottom: 22px;
+  padding: 6px 0;
+}
+
+.csch-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.csch-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.csch-dot.is-available {
+  background: #FCEEF1;
+  border: 1px solid #E8B4C0;
+}
+
+.csch-dot.is-selected {
+  background: #741D31;
+}
+
+.csch-dot.is-unavailable {
+  background: #ECECEE;
+  border: 1px solid #D8D8DC;
+}
+
+.csch-legend-text {
+  font-size: 11.5px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Botão Continuar com Badge Circular da Seta
+   ========================================================================== */
+.csch-footer-action {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.csch-continue-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4A0E1A 0%, #741D31 50%, #4A0E1A 100%);
+  border: none;
+  box-shadow: 0 8px 24px rgba(116, 29, 49, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 0 28px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.csch-continue-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(116, 29, 49, 0.48);
+  filter: brightness(1.04);
+}
+
+.csch-continue-btn:active {
+  transform: scale(0.98);
+}
+
+.csch-continue-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.2px;
+  margin: 0 auto;
+  padding-left: 28px;
+}
+
+.csch-continue-arrow-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FCEEF1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #741D31;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.csch-continue-btn:hover .csch-continue-arrow-wrap {
+  transform: translateX(2px);
+}
+
+.csch-continue-arrow {
+  width: 18px;
+  height: 18px;
+}
+
+/* ==========================================================================
+   MODAL INFERIOR: "Escolha a profissional"
+   Sobe automaticamente ao entrar com animação
+   Travado para não empurrar para baixo antes de escolher!
+   ========================================================================== */
+.csch-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 5, 10, 0.52);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: cschOverlayFadeIn 0.35s ease-out forwards;
+}
+
+.csch-sheet-overlay.is-closing {
+  animation: cschOverlayFadeOut 0.32s ease-in forwards;
+}
+
+@keyframes cschOverlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cschOverlayFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.csch-sheet-container {
+  width: 100%;
+  max-width: var(--w, 430px);
+  background: #FFFFFF;
+  border-radius: 34px 34px 0 0;
+  padding: 16px 18px 24px 18px;
+  box-sizing: border-box;
+  box-shadow: 0 -10px 42px rgba(74, 14, 26, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: cschSlideUpModal 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
+}
+
+.csch-sheet-container.is-closing {
+  animation: cschSlideDownModal 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes cschSlideUpModal {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes cschSlideDownModal {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* Efeito de Tremor quando tenta empurrar para baixo sem escolher */
+.csch-sheet-container.is-wiggling {
+  animation: cschModalWiggle 0.45s ease-in-out;
+}
+
+@keyframes cschModalWiggle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  20% {
+    transform: translateY(8px) scale(0.99);
+  }
+  40% {
+    transform: translateY(-4px) scale(1.005);
+  }
+  60% {
+    transform: translateY(4px) scale(0.995);
+  }
+  80% {
+    transform: translateY(-2px) scale(1);
+  }
+}
+
+/* Flores Decorativas no Modal */
+.csch-sheet-flower-tr {
+  position: absolute;
+  top: -15px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+  transform: rotate(15deg);
+}
+
+.csch-sheet-flower-bl {
+  position: absolute;
+  bottom: 60px;
+  left: -25px;
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+  transform: rotate(-30deg);
+}
+
+/* Alça Superior */
+.csch-sheet-handle-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 14px 0;
+  cursor: grab;
+}
+
+.csch-sheet-handle {
+  width: 44px;
+  height: 4px;
+  border-radius: 999px;
+  background: #E8A8B6;
+}
+
+/* Cabeçalho do Modal */
+.csch-sheet-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.csch-sheet-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #200D12;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.2px;
+}
+
+.csch-sheet-subtitle {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #7B686D;
+  margin: 0;
+  padding: 0 10px;
+}
+
+/* Lista de Cards das Profissionais */
+.csch-pros-list {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Card Individual da Profissional */
+.csch-pro-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid #F0D5DC;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(116, 29, 49, 0.04);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.csch-pro-card:hover:not(.is-selected) {
+  border-color: #E8A8B6;
+  background: #FFF9FA;
+  transform: translateY(-1.5px);
+}
+
+/* Estado Selecionado da Profissional (Ana Clara no mockup) */
+.csch-pro-card.is-selected {
+  background: linear-gradient(135deg, #FFF8F9 0%, #FFFFFF 100%);
+  border-color: #741D31;
+  border-width: 1.8px;
+  box-shadow: 0 4px 14px rgba(116, 29, 49, 0.12);
+}
+
+/* Avatar da Profissional */
+.csch-pro-avatar-wrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid #F3D9DF;
+  box-shadow: 0 2px 6px rgba(116, 29, 49, 0.08);
+}
+
+.csch-pro-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Informações da Profissional */
+.csch-pro-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.csch-pro-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #200D12;
+  margin: 0;
+}
+
+.csch-pro-specialty {
+  font-size: 12.5px;
+  color: #7B686D;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Linha de Avaliação e Próximo Horário */
+.csch-pro-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.csch-pro-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.csch-star-icon {
+  width: 13px;
+  height: 13px;
+  color: #741D31;
+  fill: #741D31;
+}
+
+.csch-rating-val {
+  font-weight: 700;
+  color: #741D31;
+}
+
+.csch-rating-count {
+  color: #8C777C;
+  font-size: 11px;
+}
+
+/* Badge Próximo Horário */
+.csch-pro-next-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FCEEF1;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #7B686D;
+}
+
+.csch-clock-icon {
+  width: 12px;
+  height: 12px;
+  color: #741D31;
+}
+
+.csch-next-label {
+  color: #7B686D;
+}
+
+.csch-next-time {
+  font-weight: 700;
+  color: #741D31;
+}
+
+/* Botão de Rádio / Seleção */
+.csch-pro-radio-wrap {
+  flex-shrink: 0;
+  padding-left: 4px;
+}
+
+.csch-pro-radio {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.8px solid #D4A5B0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.csch-pro-radio.is-checked {
+  background: #741D31;
+  border-color: #741D31;
+  box-shadow: 0 2px 6px rgba(116, 29, 49, 0.35);
+}
+
+.csch-radio-check-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Botão Confirmar Profissional */
+.csch-sheet-btn-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.csch-confirm-pro-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4A0E1A 0%, #741D31 50%, #4A0E1A 100%);
+  border: none;
+  box-shadow: 0 8px 24px rgba(116, 29, 49, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.csch-confirm-pro-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(116, 29, 49, 0.48);
+  filter: brightness(1.04);
+}
+
+.csch-confirm-pro-btn:active {
+  transform: scale(0.98);
+}
+
+.csch-confirm-pro-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.2px;
+}
+
+.csch-confirm-pro-arrow {
+  width: 18px;
+  height: 18px;
+  color: #FFFFFF;
+  transition: transform 0.2s ease;
+}
+
+.csch-confirm-pro-btn:hover .csch-confirm-pro-arrow {
+  transform: translateX(3px);
+}
+
+/* Toast de Sucesso */
+.csch-success-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  background: #200D12;
+  color: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: 999px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 200;
+  animation: cschToastFadeIn 0.3s ease-out;
+}
+
+.csch-success-icon {
+  width: 18px;
+  height: 18px;
+  color: #55E095;
+  flex-shrink: 0;
+}
+
+@keyframes cschToastFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

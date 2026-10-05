@@ -16,9 +16,16 @@ import Financeiro from './pages/Financeiro.jsx'
 import Configuracoes from './pages/Configuracoes.jsx'
 import ClientLanding from './pages/client/ClientLanding.jsx'
 import ClientRegister from './pages/client/ClientRegister.jsx'
+import ClientServices from './pages/client/ClientServices.jsx'
+import ClientSchedule from './pages/client/ClientSchedule.jsx'
 
 const ROUTES = {
-  welcome: '/',
+  client: '/',
+  clientLanding: '/cliente',
+  clientRegister: '/cliente/cadastro',
+  clientServices: '/cliente/servicos',
+  clientSchedule: '/cliente/agendamento',
+  welcome: '/boas-vindas',
   plans: '/planos',
   success: '/confirmacao',
   onboarding: '/configuracao',
@@ -34,13 +41,13 @@ const ROUTES = {
   financeiro: '/financeiro',
   configuracoes: '/configuracoes',
   mais: '/mais',
-  client: '/cliente',
-  clientRegister: '/cliente/cadastro',
 }
 
 const routeFromPath = (path) => {
   const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#\/?/, '') : ''
   if (hash) {
+    if (hash === 'cliente/agendamento' || hash === 'agendamento' || hash === 'client-schedule' || hash === 'horario') return 'clientSchedule'
+    if (hash === 'cliente/servicos' || hash === 'servicos-cliente' || hash === 'client-services') return 'clientServices'
     if (hash === 'cadastro' || hash === 'cliente/cadastro' || hash === 'client-register') return 'clientRegister'
     if (hash === 'cliente' || hash === 'agendar' || hash === 'client') return 'client'
     if (hash === 'configuracoes' || hash === 'mais') return 'configuracoes'
@@ -59,8 +66,10 @@ const routeFromPath = (path) => {
     if (hash === 'plans' || hash === 'planos') return 'plans'
   }
   const p = path || (typeof window !== 'undefined' ? window.location.pathname : '/')
+  if (p.startsWith('/cliente/agendamento') || p.startsWith('/agendamento')) return 'clientSchedule'
+  if (p.startsWith('/cliente/servicos') || p.startsWith('/servicos-cliente')) return 'clientServices'
   if (p.startsWith('/cliente/cadastro') || p.startsWith('/cadastro')) return 'clientRegister'
-  if (p.startsWith('/cliente') || p.startsWith('/agendar') || p.startsWith('/agendamento')) return 'client'
+  if (p.startsWith('/cliente') || p.startsWith('/agendar')) return 'client'
   if (p.startsWith(ROUTES.configuracoes) || p.startsWith(ROUTES.mais)) return 'configuracoes'
   if (p.startsWith(ROUTES.financeiro)) return 'financeiro'
   if (p.startsWith(ROUTES.servicos)) return 'servicos'
@@ -75,7 +84,8 @@ const routeFromPath = (path) => {
   if (p.startsWith(ROUTES.onboarding)) return 'onboarding'
   if (p.startsWith(ROUTES.success)) return 'success'
   if (p.startsWith(ROUTES.plans)) return 'plans'
-  return 'welcome'
+  if (p.startsWith('/boas-vindas') || p.startsWith('/welcome')) return 'welcome'
+  return 'client'
 }
 
 export default function App() {
@@ -100,7 +110,7 @@ export default function App() {
 
   const goBack = useCallback(() => {
     if (window.history.state?.fromApp) window.history.back()
-    else navigate('welcome')
+    else navigate('client')
   }, [navigate])
 
   const handleTabNavigate = useCallback((tab) => {
@@ -112,6 +122,8 @@ export default function App() {
     else if (tab === 'mais' || tab === 'configuracoes') navigate('configuracoes')
     else if (ROUTES[tab]) navigate(tab)
   }, [navigate])
+
+  const isClientFlow = ['client', 'clientRegister', 'clientServices', 'clientSchedule'].includes(route)
 
   return (
     <div className="page" key={route}>
@@ -158,13 +170,25 @@ export default function App() {
         <Success onContinue={() => navigate('onboarding')} />
       ) : route === 'plans' ? (
         <Plans onBack={goBack} onContinue={() => navigate('success')} />
+      ) : route === 'clientSchedule' ? (
+        <ClientSchedule
+          onBack={() => navigate('clientServices')}
+          onContinue={(booking) => {
+            console.log('Agendamento confirmado:', booking)
+          }}
+        />
+      ) : route === 'clientServices' ? (
+        <ClientServices
+          onBack={() => navigate('clientRegister')}
+          onConfirmService={(service) => {
+            console.log('Serviço confirmado:', service)
+            navigate('clientSchedule')
+          }}
+        />
       ) : route === 'clientRegister' ? (
         <ClientRegister
           onBack={() => navigate('client')}
-          onContinue={(clientData) => {
-            console.log('Cliente cadastrada:', clientData)
-            alert(`Bem-vinda, ${clientData.name}! Cadastro realizado com sucesso! Próxima etapa em desenvolvimento.`)
-          }}
+          onContinue={() => navigate('clientServices')}
         />
       ) : route === 'client' ? (
         <ClientLanding
@@ -182,7 +206,7 @@ export default function App() {
       <aside className="portal-dev-switcher" aria-label="Alternar visão entre manicure e cliente">
         <button
           type="button"
-          className={`portal-dev-btn ${route !== 'client' && route !== 'clientRegister' ? 'is-active' : ''}`}
+          className={`portal-dev-btn ${!isClientFlow ? 'is-active' : ''}`}
           onClick={() => navigate('dashboard')}
           title="Ver o painel e ferramentas da Manicure (Admin)"
         >
@@ -190,7 +214,7 @@ export default function App() {
         </button>
         <button
           type="button"
-          className={`portal-dev-btn ${route === 'client' || route === 'clientRegister' ? 'is-active' : ''}`}
+          className={`portal-dev-btn ${isClientFlow ? 'is-active' : ''}`}
           onClick={() => navigate('client')}
           title="Ver a página pública de agendamento da Cliente"
         >

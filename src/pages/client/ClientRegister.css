@@ -67,36 +67,76 @@
   height: 36px;
 }
 
-/* Stepper de Progresso (Passo 1 de 3) */
+/* Stepper de Progresso (Passo 1 de 3: Novo Design com Rótulos) */
 .clr-stepper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   gap: 0;
+  max-width: 270px;
+  width: 100%;
 }
 
-.clr-step-dot {
-  width: 12px;
-  height: 12px;
+.clr-step-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 68px;
+  flex-shrink: 0;
+}
+
+.clr-step-circle {
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border: 1.5px solid #8e2840;
-  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  flex-shrink: 0;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
-.clr-step-dot.is-active {
-  background: #8e2840;
-  border-color: #8e2840;
-  width: 13px;
-  height: 13px;
+.clr-step-circle.is-active {
+  background: #741d31;
+  box-shadow: 0 0 0 3px rgba(116, 29, 49, 0.16);
 }
 
-.clr-step-line {
-  width: 26px;
+.clr-step-inner-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.clr-step-circle.is-pending {
+  width: 15px;
+  height: 15px;
+  border: 1.6px solid #c9b6bc;
+  background: #ffffff;
+  margin-top: 1.5px;
+}
+
+.clr-step-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #726268;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.clr-step-label.is-active {
+  color: #741d31;
+  font-weight: 700;
+}
+
+.clr-step-connector {
+  flex: 1;
   height: 1.5px;
-  background: #8e2840;
-  flex-shrink: 0;
+  background: #c9b6bc;
+  margin-top: 9px;
+  min-width: 20px;
+  border-radius: 1px;
 }
 
 /* ==========================================================================

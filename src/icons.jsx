@@ -516,8 +516,10 @@ export const BuildingIcon = (p) => (
 )
 
 export const SparklesIcon = (p) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round" {...p}>
-    <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z" />
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M10 2c0 4.2-2.3 6.5-6.5 6.5C7.7 8.5 10 10.8 10 15c0-4.2 2.3-6.5 6.5-6.5C12.3 8.5 10 6.2 10 2z" />
+    <path d="M18 13c0 2.2-1.2 3.4-3.4 3.4 2.2 0 3.4 1.2 3.4 3.4 0-2.2 1.2-3.4 3.4-3.4-2.2 0-3.4-1.2-3.4-3.4z" />
+    <circle cx="19" cy="5" r="1" fill="currentColor" stroke="none" />
   </svg>
 )
 
@@ -651,6 +653,28 @@ export const UserOutlineIcon = (p) => (
     <path d="M4 20.5c0-4 3.5-7 8-7s8 3 8 7" />
   </svg>
 )
+
+export const TagIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+    <circle cx="7.5" cy="7.5" r="1.5" fill="none" stroke="currentColor" strokeWidth={1.6} />
+  </svg>
+)
+
+export const ArrowLeftIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <line x1="19" y1="12" x2="5" y2="12" />
+    <polyline points="12 19 5 12 12 5" />
+  </svg>
+)
+
+export const StarIcon = (p) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+)
+
+
 
 
 

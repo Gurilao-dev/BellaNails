@@ -1,0 +1,781 @@
+/* ==========================================================================
+   Bella Nails - Client Services Page (Passo 2 de 3: Escolha o serviço)
+   Design Sofisticado com Banner Ilustrado, Novo Stepper e Gestos Touch
+   ========================================================================== */
+
+.cls-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: var(--w, 430px);
+  margin: 0 auto;
+  position: relative;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  box-shadow: 0 0 36px rgba(0, 0, 0, 0.12);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #241518;
+  animation: clsScreenFadeIn 0.35s ease-out;
+}
+
+@keyframes clsScreenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   Banner Superior Ilustrado com Foto, Logo e Slogan
+   ========================================================================== */
+.cls-header-wrap {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+  overflow: visible;
+  background: transparent;
+  z-index: 1;
+}
+
+.cls-header-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Flor Decorativa no Canto Direito – logo abaixo da onda, inteira */
+.cls-header-flower {
+  position: absolute;
+  top: calc(var(--w, 412px) * 0.215);
+  right: 0;
+  width: calc(var(--w, 412px) * 0.16);
+  height: auto;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Barra com Botão Voltar e Stepper Compacto (mesma linha, logo abaixo da onda)
+   Medidas proporcionais à largura do banner para encaixar em qualquer celular
+   ========================================================================== */
+.cls-nav-stepper-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-top: calc(var(--w, 412px) * -0.075);
+  box-sizing: border-box;
+  z-index: 5;
+  position: relative;
+}
+
+/* Botão Voltar Circular */
+.cls-floating-back-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(220, 195, 202, 0.65);
+  box-shadow: 0 3px 10px rgba(116, 29, 49, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a1220;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cls-floating-back-btn:hover {
+  background: #fff5f7;
+  color: #741d31;
+  transform: scale(1.06) translateX(-2px);
+  box-shadow: 0 6px 16px rgba(116, 29, 49, 0.18);
+}
+
+.cls-floating-back-btn:active {
+  transform: scale(0.92);
+}
+
+.cls-back-icon {
+  width: 17px;
+  height: 17px;
+}
+
+/* Stepper compacto: centralizado na tela (compensa a largura do botão) */
+.cls-stepper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-right: 34px;
+}
+
+.cls-step-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 78px;
+  flex-shrink: 0;
+}
+
+.cls-step-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.cls-step-circle.is-active {
+  background: #741d31;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(116, 29, 49, 0.25);
+}
+
+.cls-step-check {
+  width: 9px;
+  height: 9px;
+  stroke-width: 3;
+}
+
+.cls-step-circle.is-current-dot {
+  background: #ffffff;
+  border: 1.6px solid #8e364a;
+}
+
+.cls-step-inner-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8e364a;
+}
+
+.cls-step-circle.is-pending {
+  border: 1.5px solid #cdbac0;
+  background: #ffffff;
+}
+
+.cls-step-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #8a7a80;
+  margin-top: 4px;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.cls-step-label.is-active {
+  color: #741d31;
+  font-weight: 700;
+}
+
+/* Linha de progresso curta */
+.cls-step-connector {
+  width: 40px;
+  height: 1.5px;
+  background: #d9c8cd;
+  margin-top: 6.25px;
+  border-radius: 1px;
+  flex-shrink: 0;
+  margin-left: -23px;
+  margin-right: -23px;
+}
+
+.cls-step-connector.is-active {
+  background: #741d31;
+}
+
+/* ==========================================================================
+   Cabeçalho: Título e Subtítulo
+   ========================================================================== */
+.cls-heading-group {
+  text-align: center;
+  padding: 8px 20px 14px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.cls-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1e1114;
+  margin: 0 0 3px 0;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+
+.cls-subtitle {
+  font-size: 13px;
+  color: #6f5f65;
+  margin: 0;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   Lista de Cards de Serviços (com animações suaves de entrada)
+   ========================================================================== */
+.cls-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 18px 16px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+/* Card Individual de Serviço */
+.cls-service-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(228, 214, 219, 0.85);
+  box-shadow: 0 2px 8px rgba(120, 50, 70, 0.03);
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  animation: clsCardFadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 0.24s ease,
+              box-shadow 0.24s ease,
+              background-color 0.24s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+@keyframes clsCardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cls-service-card:hover {
+  transform: translateY(-2px);
+  border-color: #8c253d;
+  box-shadow: 0 6px 20px rgba(116, 29, 49, 0.09);
+}
+
+.cls-service-card:active {
+  transform: scale(0.985);
+}
+
+.cls-service-card:focus-visible {
+  box-shadow: 0 0 0 2.5px rgba(116, 29, 49, 0.35);
+}
+
+/* Estado Selecionado (ex: Alongamento em gel) */
+.cls-service-card.is-selected {
+  border: 1.6px solid #741d31;
+  background: #fffdfd;
+  box-shadow: 0 4px 18px rgba(116, 29, 49, 0.12);
+}
+
+/* Miniatura da Foto com Cantos Arredondados */
+.cls-card-thumb-wrap {
+  width: 78px;
+  height: 78px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f7eef0;
+}
+
+.cls-card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.cls-service-card:hover .cls-card-thumb {
+  transform: scale(1.05);
+}
+
+/* Corpo do Card com Textos */
+.cls-card-body {
+  flex: 1;
+  min-width: 0;
+  padding-left: 13px;
+  padding-right: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cls-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #4a1220;
+  margin: 0 0 3px 0;
+  line-height: 1.25;
+}
+
+.cls-card-desc {
+  font-size: 12px;
+  color: #6d5d63;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+/* Linha com os Dois Chips Rosé: Duração e Valor */
+.cls-card-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cls-card-chip {
+  background: #fceeef;
+  border-radius: 999px;
+  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #5a1627;
+  transition: background-color 0.2s ease;
+}
+
+.cls-card-chip.is-price {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.cls-chip-icon {
+  width: 13px;
+  height: 13px;
+  color: #5a1627;
+  flex-shrink: 0;
+}
+
+/* Indicador de Seleção no Canto Superior Direito */
+.cls-card-radio {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid #d4bfc5;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cls-card-radio.is-checked {
+  background: #741d31;
+  border-color: #741d31;
+  transform: scale(1.08);
+}
+
+.cls-radio-check-icon {
+  width: 13px;
+  height: 13px;
+  color: #ffffff;
+  animation: clsPopCheck 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes clsPopCheck {
+  0% {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+
+/* ==========================================================================
+   Modal de Confirmação com Gesto de Arrastar para Fechar (Swipe to Dismiss)
+   ========================================================================== */
+.cls-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 10, 14, 0.52);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: clsFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cls-modal-overlay.is-closing {
+  animation: clsFadeOut 0.25s ease-in forwards;
+}
+
+@keyframes clsFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes clsFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.cls-modal-sheet {
+  width: 100%;
+  max-width: 430px;
+  background: #FAF4F5;
+  border-radius: 28px 28px 0 0;
+  padding: 10px 18px 26px 18px;
+  box-shadow: 0 -10px 40px rgba(50, 12, 22, 0.22);
+  animation: clsSlideUp 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  max-height: 92vh;
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+.cls-modal-sheet.is-dragging {
+  cursor: grabbing;
+}
+
+.cls-modal-sheet.is-closing {
+  animation: clsSlideDown 0.26s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes clsSlideUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes clsSlideDown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Área e Barra de Puxador Superior Interativa */
+.cls-sheet-drag-area {
+  width: 100%;
+  padding: 6px 0 14px 0;
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.cls-sheet-drag-handle {
+  width: 44px;
+  height: 4.5px;
+  border-radius: 999px;
+  background: #d8b7c0;
+  transition: background-color 0.2s ease, width 0.2s ease;
+}
+
+.cls-sheet-drag-area:hover .cls-sheet-drag-handle,
+.cls-modal-sheet.is-dragging .cls-sheet-drag-handle {
+  background: #8e364a;
+  width: 52px;
+}
+
+/* Títulos do Modal */
+.cls-modal-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1e1114;
+  text-align: center;
+  margin: 0 0 5px 0;
+  line-height: 1.25;
+}
+
+.cls-modal-subtitle {
+  font-size: 13.5px;
+  color: #6f5f65;
+  text-align: center;
+  margin: 0 0 18px 0;
+  line-height: 1.4;
+}
+
+/* Card Branco com Informações do Serviço */
+.cls-modal-preview-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(230, 215, 220, 0.9);
+  box-shadow: 0 3px 12px rgba(110, 30, 50, 0.04);
+  box-sizing: border-box;
+}
+
+.cls-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.cls-preview-thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #f7eef0;
+}
+
+.cls-preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cls-preview-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #4a1220;
+  margin: 0 0 4px 0;
+}
+
+.cls-preview-desc {
+  font-size: 13px;
+  color: #6d5d63;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Chips de Duração e Valor lado a lado no Modal */
+.cls-preview-chips-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 13px;
+}
+
+.cls-preview-chip {
+  background: #fceeef;
+  border-radius: 12px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  box-sizing: border-box;
+}
+
+.cls-chip-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cls-chip-icon-wrap .cls-chip-icon {
+  width: 19px;
+  height: 19px;
+  color: #741d31;
+}
+
+.cls-chip-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.cls-chip-label {
+  font-size: 10.5px;
+  color: #9a6f7b;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cls-chip-value {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #741d31;
+  line-height: 1.25;
+}
+
+/* Card "O que está incluso?" */
+.cls-included-card {
+  background: #fdf1f3;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(238, 218, 224, 0.7);
+  box-sizing: border-box;
+}
+
+.cls-included-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cls-sparkles-icon {
+  width: 18px;
+  height: 18px;
+  color: #741d31;
+  flex-shrink: 0;
+}
+
+.cls-included-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #201316;
+  margin: 0;
+}
+
+.cls-included-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cls-included-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cls-included-bullet {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #741d31;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cls-included-check-icon {
+  width: 11px;
+  height: 11px;
+}
+
+.cls-included-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: #3b2b31;
+  line-height: 1.35;
+}
+
+/* Botões de Ação do Modal */
+.cls-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cls-confirm-btn {
+  width: 100%;
+  height: 50px;
+  border-radius: 999px;
+  background: #741d31;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(116, 29, 49, 0.28);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cls-confirm-btn:hover {
+  background: #5c1424;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(116, 29, 49, 0.35);
+}
+
+.cls-confirm-btn:active {
+  transform: scale(0.985);
+}
+
+.cls-confirm-btn.is-success {
+  background: #1b7a42;
+  box-shadow: 0 4px 14px rgba(27, 122, 66, 0.3);
+}
+
+.cls-cancel-btn {
+  width: 100%;
+  height: 50px;
+  border-radius: 999px;
+  background: #fce8ec;
+  color: #741d31;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid rgba(116, 29, 49, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cls-cancel-btn:hover {
+  background: #f9dce2;
+  color: #5c1424;
+}
+
+.cls-cancel-btn:active {
+  transform: scale(0.985);
+}
+
+.cls-action-btn-icon {
+  width: 18px;
+  height: 18px;
+}
