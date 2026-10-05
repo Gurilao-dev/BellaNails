@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import headerBannerImg from '../../assets/client/client-header-banner.png'
+import headerBannerImg from '../../assets/client/client-header-banner-trimmed.png'
 import rapidoSeguroImg from '../../assets/client/client-rapido-seguro-cropped.png'
 import footerWaveImg from '../../assets/client/client-footer-wave-cropped.png'
 import {
