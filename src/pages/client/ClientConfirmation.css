@@ -3,8 +3,8 @@
    ========================================================================== */
 
 .ccnf-screen {
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
   width: 100%;
   max-width: var(--w, 430px);
   margin: 0 auto;
@@ -13,25 +13,42 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow-x: hidden;
+  overflow: hidden;
   box-shadow: 0 0 36px rgba(0, 0, 0, 0.12);
 }
 
 /* ==========================================================================
-   Banner Superior com Foto e Logotipo (Crop limpo sem frestas)
+   Área de Conteúdo Rolável (Scrollable Body)
+   ========================================================================== */
+.ccnf-scroll-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding-bottom: 8px;
+}
+
+/* ==========================================================================
+   Banner Superior com Foto e Logotipo (PNG Exato do Usuário - SEM QUADRADO)
    ========================================================================== */
 .ccnf-header-wrap {
   width: 100%;
   position: relative;
   line-height: 0;
-  background: #5b0f1e;
-  overflow: hidden;
+  background: transparent; /* TRANSPARENTE: Sem caixa ou quadrado escuro! */
+  overflow: visible;
 }
 
 .ccnf-header-img {
   width: 100%;
   height: auto;
   display: block;
+  /* y=43 no canvas de 1024 é ~4.2%, encosta o topo do banner flush na tela */
+  margin-top: -4.2%;
 }
 
 /* ==========================================================================
@@ -39,8 +56,12 @@
    ========================================================================== */
 .ccnf-stepper-wrap {
   width: 100%;
-  padding: 14px 20px 8px 20px;
+  padding: 4px 20px 8px 20px;
   box-sizing: border-box;
+  /* Encaixa o stepper logo abaixo da curva da onda do banner */
+  margin-top: -5%;
+  position: relative;
+  z-index: 2;
 }
 
 .ccnf-stepper-inner {
@@ -114,10 +135,9 @@
 }
 
 /* ==========================================================================
-   Conteúdo Principal: Cabeçalho, Card, Observação e Botões
+   Conteúdo Principal: Cabeçalho e Card Resumo
    ========================================================================== */
 .ccnf-main-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -205,7 +225,7 @@
    Card de Resumo do Agendamento (Serviço + Profissional)
    ========================================================================== */
 .ccnf-summary-card {
-  margin: 0 18px 14px 18px;
+  margin: 0 18px 10px 18px;
   background: #ffffff;
   border-radius: 18px;
   border: 1px solid #f2dfe4;
@@ -369,12 +389,26 @@
 }
 
 /* ==========================================================================
-   Seção de Observação (Opcional)
+   Parte Fixa na Parte de Baixo da Tela (Observação + Botões de Ação)
    ========================================================================== */
-.ccnf-obs-section {
-  margin: 0 18px 16px 18px;
+.ccnf-fixed-bottom-bar {
+  flex-shrink: 0;
+  width: 100%;
   position: relative;
-  z-index: 2;
+  z-index: 50;
+  background: rgba(253, 246, 247, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(235, 205, 214, 0.7);
+  box-shadow: 0 -4px 20px rgba(120, 30, 55, 0.08);
+  padding: 10px 18px calc(10px + env(safe-area-inset-bottom, 0px)) 18px;
+  box-sizing: border-box;
+}
+
+/* Seção de Observação (Opcional) */
+.ccnf-obs-section {
+  margin: 0 0 8px 0;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -383,15 +417,15 @@
   font-size: 13px;
   font-weight: 700;
   color: #200811;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   display: block;
 }
 
 .ccnf-obs-box {
   background: #ffffff;
   border: 1px solid #ebd3da;
-  border-radius: 14px;
-  padding: 10px 14px 8px 14px;
+  border-radius: 12px;
+  padding: 8px 12px 6px 12px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -410,10 +444,10 @@
 }
 
 .ccnf-obs-pencil-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   color: #9c223c;
-  margin-top: 3px;
+  margin-top: 2px;
   flex-shrink: 0;
 }
 
@@ -426,8 +460,9 @@
   color: #200811;
   outline: none;
   resize: none;
-  line-height: 1.4;
+  line-height: 1.35;
   padding: 0;
+  height: 32px;
 }
 
 .ccnf-obs-textarea::placeholder {
@@ -437,47 +472,44 @@
 .ccnf-obs-counter {
   align-self: flex-end;
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10px;
   color: #a58e97;
+  line-height: 1;
 }
 
-/* ==========================================================================
-   Botões de Ação: Confirmar Agendamento + Voltar para Editar
-   ========================================================================== */
+/* Botões de Ação */
 .ccnf-actions-group {
-  margin: 0 18px 12px 18px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 2;
+  gap: 6px;
   box-sizing: border-box;
 }
 
 .ccnf-submit-btn {
   width: 100%;
-  height: 52px;
+  height: 48px;
   border-radius: 999px;
   background: linear-gradient(135deg, #6b1428 0%, #8e223c 100%);
   border: none;
   color: #ffffff;
   font-family: var(--font-serif), Georgia, serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(115, 27, 49, 0.35);
+  box-shadow: 0 6px 18px rgba(115, 27, 49, 0.32);
   transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-sizing: border-box;
 }
 
 .ccnf-submit-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(115, 27, 49, 0.45);
+  box-shadow: 0 8px 22px rgba(115, 27, 49, 0.42);
   background: linear-gradient(135deg, #5c0f20 0%, #7e1d34 100%);
 }
 
@@ -491,9 +523,9 @@
 
 .ccnf-submit-btn-arrow-circle {
   position: absolute;
-  right: 8px;
-  width: 36px;
-  height: 36px;
+  right: 7px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #fce4eb;
   color: #731b31;
@@ -509,8 +541,8 @@
 }
 
 .ccnf-submit-btn-arrow-circle svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 .ccnf-edit-btn {
@@ -518,14 +550,14 @@
   border: none;
   color: #731b31;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 8px;
   transition: all 0.15s ease;
 }
@@ -535,25 +567,8 @@
 }
 
 .ccnf-edit-arrow {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1;
-}
-
-/* ==========================================================================
-   Fundo Decorativo Inferior (Ondas e Folhas)
-   ========================================================================== */
-.ccnf-footer-wave-wrap {
-  width: 100%;
-  margin-top: auto;
-  line-height: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.ccnf-footer-wave-img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 /* ==========================================================================
