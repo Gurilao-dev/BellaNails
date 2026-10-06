@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import headerBannerImg from '../../assets/client/client-confirm-banner.png'
-import flowerImg from '../../assets/client/client-flower.png'
 import defaultServiceImg from '../../assets/services/client-alongamento.png'
 import defaultProImg from '../../assets/team/client-ana-clara.png'
 import {
@@ -148,14 +147,6 @@ export default function ClientConfirmation({ onBack, onConfirm, onEdit }) {
 
         {/* Conteúdo Principal do Agendamento */}
         <main className="ccnf-main-content">
-          {/* Folha floral decorativa no topo direito */}
-          <img
-            src={flowerImg}
-            alt=""
-            className="ccnf-bg-flower-top"
-            aria-hidden="true"
-          />
-
           {/* Linha do Cabeçalho: Botão Voltar + Título e Subtítulo */}
           <div className="ccnf-title-header">
             <button
