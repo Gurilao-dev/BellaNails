@@ -260,12 +260,8 @@ export default function ClientSchedule({ onBack, onContinue }) {
       // Ignora
     }
 
-    setIsBookingDone(true)
-
     if (onContinue) {
-      setTimeout(() => {
-        onContinue(bookingData)
-      }, 700)
+      onContinue(bookingData)
     }
   }
 
@@ -571,14 +567,6 @@ export default function ClientSchedule({ onBack, onContinue }) {
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Feedback de Sucesso caso clique em Continuar */}
-      {isBookingDone && (
-        <div className="csch-success-toast">
-          <CheckIcon className="csch-success-icon" />
-          <span>Agendamento para {currentDate.dayNum}/{currentDate.month} às {selectedTime} com {currentPro.name} confirmado!</span>
         </div>
       )}
     </div>
