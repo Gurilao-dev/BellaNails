@@ -19,6 +19,7 @@ import ClientRegister from './pages/client/ClientRegister.jsx'
 import ClientServices from './pages/client/ClientServices.jsx'
 import ClientSchedule from './pages/client/ClientSchedule.jsx'
 import ClientConfirmation from './pages/client/ClientConfirmation.jsx'
+import ClientAppointments from './pages/client/ClientAppointments.jsx'
 
 const ROUTES = {
   client: '/',
@@ -27,6 +28,7 @@ const ROUTES = {
   clientServices: '/cliente/servicos',
   clientSchedule: '/cliente/agendamento',
   clientConfirmation: '/cliente/confirmacao',
+  clientAppointments: '/cliente/meus-agendamentos',
   welcome: '/boas-vindas',
   plans: '/planos',
   success: '/confirmacao',
@@ -48,6 +50,7 @@ const ROUTES = {
 const routeFromPath = (path) => {
   const hash = typeof window !== 'undefined' ? window.location.hash.replace(/^#\/?/, '') : ''
   if (hash) {
+    if (hash === 'cliente/meus-agendamentos' || hash === 'cliente/agendamentos' || hash === 'meus-agendamentos' || hash === 'agendamentos' || hash === 'client-appointments') return 'clientAppointments'
     if (hash === 'cliente/confirmacao' || hash === 'confirmacao' || hash === 'client-confirmation' || hash === 'confirmar') return 'clientConfirmation'
     if (hash === 'cliente/agendamento' || hash === 'agendamento' || hash === 'client-schedule' || hash === 'horario') return 'clientSchedule'
     if (hash === 'cliente/servicos' || hash === 'servicos-cliente' || hash === 'client-services') return 'clientServices'
@@ -69,6 +72,7 @@ const routeFromPath = (path) => {
     if (hash === 'plans' || hash === 'planos') return 'plans'
   }
   const p = path || (typeof window !== 'undefined' ? window.location.pathname : '/')
+  if (p.startsWith('/cliente/meus-agendamentos') || p.startsWith('/cliente/agendamentos') || p.startsWith('/meus-agendamentos') || p.startsWith('/agendamentos')) return 'clientAppointments'
   if (p.startsWith('/cliente/confirmacao') || p.startsWith('/confirmacao') || p.startsWith('/confirmar')) return 'clientConfirmation'
   if (p.startsWith('/cliente/agendamento') || p.startsWith('/agendamento')) return 'clientSchedule'
   if (p.startsWith('/cliente/servicos') || p.startsWith('/servicos-cliente')) return 'clientServices'
@@ -127,7 +131,7 @@ export default function App() {
     else if (ROUTES[tab]) navigate(tab)
   }, [navigate])
 
-  const isClientFlow = ['client', 'clientRegister', 'clientServices', 'clientSchedule', 'clientConfirmation'].includes(route)
+  const isClientFlow = ['client', 'clientRegister', 'clientServices', 'clientSchedule', 'clientConfirmation', 'clientAppointments'].includes(route)
 
   return (
     <div className="page" key={route}>
@@ -174,13 +178,18 @@ export default function App() {
         <Success onContinue={() => navigate('onboarding')} />
       ) : route === 'plans' ? (
         <Plans onBack={goBack} onContinue={() => navigate('success')} />
+      ) : route === 'clientAppointments' ? (
+        <ClientAppointments
+          onBookNew={() => navigate('clientServices')}
+          onReschedule={() => navigate('clientSchedule')}
+        />
       ) : route === 'clientConfirmation' ? (
         <ClientConfirmation
           onBack={() => navigate('clientSchedule')}
           onEdit={() => navigate('clientSchedule')}
           onConfirm={(finalData) => {
             console.log('Agendamento finalizado com sucesso:', finalData)
-            navigate('client')
+            navigate('clientAppointments')
           }}
         />
       ) : route === 'clientSchedule' ? (

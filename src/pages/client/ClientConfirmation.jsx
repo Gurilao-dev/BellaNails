@@ -78,12 +78,8 @@ export default function ClientConfirmation({ onBack, onConfirm, onEdit }) {
       // Ignora
     }
 
-    setIsSuccessModalOpen(true)
-
     if (onConfirm) {
-      setTimeout(() => {
-        onConfirm(finalData)
-      }, 1500)
+      onConfirm(finalData)
     }
   }
 
