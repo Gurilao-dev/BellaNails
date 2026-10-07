@@ -204,6 +204,7 @@ export default function App() {
             console.log('Serviço confirmado:', service)
             navigate('clientSchedule')
           }}
+          onViewAppointments={() => navigate('clientAppointments')}
         />
       ) : route === 'clientRegister' ? (
         <ClientRegister

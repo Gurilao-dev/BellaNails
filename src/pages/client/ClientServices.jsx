@@ -14,6 +14,7 @@ import {
   SparklesIcon,
   TagIcon,
 } from '../../icons.jsx'
+import ClientBottomNav from '../../components/client/ClientBottomNav.jsx'
 import './ClientServices.css'
 
 const SERVICES_DATA = [
@@ -89,7 +90,7 @@ const SERVICES_DATA = [
   },
 ]
 
-export default function ClientServices({ onBack, onConfirmService }) {
+export default function ClientServices({ onBack, onConfirmService, onViewAppointments }) {
   const [selectedId, setSelectedId] = useState('alongamento')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
@@ -486,6 +487,16 @@ export default function ClientServices({ onBack, onConfirmService }) {
           </div>
         </div>
       )}
+
+      {/* Barra Flutuante Inferior com Alternância para Meus Agendamentos */}
+      <ClientBottomNav
+        activeTab="book"
+        onTabChange={(tab) => {
+          if (tab === 'appointments' && onViewAppointments) {
+            onViewAppointments()
+          }
+        }}
+      />
     </div>
   )
 }

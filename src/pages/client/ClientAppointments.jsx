@@ -13,6 +13,7 @@ import {
   TrashIcon,
   UserOutlineIcon,
 } from '../../icons.jsx'
+import ClientBottomNav from '../../components/client/ClientBottomNav.jsx'
 import './ClientAppointments.css'
 
 export default function ClientAppointments({ onBookNew, onReschedule }) {
@@ -242,44 +243,11 @@ export default function ClientAppointments({ onBookNew, onReschedule }) {
         </div>
       </div>
 
-      {/* =====================================================================
-          Barra Flutuante Inferior com Animação Super Satisfatória de Aba
-          ===================================================================== */}
-      <nav className="capp-floating-nav-bar" aria-label="Navegação do cliente">
-        
-        {/* Pílula Deslizante com Curva Elástica (Slider Background) */}
-        <div
-          className={`capp-nav-sliding-pill ${activeTab === 'book' ? 'is-book-active' : 'is-appts-active'}`}
-          aria-hidden="true"
-        >
-          {/* Mini linha indicadora branca centralizada */}
-          <span className="capp-sliding-pill-indicator" />
-        </div>
-
-        {/* Botão da Aba 1: Agendamentos */}
-        <button
-          type="button"
-          className={`capp-nav-tab-btn ${activeTab === 'appointments' ? 'is-active-text' : ''}`}
-          onClick={() => handleTabChange('appointments')}
-          aria-selected={activeTab === 'appointments'}
-          role="tab"
-        >
-          <CalendarIcon className="capp-nav-icon" />
-          <span className="capp-nav-label">Agendamentos</span>
-        </button>
-
-        {/* Botão da Aba 2: Agendar */}
-        <button
-          type="button"
-          className={`capp-nav-tab-btn ${activeTab === 'book' ? 'is-active-text' : ''}`}
-          onClick={() => handleTabChange('book')}
-          aria-selected={activeTab === 'book'}
-          role="tab"
-        >
-          <CalendarPlusIcon className="capp-nav-icon" />
-          <span className="capp-nav-label">Agendar</span>
-        </button>
-      </nav>
+      {/* Barra Flutuante Inferior com Animação Super Satisfatória de Aba */}
+      <ClientBottomNav
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+      />
 
       {/* =====================================================================
           Modal de Confirmação de Cancelamento
