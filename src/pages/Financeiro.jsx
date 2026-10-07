@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   BanknoteIcon,
   BuildingIcon,
@@ -32,8 +32,13 @@ import {
 } from '../icons.jsx'
 import AppBottomNav from '../components/AppBottomNav.jsx'
 import { useBottomSheetDrag } from '../hooks/useBottomSheetDrag.js'
+import {
+  subscribeToFinancial,
+  addFinancialTransaction,
+  deleteFinancialTransaction,
+  parsePriceValue,
+} from '../firebase/services.js'
 import './Financeiro.css'
-
 
 const MONTHS = [
   'Janeiro de 2025',
@@ -64,146 +69,9 @@ const initialProducts = [
   { id: 10, name: 'Óleo Hidratante de Cutículas (30ml)', category: 'Finalizadores', price: 18.0 },
 ]
 
-// Despesas registradas (custos fixos mensais e variáveis por produto)
-const initialExpenses = [
-  {
-    id: 1,
-    type: 'variable',
-    title: 'Gel Construtor Vòlia (24g)',
-    productId: 1,
-    quantity: 2,
-    unitPrice: 65.0,
-    amount: 130.0,
-    category: 'Géis e Produtos',
-    date: 'Hoje, 04/10',
-    time: '14:20',
-  },
-  {
-    id: 2,
-    type: 'fixed',
-    title: 'Aluguel do Espaço / Mesa',
-    amount: 450.0,
-    category: 'Custo Mensal Fixo',
-    date: '03/10/2025',
-    time: '10:00',
-  },
-  {
-    id: 3,
-    type: 'variable',
-    title: 'Kit Lixas 100/180 (Pacote c/ 50)',
-    productId: 7,
-    quantity: 1,
-    unitPrice: 22.0,
-    amount: 22.0,
-    category: 'Descartáveis',
-    date: '03/10/2025',
-    time: '16:40',
-  },
-  {
-    id: 4,
-    type: 'fixed',
-    title: 'Internet Fibra Óptica Studio',
-    amount: 89.9,
-    category: 'Custo Mensal Fixo',
-    date: '02/10/2025',
-    time: '09:15',
-  },
-  {
-    id: 5,
-    type: 'variable',
-    title: 'Top Coat Brilho Diamante',
-    productId: 2,
-    quantity: 2,
-    unitPrice: 35.0,
-    amount: 70.0,
-    category: 'Finalizadores',
-    date: '01/10/2025',
-    time: '11:10',
-  },
-  {
-    id: 6,
-    type: 'fixed',
-    title: 'Guia MEI (DAS mensal)',
-    amount: 75.0,
-    category: 'Custo Mensal Fixo',
-    date: '01/10/2025',
-    time: '08:30',
-  },
-]
-
-// Entradas registradas para cada atendimento de unha
-const initialInflows = [
-  {
-    id: 1,
-    serviceName: 'Alongamento em gel',
-    clientName: 'Juliana Costa',
-    amount: 90.0,
-    method: 'pix',
-    date: 'Hoje, 04/10',
-    time: '11:00',
-    notes: 'Manutenção + francesinha',
-  },
-  {
-    id: 2,
-    serviceName: 'Manicure',
-    clientName: 'Mariana Silva',
-    amount: 30.0,
-    method: 'pix',
-    date: 'Hoje, 04/10',
-    time: '08:45',
-    notes: 'Cutilagem e esmaltação nua',
-  },
-  {
-    id: 3,
-    serviceName: 'Nail art',
-    clientName: 'Carla Mendes',
-    amount: 40.0,
-    method: 'card_credit',
-    date: 'Ontem, 03/10',
-    time: '15:15',
-    notes: 'Filha única com pedrarias e glitter',
-  },
-  {
-    id: 4,
-    serviceName: 'Pedicure',
-    clientName: 'Fernanda Lima',
-    amount: 35.0,
-    method: 'money',
-    date: 'Ontem, 03/10',
-    time: '12:00',
-    notes: 'Pedicure completa e esmalte vermelho',
-  },
-  {
-    id: 5,
-    serviceName: 'Banho de gel',
-    clientName: 'Patrícia Alves',
-    amount: 70.0,
-    method: 'pix',
-    date: '02/10/2025',
-    time: '14:30',
-    notes: 'Fortalecimento unhas naturais',
-  },
-  {
-    id: 6,
-    serviceName: 'Alongamento em gel',
-    clientName: 'Beatriz Rocha',
-    amount: 90.0,
-    method: 'card_debit',
-    date: '01/10/2025',
-    time: '16:00',
-    notes: 'Formato amendoado natural',
-  },
-  {
-    id: 7,
-    serviceName: 'Banho de gel',
-    clientName: 'Camila Santos',
-    amount: 70.0,
-    method: 'pix',
-    date: '01/10/2025',
-    time: '18:15',
-    notes: 'Banho de gel com brilho espelhado',
-  },
-]
+// Sem dados simulados - tudo vem do Firebase Firestore em tempo real
+const initialExpenses = []
+const initialInflows = []
 
 const servicesData = [
   { name: 'Alongamento em gel', percent: 38, value: 'R$ 1.641,60' },
@@ -422,39 +290,79 @@ export default function Financeiro({ onNavigateTab }) {
     return inflows
   }, [inflows, inflowFilter])
 
-  // Submissão de Despesa
-  const handleSaveExpense = (e) => {
+  // Escuta transações financeiras reais no Firestore
+  useEffect(() => {
+    const unsubscribe = subscribeToFinancial((realTransactions) => {
+      const mappedInflows = []
+      const mappedExpenses = []
+
+      realTransactions.forEach((t) => {
+        const type = t.type || 'entrada'
+        const amt = typeof t.amount === 'number' ? t.amount : parsePriceValue(t.amount)
+        let dateFormatted = t.date || 'Hoje'
+        if (t.date && typeof t.date === 'string' && t.date.includes('T')) {
+          try {
+            dateFormatted = new Date(t.date).toLocaleDateString('pt-BR')
+          } catch (e) {}
+        }
+
+        if (type === 'entrada') {
+          mappedInflows.push({
+            id: t.id,
+            serviceName: t.description || 'Atendimento de Unha',
+            clientName: t.clientName || 'Cliente',
+            amount: amt,
+            method: t.method || 'pix',
+            date: dateFormatted,
+            time: t.time || (t.date && typeof t.date === 'string' && t.date.includes('T') ? new Date(t.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : ''),
+            notes: t.notes || '',
+          })
+        } else {
+          mappedExpenses.push({
+            id: t.id,
+            type: t.expenseType || 'fixed',
+            title: t.description || 'Gasto Geral',
+            amount: amt,
+            category: t.category || 'Geral',
+            date: dateFormatted,
+            time: t.time || '',
+          })
+        }
+      })
+
+      setInflows(mappedInflows)
+      setExpenses(mappedExpenses)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  // Submissão de Despesa com salvamento no Firebase
+  const handleSaveExpense = async (e) => {
     e.preventDefault()
     if (expType === 'variable') {
       const selectedProd = products.find((p) => p.id === Number(expProductId)) || products[0]
       const qty = Math.max(1, Number(expQty) || 1)
       const total = selectedProd.price * qty
 
-      const newExp = {
-        id: Date.now(),
-        type: 'variable',
-        title: selectedProd.name,
-        productId: selectedProd.id,
-        quantity: qty,
-        unitPrice: selectedProd.price,
+      await addFinancialTransaction({
+        type: 'saida',
         amount: total,
+        description: `${selectedProd.name} (${qty}x)`,
         category: selectedProd.category || 'Produtos',
-        date: expDate || 'Hoje, 04/10',
-        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-      }
-      setExpenses((prev) => [newExp, ...prev])
+        expenseType: 'variable',
+        date: new Date().toISOString(),
+      })
     } else {
       const parsedAmount = parseFloat(expFixedAmount.replace(/\./g, '').replace(',', '.')) || 0
-      const newExp = {
-        id: Date.now(),
-        type: 'fixed',
-        title: expFixedTitle || expFixedCategory,
+      await addFinancialTransaction({
+        type: 'saida',
         amount: parsedAmount,
+        description: expFixedTitle || expFixedCategory,
         category: expFixedCategory || 'Custo Mensal Fixo',
-        date: expDate || 'Hoje, 04/10',
-        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-      }
-      setExpenses((prev) => [newExp, ...prev])
+        expenseType: 'fixed',
+        date: new Date().toISOString(),
+      })
     }
     setShowExpenseModal(false)
   }
@@ -476,34 +384,36 @@ export default function Financeiro({ onNavigateTab }) {
     setShowProductModal(false)
   }
 
-  // Submissão de Entrada (Atendimento)
-  const handleSaveInflow = (e) => {
+  // Submissão de Entrada (Atendimento Manual) com salvamento no Firebase
+  const handleSaveInflow = async (e) => {
     e.preventDefault()
     const parsedAmount = parseFloat(infAmount.replace(/\./g, '').replace(',', '.')) || 0
-    const newInf = {
-      id: Date.now(),
-      serviceName: infService,
-      clientName: infClient.trim() || 'Cliente Avulsa',
+    await addFinancialTransaction({
+      type: 'entrada',
       amount: parsedAmount,
+      description: infService,
+      clientName: infClient.trim() || 'Cliente Avulsa',
       method: infMethod,
-      date: infDate || 'Hoje, 04/10',
-      time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
       notes: infNotes.trim(),
-    }
-    setInflows((prev) => [newInf, ...prev])
+      date: new Date().toISOString(),
+    })
     setInfClient('')
     setInfNotes('')
     setShowInflowModal(false)
   }
 
-  // Excluir despesa
-  const handleDeleteExpense = (id) => {
-    setExpenses((prev) => prev.filter((e) => e.id !== id))
+  // Excluir despesa do Firebase
+  const handleDeleteExpense = async (id) => {
+    if (window.confirm('Deseja excluir esta despesa?')) {
+      await deleteFinancialTransaction(id)
+    }
   }
 
-  // Excluir entrada
-  const handleDeleteInflow = (id) => {
-    setInflows((prev) => prev.filter((i) => i.id !== id))
+  // Excluir entrada do Firebase
+  const handleDeleteInflow = async (id) => {
+    if (window.confirm('Deseja excluir esta entrada?')) {
+      await deleteFinancialTransaction(id)
+    }
   }
 
   // Abrir modal de despesa já com produto pré-selecionado
@@ -848,59 +758,69 @@ export default function Financeiro({ onNavigateTab }) {
 
             {/* Lista Estilizada de Entradas de Unhas */}
             <div className="fin-inflows-list">
-              {filteredInflows.map((item) => {
-                const isPix = item.method === 'pix'
-                const isMoney = item.method === 'money'
-                const methodLabel = isPix ? 'Pix' : isMoney ? 'Dinheiro' : item.method === 'card_debit' ? 'Débito' : 'Crédito'
+              {filteredInflows.length === 0 ? (
+                <div className="fin-empty-state">
+                  <div className="fin-empty-icon">💅</div>
+                  <h4>Nenhum atendimento recebido ainda</h4>
+                  <p>
+                    Quando você finalizar um agendamento na sua Agenda ou tocar em "+ Nova entrada", ele aparecerá aqui automaticamente no seu faturamento em tempo real.
+                  </p>
+                </div>
+              ) : (
+                filteredInflows.map((item) => {
+                  const isPix = item.method === 'pix'
+                  const isMoney = item.method === 'money'
+                  const methodLabel = isPix ? 'Pix' : isMoney ? 'Dinheiro' : item.method === 'card_debit' ? 'Débito' : 'Crédito'
 
-                return (
-                  <div key={item.id} className="fin-inflow-card">
-                    <div className="fin-inflow-left">
-                      <div className={`fin-method-icon-wrap ${item.method}`}>
-                        {isPix ? (
-                          <PixIcon className="fin-method-icon" />
-                        ) : isMoney ? (
-                          <BanknoteIcon className="fin-method-icon" />
-                        ) : (
-                          <CreditCardIcon className="fin-method-icon" />
-                        )}
-                      </div>
-
-                      <div className="fin-inflow-details">
-                        <div className="fin-inflow-top-line">
-                          <strong className="fin-client-name">{item.clientName}</strong>
-                          <span className="fin-service-badge">{item.serviceName}</span>
+                  return (
+                    <div key={item.id} className="fin-inflow-card">
+                      <div className="fin-inflow-left">
+                        <div className={`fin-method-icon-wrap ${item.method}`}>
+                          {isPix ? (
+                            <PixIcon className="fin-method-icon" />
+                          ) : isMoney ? (
+                            <BanknoteIcon className="fin-method-icon" />
+                          ) : (
+                            <CreditCardIcon className="fin-method-icon" />
+                          )}
                         </div>
 
-                        {item.notes && <p className="fin-inflow-notes">{item.notes}</p>}
+                        <div className="fin-inflow-details">
+                          <div className="fin-inflow-top-line">
+                            <strong className="fin-client-name">{item.clientName}</strong>
+                            <span className="fin-service-badge">{item.serviceName}</span>
+                          </div>
 
-                        <div className="fin-inflow-meta">
-                          <span className="fin-inflow-date">
-                            <ClockIcon className="fin-meta-clock" />
-                            {item.date} {item.time ? `às ${item.time}` : ''}
-                          </span>
-                          <span className="fin-inflow-dot">•</span>
-                          <span className="fin-inflow-pay-tag">{methodLabel}</span>
+                          {item.notes && <p className="fin-inflow-notes">{item.notes}</p>}
+
+                          <div className="fin-inflow-meta">
+                            <span className="fin-inflow-date">
+                              <ClockIcon className="fin-meta-clock" />
+                              {item.date} {item.time ? `às ${item.time}` : ''}
+                            </span>
+                            <span className="fin-inflow-dot">•</span>
+                            <span className="fin-inflow-pay-tag">{methodLabel}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="fin-inflow-right">
-                      <span className="fin-inflow-amount">
-                        + R$ {item.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </span>
-                      <button
-                        type="button"
-                        className="fin-item-delete-btn"
-                        onClick={() => handleDeleteInflow(item.id)}
-                        aria-label="Excluir entrada"
-                      >
-                        <TrashIcon />
-                      </button>
+                      <div className="fin-inflow-right">
+                        <span className="fin-inflow-amount">
+                          + R$ {item.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                        </span>
+                        <button
+                          type="button"
+                          className="fin-item-delete-btn"
+                          onClick={() => handleDeleteInflow(item.id)}
+                          aria-label="Excluir entrada"
+                        >
+                          <TrashIcon />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              )}
             </div>
           </div>
         ) : activeSegment === 'despesas' ? (

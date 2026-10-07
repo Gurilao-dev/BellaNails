@@ -745,3 +745,305 @@
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+
+/* ==========================================================================
+   TELA: PERSONALIZAÇÃO DE HORÁRIOS DA MANICURE (DESIGN IDÊNTICO À REFERÊNCIA)
+   ========================================================================== */
+.agenda-slots-custom-body {
+  padding: 16px 16px 100px 16px;
+  max-width: 580px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.agenda-slots-ctrl-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 18px rgba(92, 24, 42, 0.08);
+  border: 1px solid #f6dfe4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.agenda-ctrl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.agenda-ctrl-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.agenda-ctrl-title {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #2e131d;
+}
+
+.agenda-ctrl-desc {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #7b5966;
+  line-height: 1.3;
+}
+
+/* Switch Toggle iOS Style */
+.agenda-switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 30px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.agenda-switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.agenda-switch-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5d7db;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 34px;
+}
+
+.agenda-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.agenda-switch-toggle input:checked + .agenda-switch-slider {
+  background-color: #5c182a;
+}
+
+.agenda-switch-toggle input:checked + .agenda-switch-slider:before {
+  transform: translateX(22px);
+}
+
+.agenda-open-hours-badge {
+  background: #fdf2f4;
+  border: 1px dashed #e8b6c1;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  color: #5c182a;
+  display: flex;
+  align-items: center;
+}
+
+.agenda-slot-toast {
+  background: #5c182a;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(92, 24, 42, 0.25);
+  animation: agendaFadeIn 0.2s ease;
+}
+
+.agenda-slots-header-text {
+  margin-top: 4px;
+}
+
+.agenda-slots-header-text h3 {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: #381220;
+  margin: 0 0 4px 0;
+}
+
+.agenda-slots-header-text p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #725b65;
+  margin: 0;
+}
+
+/* Divisor de Turno: Manhã, Tarde, Noite exatamente como na foto */
+.agenda-period-slots-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.agenda-period-title-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #5c182a;
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  font-weight: 700;
+  margin: 8px 0 2px 0;
+}
+
+.agenda-period-title-divider::before,
+.agenda-period-title-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ebd0d6;
+}
+
+.agenda-period-title-divider span {
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Grade de Horários 4 colunas como no design */
+.agenda-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.agenda-slot-toggle-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  border-radius: 14px;
+  border: 1px solid #f2ced5;
+  background: #fdf5f6;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 52px;
+}
+
+.agenda-slot-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(92, 24, 42, 0.1);
+}
+
+.agenda-slot-toggle-btn.is-available {
+  background: #ffffff;
+  border-color: #eec8d0;
+  color: #3d1421;
+}
+
+.agenda-slot-toggle-btn.is-available .agenda-slot-time-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #3d1421;
+}
+
+.agenda-slot-toggle-btn.is-available .agenda-slot-subtext {
+  font-size: 10px;
+  font-weight: 500;
+  color: #107e46;
+  margin-top: 1px;
+}
+
+.agenda-slot-toggle-btn.is-blocked {
+  background: #f3f4f6;
+  border-color: #d8dbe0;
+  opacity: 0.65;
+}
+
+.agenda-slot-toggle-btn.is-blocked .agenda-slot-time-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #8c9199;
+  text-decoration: line-through;
+}
+
+.agenda-slot-toggle-btn.is-blocked .agenda-slot-subtext {
+  font-size: 10px;
+  font-weight: 600;
+  color: #c44558;
+  margin-top: 1px;
+}
+
+.agenda-slot-toggle-btn.is-booked {
+  background: #5c182a;
+  border-color: #5c182a;
+  box-shadow: 0 4px 12px rgba(92, 24, 42, 0.3);
+  cursor: not-allowed;
+}
+
+.agenda-slot-toggle-btn.is-booked .agenda-slot-time-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.agenda-slot-toggle-btn.is-booked .agenda-slot-subtext {
+  font-size: 10px;
+  font-weight: 600;
+  color: #f7d2db;
+  margin-top: 1px;
+}
+
+/* Legenda Inferior */
+.agenda-slots-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 12px 6px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #f6dfe4;
+  margin-top: 8px;
+}
+
+.agenda-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: #634350;
+}
+
+.agenda-legend-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+
+.agenda-legend-bullet.is-avail {
+  background: #fdf5f6;
+  border-color: #eec8d0;
+}
+
+.agenda-legend-bullet.is-booked {
+  background: #5c182a;
+}
+
+.agenda-legend-bullet.is-blocked {
+  background: #e2e4e8;
+  border-color: #c4c7cc;
+}
+

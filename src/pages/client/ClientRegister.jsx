@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import headerBannerImg from '../../assets/client/client-header-banner-trimmed.png'
 import rapidoSeguroImg from '../../assets/client/client-rapido-seguro-cropped.png'
 import footerWaveImg from '../../assets/client/client-footer-wave-cropped.png'
@@ -11,11 +11,32 @@ import {
   UserOutlineIcon,
   WhatsAppIcon,
 } from '../../icons.jsx'
+import { saveClient } from '../../firebase/services.js'
 import './ClientRegister.css'
 
 export default function ClientRegister({ onBack, onContinue }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Recupera cliente salvo do navegador para manter conectado
+  useEffect(() => {
+    try {
+      const savedUser = localStorage.getItem('bella_client_user')
+      if (savedUser) {
+        const u = JSON.parse(savedUser)
+        if (u.name) setName(u.name)
+        if (u.phone) setPhone(u.phone)
+      } else {
+        const n = localStorage.getItem('bella_client_name')
+        const p = localStorage.getItem('bella_client_phone')
+        if (n) setName(n)
+        if (p) setPhone(p)
+      }
+    } catch {
+      // Ignora erro
+    }
+  }, [])
 
   // Máscara brasileira automática para telefone / WhatsApp: (11) 99999-9999
   const handlePhoneChange = (e) => {
@@ -32,7 +53,7 @@ export default function ClientRegister({ onBack, onContinue }) {
     setPhone(val)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name.trim()) {
       alert('Por favor, informe seu nome completo.')
@@ -43,18 +64,24 @@ export default function ClientRegister({ onBack, onContinue }) {
       return
     }
 
-    // Salva temporariamente os dados da cliente para o agendamento
+    setIsSubmitting(true)
+
+    // Salva no banco de dados real Firebase Firestore
     try {
+      await saveClient({
+        name: name.trim(),
+        phone: phone,
+      })
       localStorage.setItem('bella_client_name', name.trim())
       localStorage.setItem('bella_client_phone', phone)
-    } catch {
-      // Ignora erro de storage se indisponível
+    } catch (err) {
+      console.warn('Erro ao salvar no Firestore, salvando offline:', err)
+    } finally {
+      setIsSubmitting(false)
     }
 
     if (onContinue) {
       onContinue({ name: name.trim(), phone })
-    } else {
-      alert(`Dados salvos com sucesso! Bem-vinda, ${name.trim()}! Próxima etapa: Seleção de Serviços.`)
     }
   }
 

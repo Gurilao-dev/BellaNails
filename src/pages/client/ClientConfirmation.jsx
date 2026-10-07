@@ -10,6 +10,7 @@ import {
   PencilIcon,
   UserOutlineIcon,
 } from '../../icons.jsx'
+import { createAppointment } from '../../firebase/services.js'
 import './ClientConfirmation.css'
 
 export default function ClientConfirmation({ onBack, onConfirm, onEdit }) {
@@ -65,17 +66,27 @@ export default function ClientConfirmation({ onBack, onConfirm, onEdit }) {
     }
   }, [])
 
-  const handleFinalConfirm = () => {
+  const handleFinalConfirm = async () => {
+    const clientName = localStorage.getItem('bella_client_name') || 'Cliente'
+    const clientPhone = localStorage.getItem('bella_client_phone') || ''
+
     const finalData = {
       ...booking,
+      clientName,
+      clientPhone,
       observation: observation.trim(),
       confirmedAt: new Date().toISOString(),
     }
 
     try {
+      const res = await createAppointment(finalData)
+      if (res?.id) {
+        finalData.id = res.id
+      }
       localStorage.setItem('bella_client_confirmed_appointment', JSON.stringify(finalData))
-    } catch {
-      // Ignora
+    } catch (err) {
+      console.warn('Erro ao salvar agendamento no Firestore, mantendo local:', err)
+      localStorage.setItem('bella_client_confirmed_appointment', JSON.stringify(finalData))
     }
 
     if (onConfirm) {

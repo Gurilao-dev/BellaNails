@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import headerBannerImg from '../../assets/client/client-banner-wave.png'
 import anaClaraImg from '../../assets/team/client-ana-clara.png'
 import julianaImg from '../../assets/team/client-juliana.png'
@@ -9,6 +9,10 @@ import {
   ClockIcon,
   StarIcon,
 } from '../../icons.jsx'
+import {
+  subscribeToSalonSettings,
+  subscribeToAppointments,
+} from '../../firebase/services.js'
 import './ClientSchedule.css'
 
 // =============================================================================
@@ -56,7 +60,7 @@ const DATES_DATA = [
 ]
 
 // =============================================================================
-// HORÁRIOS POR TURNO (Exatamente conforme imagem 1)
+// HORÁRIOS POR TURNO (Base do Catálogo)
 // =============================================================================
 const PERIODS_DATA = [
   {
@@ -71,7 +75,7 @@ const PERIODS_DATA = [
       { time: '10:00', available: true },
       { time: '10:30', available: true },
       { time: '11:00', available: true },
-      { time: '11:30', available: false }, // Indisponível conforme mockup
+      { time: '11:30', available: false },
     ],
   },
   {
@@ -81,7 +85,7 @@ const PERIODS_DATA = [
     slots: [
       { time: '13:00', available: true },
       { time: '13:30', available: true },
-      { time: '14:00', available: true }, // Selecionado por padrão no mockup
+      { time: '14:00', available: true },
       { time: '14:30', available: true },
       { time: '15:00', available: true },
       { time: '15:30', available: true },
@@ -97,11 +101,17 @@ const PERIODS_DATA = [
     slots: [
       { time: '18:00', available: true },
       { time: '18:30', available: true },
-      { time: '19:00', available: false }, // Indisponível conforme mockup
+      { time: '19:00', available: false },
       { time: '19:30', available: true },
     ],
   },
 ]
+
+function timeToMinutes(t) {
+  if (!t || typeof t !== 'string') return 0
+  const [h, m] = t.split(':').map(Number)
+  return (h || 0) * 60 + (m || 0)
+}
 
 export default function ClientSchedule({ onBack, onContinue }) {
   // Estado da profissional selecionada (Ana Clara por padrão conforme mockup 3)
@@ -127,6 +137,28 @@ export default function ClientSchedule({ onBack, onContinue }) {
   const dragStartY = useRef(0)
   const [dragOffset, setDragOffset] = useState(0)
 
+  // Configurações do Studio e Agendamentos reais do Firebase
+  const [salonSettings, setSalonSettings] = useState({
+    openTime: '08:00',
+    closeTime: '19:30',
+    blockedSlots: {},
+    allowNextDayBooking: true,
+  })
+  const [appointments, setAppointments] = useState([])
+
+  useEffect(() => {
+    const unsubSettings = subscribeToSalonSettings((data) => {
+      if (data) setSalonSettings((prev) => ({ ...prev, ...data }))
+    })
+    const unsubAppts = subscribeToAppointments((list) => {
+      if (list) setAppointments(list)
+    })
+    return () => {
+      unsubSettings()
+      unsubAppts()
+    }
+  }, [])
+
   // Recupera serviço selecionado da etapa anterior caso exista
   const [selectedService, setSelectedService] = useState(null)
   useEffect(() => {
@@ -142,6 +174,43 @@ export default function ClientSchedule({ onBack, onContinue }) {
 
   const currentPro = PROFESSIONALS_DATA.find((p) => p.id === selectedProId) || PROFESSIONALS_DATA[0]
   const currentDate = DATES_DATA.find((d) => d.id === selectedDateId) || DATES_DATA[1]
+
+  // Horários calculados dinamicamente com base nas regras cadastradas pela manicure
+  const computedPeriods = useMemo(() => {
+    const openMin = timeToMinutes(salonSettings.openTime || '08:00')
+    const closeMin = timeToMinutes(salonSettings.closeTime || '19:30')
+    const blockedForDay = (salonSettings.blockedSlots && salonSettings.blockedSlots[selectedDateId]) || []
+
+    // Agendamentos já ocupados no Firestore para essa data
+    const bookedForDay = appointments
+      .filter((a) => (a.dateId === selectedDateId || a.date === selectedDateId) && a.status !== 'cancelado')
+      .map((a) => a.time)
+
+    // Bloqueio de dia seguinte caso a manicure tenha desmarcado
+    const isNextDayDisallowed = salonSettings.allowNextDayBooking === false && selectedDateId !== '2026-10-05'
+
+    return PERIODS_DATA.map((period) => {
+      const filteredSlots = period.slots
+        .filter((s) => {
+          const slotMin = timeToMinutes(s.time)
+          return slotMin >= openMin && slotMin <= closeMin
+        })
+        .map((s) => {
+          const isBlocked = blockedForDay.includes(s.time)
+          const isBooked = bookedForDay.includes(s.time)
+          const isAvail = !isBlocked && !isBooked && !isNextDayDisallowed
+          return {
+            time: s.time,
+            available: isAvail,
+          }
+        })
+
+      return {
+        ...period,
+        slots: filteredSlots,
+      }
+    })
+  }, [salonSettings, appointments, selectedDateId])
 
   // ===========================================================================
   // CONTROLE DO MODAL DE ESCOLHA DA PROFISSIONAL
@@ -250,6 +319,7 @@ export default function ClientSchedule({ onBack, onContinue }) {
       service: selectedService,
       professional: currentPro,
       date: currentDate,
+      dateId: selectedDateId,
       time: selectedTime,
       createdAt: new Date().toISOString(),
     }
@@ -325,10 +395,10 @@ export default function ClientSchedule({ onBack, onContinue }) {
         </section>
 
         {/* ===================================================================
-            Turnos e Horários (Manhã, Tarde, Noite)
+            Turnos e Horários Filtrados Dinamicamente pelo Firebase
             =================================================================== */}
         <div className="csch-periods-wrap">
-          {PERIODS_DATA.map((period) => (
+          {computedPeriods.map((period) => (
             <section key={period.id} className="csch-period-section">
               {/* Divisor com Ícone de Sol ou Lua e Nome do Turno */}
               <div className="csch-period-divider">

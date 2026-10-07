@@ -1,11 +1,4 @@
-import { useMemo, useState } from 'react'
-import marianaImg from '../assets/clientes/cliente-mariana.png'
-import julianaImg from '../assets/clientes/cliente-juliana.png'
-import fernandaImg from '../assets/clientes/cliente-fernanda.png'
-import patriciaImg from '../assets/clientes/cliente-patricia.png'
-import carlaImg from '../assets/clientes/cliente-carla.png'
-import beatrizImg from '../assets/clientes/cliente-beatriz.png'
-import camilaImg from '../assets/clientes/cliente-camila.png'
+import { useEffect, useMemo, useState } from 'react'
 import {
   CalendarIcon,
   ChevronRightIcon,
@@ -21,142 +14,92 @@ import {
 } from '../icons.jsx'
 import AppBottomNav from '../components/AppBottomNav.jsx'
 import { useBottomSheetDrag } from '../hooks/useBottomSheetDrag.js'
+import { subscribeToClients, saveClient, getWhatsAppUrl } from '../firebase/services.js'
 import './Clientes.css'
-
-
-const initialClients = [
-  {
-    id: 1,
-    name: 'Mariana Silva',
-    phone: '(11) 91234-5678',
-    avatar: marianaImg,
-    tags: [
-      { label: 'VIP', type: 'vip', isVip: true },
-      { label: 'Frequente', type: 'frequente' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Juliana Costa',
-    phone: '(11) 98765-4321',
-    avatar: julianaImg,
-    tags: [
-      { label: 'Frequente', type: 'frequente' },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Fernanda Lima',
-    phone: '(11) 99123-4567',
-    avatar: fernandaImg,
-    tags: [
-      { label: 'Nova', type: 'nova' },
-    ],
-  },
-  {
-    id: 4,
-    name: 'Patrícia Alves',
-    phone: '(11) 98877-6655',
-    avatar: patriciaImg,
-    tags: [
-      { label: 'VIP', type: 'vip', isVip: true },
-      { label: 'Frequente', type: 'frequente' },
-    ],
-  },
-  {
-    id: 5,
-    name: 'Carla Mendes',
-    phone: '(11) 99777-8899',
-    avatar: carlaImg,
-    tags: [
-      { label: 'Frequente', type: 'frequente' },
-    ],
-  },
-  {
-    id: 6,
-    name: 'Beatriz Rocha',
-    phone: '(11) 99911-2233',
-    avatar: beatrizImg,
-    tags: [
-      { label: 'Nova', type: 'nova' },
-    ],
-  },
-  {
-    id: 7,
-    name: 'Camila Santos',
-    phone: '(11) 98222-3344',
-    avatar: camilaImg,
-    tags: [
-      { label: 'VIP', type: 'vip', isVip: true },
-      { label: 'Frequente', type: 'frequente' },
-    ],
-  },
-]
 
 export default function Clientes({ onNavigateTab }) {
   const [activeTab, setActiveTab] = useState('clientes')
   const [activeFilter, setActiveFilter] = useState('todos')
   const [searchQuery, setSearchQuery] = useState('')
-  const [clients, setClients] = useState(initialClients)
+  const [clients, setClients] = useState([])
+  const [loading, setLoading] = useState(true)
   const [showAddModal, setShowAddModal] = useState(false)
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [newCategory, setNewCategory] = useState('Frequente')
+  const [saving, setSaving] = useState(false)
 
   // Arrastar para baixo para fechar modal
   const { sheetStyle, handleProps } = useBottomSheetDrag(() => setShowAddModal(false))
 
+  // Escuta clientes reais no Firestore
+  useEffect(() => {
+    setLoading(true)
+    const unsubscribe = subscribeToClients((realClients) => {
+      setClients(realClients || [])
+      setLoading(false)
+    })
+    return () => unsubscribe()
+  }, [])
 
-  // Filtragem combinada por busca e aba (Todos, VIP, Frequentes, Novas)
+  // Filtragem combinada por busca e categoria
   const filteredClients = useMemo(() => {
     return clients.filter((c) => {
+      const name = c.name || ''
+      const phone = c.phone || ''
       const matchesSearch =
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.phone.includes(searchQuery)
+        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        phone.includes(searchQuery)
 
       if (!matchesSearch) return false
 
+      const tags = Array.isArray(c.tags) ? c.tags : []
       if (activeFilter === 'vip') {
-        return c.tags.some((t) => t.type === 'vip')
+        return tags.some((t) => (typeof t === 'string' ? t.toLowerCase() === 'vip' : t.type === 'vip'))
       }
       if (activeFilter === 'frequentes') {
-        return c.tags.some((t) => t.type === 'frequente')
+        return tags.some((t) => (typeof t === 'string' ? t.toLowerCase().includes('freq') : t.type === 'frequente'))
       }
       if (activeFilter === 'novas') {
-        return c.tags.some((t) => t.type === 'nova')
+        return tags.some((t) => (typeof t === 'string' ? t.toLowerCase().includes('nova') : t.type === 'nova'))
       }
       return true
     })
   }, [clients, searchQuery, activeFilter])
 
-  const handleAddClient = (e) => {
+  const handleAddClient = async (e) => {
     e.preventDefault()
-    if (!newName.trim()) return
+    if (!newName.trim() || saving) return
 
-    const newClient = {
-      id: Date.now(),
-      name: newName,
-      phone: newPhone || '(11) 90000-0000',
-      avatar: marianaImg,
-      tags:
-        newCategory === 'VIP'
-          ? [
-              { label: 'VIP', type: 'vip', isVip: true },
-              { label: 'Frequente', type: 'frequente' },
-            ]
-          : [{ label: newCategory, type: newCategory.toLowerCase() }],
+    setSaving(true)
+    try {
+      await saveClient({
+        name: newName.trim(),
+        phone: newPhone.trim(),
+        tags: [
+          newCategory === 'VIP'
+            ? { label: 'VIP', type: 'vip', isVip: true }
+            : { label: newCategory, type: newCategory.toLowerCase() },
+        ],
+      })
+      setNewName('')
+      setNewPhone('')
+      setShowAddModal(false)
+    } catch (err) {
+      console.error('Erro ao adicionar cliente:', err)
+      alert('Erro ao salvar cliente no banco de dados. Tente novamente.')
+    } finally {
+      setSaving(false)
     }
-
-    setClients((prev) => [newClient, ...prev])
-    setNewName('')
-    setNewPhone('')
-    setShowAddModal(false)
   }
 
   const handleOpenWhatsApp = (phone, name) => {
-    const cleanNumber = phone.replace(/\D/g, '')
-    const msg = encodeURIComponent(`Olá, ${name}! Tudo bem? Entramos em contato do Bella Nails.`)
-    window.open(`https://wa.me/55${cleanNumber}?text=${msg}`, '_blank')
+    if (!phone) {
+      alert('Cliente não possui telefone cadastrado.')
+      return
+    }
+    const url = getWhatsAppUrl(phone, `Olá ${name}! Tudo bem? Sou do Bella Nails Studio.`)
+    window.open(url, '_blank')
   }
 
   return (
@@ -248,82 +191,130 @@ export default function Clientes({ onNavigateTab }) {
           </button>
         </div>
 
-        {/* Subtítulo: "32 clientes cadastradas" */}
+        {/* Subtítulo Dinâmico */}
         <div className="clientes-count-row anim-stagger-item anim-delay-4">
-          <span className="clientes-count-text">32 clientes cadastradas</span>
+          <span className="clientes-count-text">
+            {loading ? 'Carregando banco de dados...' : `${clients.length} cliente(s) cadastrada(s)`}
+          </span>
         </div>
       </div>
 
       {/* Conteúdo rolável */}
       <div className="clientes-content-body">
-        {/* ===================================================================
-            Lista de Cards de Clientes
-            =================================================================== */}
-        <section className="clientes-cards-list" aria-label="Lista de clientes cadastradas">
-          {filteredClients.map((client, idx) => {
-            const { id, name, phone, avatar, tags } = client
+        {loading ? (
+          <div className="clientes-empty-state">
+            <p>Carregando clientes do Firebase...</p>
+          </div>
+        ) : filteredClients.length === 0 ? (
+          <div className="clientes-empty-state">
+            <div className="clientes-empty-icon">👥</div>
+            <h3>Nenhuma cliente encontrada</h3>
+            <p>
+              {searchQuery
+                ? 'Nenhum resultado para a busca digitada.'
+                : 'Suas clientes aparecerão aqui assim que se cadastrarem no link de agendamento ou forem adicionadas manualmente!'}
+            </p>
+            <button
+              type="button"
+              className="agenda-modal-btn-save"
+              style={{ marginTop: 14 }}
+              onClick={() => setShowAddModal(true)}
+            >
+              + Adicionar Cliente
+            </button>
+          </div>
+        ) : (
+          /* ===================================================================
+              Lista de Cards de Clientes Reais do Firestore
+              =================================================================== */
+          <section className="clientes-cards-list" aria-label="Lista de clientes cadastradas">
+            {filteredClients.map((client, idx) => {
+              const { id, name = 'Cliente', phone = '', avatar, tags = [] } = client
+              const initial = name.trim().charAt(0).toUpperCase() || 'C'
 
-            return (
-              <div
-                key={id}
-                id={`cliente-card-${id}`}
-                className="clientes-card anim-stagger-item"
-                style={{ animationDelay: `${0.18 + idx * 0.05}s` }}
-              >
-                {/* Foto circular da cliente */}
-                <div className="clientes-avatar-wrap">
-                  <img
-                    src={avatar}
-                    alt={`Foto de ${name}`}
-                    className="clientes-avatar-img"
-                  />
-                </div>
+              return (
+                <div
+                  key={id}
+                  id={`cliente-card-${id}`}
+                  className="clientes-card anim-stagger-item"
+                  style={{ animationDelay: `${0.05 + idx * 0.03}s`, cursor: 'pointer' }}
+                  onClick={() => handleOpenWhatsApp(phone, name)}
+                  title="Clique para abrir WhatsApp da cliente"
+                >
+                  {/* Foto circular ou Monograma com inicial */}
+                  <div className="clientes-avatar-wrap">
+                    {avatar ? (
+                      <img
+                        src={avatar}
+                        alt={`Foto de ${name}`}
+                        className="clientes-avatar-img"
+                      />
+                    ) : (
+                      <div className="clientes-avatar-initial">
+                        {initial}
+                      </div>
+                    )}
+                  </div>
 
-                {/* Informações da cliente (Nome, Telefone e Tags) */}
-                <div className="clientes-info">
-                  <h2 className="clientes-name">{name}</h2>
-                  <span className="clientes-phone">{phone}</span>
+                  {/* Informações da cliente (Nome, Telefone e Tags) */}
+                  <div className="clientes-info">
+                    <h2 className="clientes-name">{name}</h2>
+                    <span className="clientes-phone">{phone || 'Sem telefone informado'}</span>
 
-                  <div className="clientes-tags-row">
-                    {tags.map((tag, idx) => (
-                      <span
-                        key={idx}
-                        className={`clientes-tag ${tag.type}`}
-                      >
-                        {tag.isVip && (
-                          <span className="clientes-vip-icon" aria-hidden="true">
-                            ✓
-                          </span>
-                        )}
-                        {tag.label}
-                      </span>
-                    ))}
+                    <div className="clientes-tags-row">
+                      {Array.isArray(tags) && tags.length > 0 ? (
+                        tags.map((tag, tIdx) => {
+                          const tagLabel = typeof tag === 'string' ? tag : tag.label
+                          const tagType = typeof tag === 'string' ? tag.toLowerCase() : tag.type
+                          const isVip = typeof tag === 'object' && tag.isVip
+
+                          return (
+                            <span
+                              key={tIdx}
+                              className={`clientes-tag ${tagType || 'frequente'}`}
+                            >
+                              {isVip && (
+                                <span className="clientes-vip-icon" aria-hidden="true">
+                                  ✓
+                                </span>
+                              )}
+                              {tagLabel}
+                            </span>
+                          )
+                        })
+                      ) : (
+                        <span className="clientes-tag frequente">Cliente</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Ações: Ícone do WhatsApp e Seta */}
+                  <div className="clientes-card-actions">
+                    <button
+                      type="button"
+                      className="clientes-whatsapp-btn"
+                      aria-label={`Conversar com ${name} no WhatsApp`}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleOpenWhatsApp(phone, name)
+                      }}
+                    >
+                      <WhatsAppIcon className="clientes-whatsapp-icon" />
+                    </button>
+
+                    <button
+                      type="button"
+                      className="clientes-details-btn"
+                      aria-label={`Abrir conversa de ${name}`}
+                    >
+                      <ChevronRightIcon className="clientes-chevron" />
+                    </button>
                   </div>
                 </div>
-
-                {/* Ações: Ícone do WhatsApp e Seta */}
-                <div className="clientes-card-actions">
-                  <button
-                    type="button"
-                    className="clientes-whatsapp-btn"
-                    aria-label={`Conversar com ${name} no WhatsApp`}
-                    onClick={() => handleOpenWhatsApp(phone, name)}
-                  >
-                    <WhatsAppIcon className="clientes-whatsapp-icon" />
-                  </button>
-
-                  <button
-                    type="button"
-                    className="clientes-details-btn"
-                    aria-label={`Ver perfil de ${name}`}
-                  >
-                    <ChevronRightIcon className="clientes-chevron" />
-                  </button>
-                </div>
-              </div>
-            )
-          })}
-        </section>
+              )
+            })}
+          </section>
+        )}
       </div>
 
       {/* ===================================================================
@@ -342,30 +333,30 @@ export default function Clientes({ onNavigateTab }) {
               <div className="clientes-modal-handle" />
             </div>
             <h3 className="clientes-modal-title">Nova Cliente</h3>
-            <p className="clientes-modal-desc">Cadastre uma nova cliente no Bella Nails</p>
+            <p className="clientes-modal-desc">Cadastre uma nova cliente no banco de dados real</p>
 
             <form onSubmit={handleAddClient} className="clientes-modal-form">
               <label className="clientes-modal-label">
                 Nome completo
                 <input
                   type="text"
-                  required
                   placeholder="Ex: Amanda Silva"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   className="clientes-modal-input"
-                  autoFocus
+                  required
                 />
               </label>
 
               <label className="clientes-modal-label">
-                WhatsApp / Telefone
+                WhatsApp com DDD
                 <input
                   type="tel"
-                  placeholder="(11) 99999-9999"
+                  placeholder="Ex: (11) 98765-4321"
                   value={newPhone}
                   onChange={(e) => setNewPhone(e.target.value)}
                   className="clientes-modal-input"
+                  required
                 />
               </label>
 
@@ -378,7 +369,7 @@ export default function Clientes({ onNavigateTab }) {
                 >
                   <option value="VIP">VIP</option>
                   <option value="Frequente">Frequente</option>
-                  <option value="Nova">Nova</option>
+                  <option value="Nova">Nova Cliente</option>
                 </select>
               </label>
 
@@ -387,11 +378,16 @@ export default function Clientes({ onNavigateTab }) {
                   type="button"
                   className="clientes-modal-btn-cancel"
                   onClick={() => setShowAddModal(false)}
+                  disabled={saving}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="clientes-modal-btn-save">
-                  Salvar cliente
+                <button
+                  type="submit"
+                  className="clientes-modal-btn-save"
+                  disabled={saving}
+                >
+                  {saving ? 'Salvando...' : 'Salvar no Banco'}
                 </button>
               </div>
             </form>
@@ -399,8 +395,8 @@ export default function Clientes({ onNavigateTab }) {
         </div>
       )}
 
-      {/* Barra de Navegação Inferior Flutuante */}
-      <AppBottomNav activeTab="clientes" onNavigateTab={onNavigateTab} />
+      {/* Navegação Inferior Global */}
+      <AppBottomNav activeTab="clientes" onTabChange={onNavigateTab} />
     </main>
   )
 }

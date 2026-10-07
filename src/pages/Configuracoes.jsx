@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import salonImg from '../assets/salon-facade.png'
 import {
   BanknoteIcon,
@@ -22,6 +22,11 @@ import {
   WhatsAppIcon,
 } from '../icons.jsx'
 import AppBottomNav from '../components/AppBottomNav.jsx'
+import {
+  subscribeToSalonSettings,
+  updateSalonSettings,
+  logoutManicure,
+} from '../firebase/services.js'
 import './Configuracoes.css'
 
 const initialDays = [
@@ -37,8 +42,10 @@ const initialDays = [
 export default function Configuracoes({ onNavigateTab }) {
   const [activeSegment, setActiveSegment] = useState('negocio')
   const [days, setDays] = useState(initialDays)
-  const [startTime, setStartTime] = useState('09:00')
-  const [endTime, setEndTime] = useState('19:00')
+  const [startTime, setStartTime] = useState('08:00')
+  const [endTime, setEndTime] = useState('19:30')
+  const [saving, setSaving] = useState(false)
+  const [saveSuccess, setSaveSuccess] = useState(false)
 
   // Métodos de pagamento toggles
   const [payments, setPayments] = useState({
@@ -66,6 +73,21 @@ export default function Configuracoes({ onNavigateTab }) {
     instagram: '@bellanails',
   })
 
+  // Escuta dados reais do Firebase
+  useEffect(() => {
+    const unsub = subscribeToSalonSettings((data) => {
+      if (data) {
+        if (data.openTime) setStartTime(data.openTime)
+        if (data.closeTime) setEndTime(data.closeTime)
+        if (data.businessInfo) setBusinessInfo((prev) => ({ ...prev, ...data.businessInfo }))
+        else if (data.salonName) setBusinessInfo((prev) => ({ ...prev, name: data.salonName }))
+        if (data.payments) setPayments(data.payments)
+        if (data.days) setDays(data.days)
+      }
+    })
+    return () => unsub()
+  }, [])
+
   const toggleDay = (id) => {
     setDays((prev) =>
       prev.map((d) => (d.id === id ? { ...d, active: !d.active } : d))
@@ -80,9 +102,52 @@ export default function Configuracoes({ onNavigateTab }) {
     setReminders((prev) => ({ ...prev, [key]: !prev[key] }))
   }
 
-  const handleSaveInfo = (e) => {
+  const handleSaveInfo = async (e) => {
     e.preventDefault()
-    setShowEditModal(false)
+    setSaving(true)
+    try {
+      await updateSalonSettings({
+        businessInfo,
+        salonName: businessInfo.name,
+        openTime: startTime,
+        closeTime: endTime,
+        days,
+        payments,
+        reminders,
+      })
+      setShowEditModal(false)
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 3000)
+    } catch (err) {
+      alert('Erro ao salvar configurações no banco.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleSaveScheduleHours = async () => {
+    setSaving(true)
+    try {
+      await updateSalonSettings({
+        openTime: startTime,
+        closeTime: endTime,
+        days,
+        payments,
+      })
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 3000)
+    } catch (err) {
+      alert('Erro ao salvar horários no banco.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleLogout = async () => {
+    if (window.confirm('Deseja realmente sair da conta da manicure?')) {
+      await logoutManicure()
+      if (onNavigateTab) onNavigateTab('login')
+    }
   }
 
   return (
@@ -97,6 +162,16 @@ export default function Configuracoes({ onNavigateTab }) {
           </div>
           <h1 className="cfg-header-title">Configurações</h1>
         </div>
+
+        <button
+          type="button"
+          className="agenda-new-apt-btn"
+          style={{ background: '#7a192f' }}
+          onClick={handleLogout}
+          title="Sair da conta"
+        >
+          <span>Sair</span>
+        </button>
       </header>
 
       {/* Conteúdo com Rolagem Fluida */}
@@ -269,6 +344,22 @@ export default function Configuracoes({ onNavigateTab }) {
               />
             </div>
           </div>
+
+          <button
+            type="button"
+            className="agenda-modal-btn-save"
+            style={{ marginTop: 14, width: '100%', borderRadius: 14 }}
+            onClick={handleSaveScheduleHours}
+            disabled={saving}
+          >
+            {saving ? 'Salvando no Banco...' : 'Salvar Horários no Banco'}
+          </button>
+
+          {saveSuccess && (
+            <p style={{ color: '#107e46', fontSize: 12.5, fontWeight: 600, textAlign: 'center', marginTop: 8, margin: 0 }}>
+              ✓ Atualizado no Firebase! Suas clientes verão esses horários.
+            </p>
+          )}
         </section>
 
         {/* ===================================================================
