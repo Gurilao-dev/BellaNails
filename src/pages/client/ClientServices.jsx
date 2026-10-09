@@ -15,6 +15,7 @@ import {
   TagIcon,
 } from '../../icons.jsx'
 import ClientBottomNav from '../../components/client/ClientBottomNav.jsx'
+import { subscribeToServices } from '../../firebase/services.js'
 import './ClientServices.css'
 
 const SERVICES_DATA = [
@@ -91,10 +92,39 @@ const SERVICES_DATA = [
 ]
 
 export default function ClientServices({ onBack, onConfirmService, onViewAppointments }) {
+  const [servicesList, setServicesList] = useState(SERVICES_DATA)
   const [selectedId, setSelectedId] = useState('alongamento')
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [confirmedSuccess, setConfirmedSuccess] = useState(false)
+
+  // Escuta os serviços cadastrados pela manicure no Firebase Firestore
+  useEffect(() => {
+    const unsub = subscribeToServices((realList) => {
+      if (realList && realList.length > 0) {
+        const activeOnly = realList.filter((s) => s.active !== false)
+        if (activeOnly.length > 0) {
+          const merged = activeOnly.map((item) => {
+            const fallback = SERVICES_DATA.find(
+              (s) => s.id === item.id || s.name.toLowerCase() === (item.name || '').toLowerCase()
+            )
+            return {
+              ...fallback,
+              ...item,
+              image: item.image || fallback?.image || manicureImg,
+              included: item.included || fallback?.included || [
+                'Atendimento personalizado',
+                'Materiais esterilizados e descartáveis',
+                'Finalização de alta durabilidade',
+              ],
+            }
+          })
+          setServicesList(merged)
+        }
+      }
+    })
+    return () => unsub()
+  }, [])
 
   // Estados para gesto de arrastar para baixo e fechar (swipe down to dismiss)
   const [dragY, setDragY] = useState(0)
@@ -117,7 +147,7 @@ export default function ClientServices({ onBack, onConfirmService, onViewAppoint
     }
   }, [])
 
-  const selectedService = SERVICES_DATA.find((s) => s.id === selectedId) || SERVICES_DATA[2]
+  const selectedService = servicesList.find((s) => s.id === selectedId) || servicesList[0] || SERVICES_DATA[2]
 
   // Ao clicar em qualquer serviço, marca como selecionado e abre a confirmação
   const handleSelectService = (service) => {
@@ -299,7 +329,7 @@ export default function ClientServices({ onBack, onConfirmService, onViewAppoint
           Lista dos 5 Serviços com Novo Layout e Miniaturas
           =================================================================== */}
       <main className="cls-services-list" role="list">
-        {SERVICES_DATA.map((service, idx) => {
+        {servicesList.map((service, idx) => {
           const isSelected = selectedId === service.id
 
           return (

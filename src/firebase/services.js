@@ -491,5 +491,68 @@ export function subscribeToServices(callback) {
       list.push({ id: doc.id, ...doc.data() })
     })
     callback(list)
+  }, (err) => {
+    console.warn('Erro ao escutar serviços:', err)
   })
 }
+
+export async function saveService(serviceData) {
+  try {
+    const id = serviceData.id ? String(serviceData.id) : `svc_${Date.now()}`
+    const docRef = doc(db, 'services', id)
+    const payload = {
+      ...serviceData,
+      id,
+      updatedAt: serverTimestamp(),
+    }
+    await setDoc(docRef, payload, { merge: true })
+    return { success: true, id }
+  } catch (error) {
+    console.error('Erro ao salvar serviço:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+export async function deleteService(serviceId) {
+  try {
+    const docRef = doc(db, 'services', String(serviceId))
+    await deleteDoc(docRef)
+    return { success: true }
+  } catch (error) {
+    console.error('Erro ao excluir serviço:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+export async function toggleServiceActive(serviceId, active) {
+  try {
+    const docRef = doc(db, 'services', String(serviceId))
+    await updateDoc(docRef, {
+      active: Boolean(active),
+      updatedAt: serverTimestamp(),
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Erro ao alternar status do serviço:', error)
+    return { success: false, error: error.message }
+  }
+}
+
+// Escuta agendamentos de uma cliente específica por telefone
+export function subscribeToClientAppointments(clientPhone, callback) {
+  const colRef = collection(db, 'appointments')
+  const cleanPhone = cleanPhoneNumber(clientPhone)
+  return onSnapshot(colRef, (snapshot) => {
+    const list = []
+    snapshot.forEach((doc) => {
+      const data = doc.data()
+      if (!cleanPhone || cleanPhoneNumber(data.clientPhone) === cleanPhone) {
+        list.push({ id: doc.id, ...data })
+      }
+    })
+    callback(list)
+  }, (err) => {
+    console.warn('Erro ao carregar agendamentos da cliente:', err)
+  })
+}
+

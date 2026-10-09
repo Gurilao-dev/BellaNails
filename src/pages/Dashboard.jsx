@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import anaImg from '../assets/dashboard/ana.png'
 import bannerImg from '../assets/dashboard/banner.png'
 import marianaImg from '../assets/dashboard/client-mariana.png'
@@ -20,51 +20,70 @@ import {
   UsersIcon,
 } from '../icons.jsx'
 import AppBottomNav from '../components/AppBottomNav.jsx'
+import {
+  subscribeToAppointments,
+  subscribeToFinancial,
+  subscribeToSalonSettings,
+  parsePriceValue,
+} from '../firebase/services.js'
 import './Dashboard.css'
-
-const appointments = [
-  {
-    id: 1,
-    time: '08:00',
-    name: 'Mariana Silva',
-    service: 'Manicure',
-    status: 'Confirmado',
-    statusType: 'confirmed',
-    avatar: marianaImg,
-  },
-  {
-    id: 2,
-    time: '09:30',
-    name: 'Juliana Costa',
-    service: 'Alongamento em gel',
-    status: 'Confirmado',
-    statusType: 'confirmed',
-    avatar: julianaImg,
-  },
-  {
-    id: 3,
-    time: '11:00',
-    name: 'Fernanda Lima',
-    service: 'Pedicure',
-    status: 'Pendente',
-    statusType: 'pending',
-    avatar: fernandaImg,
-  },
-  {
-    id: 4,
-    time: '14:00',
-    name: 'Carla Mendes',
-    service: 'Nail art',
-    status: 'Confirmado',
-    statusType: 'confirmed',
-    avatar: carlaImg,
-  },
-]
 
 export default function Dashboard({ onNavigateTab }) {
   const [activeTab, setActiveTab] = useState('inicio')
   const [showMaisModal, setShowMaisModal] = useState(false)
   const [showSideMenu, setShowSideMenu] = useState(false)
+  const [appointments, setAppointments] = useState([])
+  const [financialEntries, setFinancialEntries] = useState([])
+  const [salonSettings, setSalonSettings] = useState({
+    ownerName: 'Ana Paula',
+    salonName: 'Bella Nails',
+  })
+
+  // Escuta dados reais do Firebase em tempo real
+  useEffect(() => {
+    const unsubAppts = subscribeToAppointments((list) => {
+      setAppointments(list || [])
+    })
+    const unsubFin = subscribeToFinancial((list) => {
+      setFinancialEntries(list || [])
+    })
+    const unsubSet = subscribeToSalonSettings((data) => {
+      if (data) {
+        setSalonSettings((prev) => ({
+          ...prev,
+          ownerName: data.ownerName || data.businessInfo?.name || prev.ownerName,
+          salonName: data.salonName || prev.salonName,
+        }))
+      }
+    })
+
+    return () => {
+      unsubAppts()
+      unsubFin()
+      unsubSet()
+    }
+  }, [])
+
+  // Métricas dinâmicas em tempo real
+  const activeAppointments = useMemo(() => {
+    return appointments.filter((a) => a.status !== 'cancelado')
+  }, [appointments])
+
+  const confirmedCount = useMemo(() => {
+    return activeAppointments.filter((a) => a.status === 'confirmado' || a.status === 'finalizado').length
+  }, [activeAppointments])
+
+  const totalRevenue = useMemo(() => {
+    return financialEntries
+      .filter((t) => t.type === 'entrada')
+      .reduce((sum, curr) => sum + (typeof curr.amount === 'number' ? curr.amount : parsePriceValue(curr.amount)), 0)
+  }, [financialEntries])
+
+  const upcomingAppointments = useMemo(() => {
+    return activeAppointments.slice(0, 5)
+  }, [activeAppointments])
+
+  const ownerFirstName = salonSettings.ownerName ? salonSettings.ownerName.split(' ')[0] : 'Manicure'
 
   return (
     <main className="screen dash-screen">
@@ -75,7 +94,7 @@ export default function Dashboard({ onNavigateTab }) {
         <div className="dash-header-spacer" aria-hidden="true" />
 
         <div className="dash-logo">
-          <span className="dash-logo-title">Bella Nails</span>
+          <span className="dash-logo-title">{salonSettings.salonName || 'Bella Nails'}</span>
           <span className="dash-logo-sub">STUDIO DE UNHAS</span>
         </div>
 
@@ -93,12 +112,12 @@ export default function Dashboard({ onNavigateTab }) {
       {/* Container de Conteúdo com Rolagem */}
       <div className="dash-content-body">
         {/* ===================================================================
-            Seção de Saudação: Olá, Ana! + Foto e Cargo
+            Seção de Saudação: Olá, [Nome da Manicure]! + Foto e Cargo
             =================================================================== */}
         <section className="dash-greeting-section anim-stagger-item anim-delay-2">
           <div className="dash-greeting-left">
             <h1 className="dash-greeting-title">
-              Olá, Ana! <span className="dash-wave">👋</span>
+              Olá, {ownerFirstName}! <span className="dash-wave">👋</span>
             </h1>
             <p className="dash-greeting-sub">Que bom te ver por aqui!</p>
           </div>
@@ -107,7 +126,7 @@ export default function Dashboard({ onNavigateTab }) {
             <div className="dash-avatar-halo">
               <img
                 src={anaImg}
-                alt="Foto de perfil de Ana Paula"
+                alt="Foto de perfil"
                 className="dash-avatar-img"
               />
             </div>
@@ -123,12 +142,12 @@ export default function Dashboard({ onNavigateTab }) {
         </section>
 
         {/* ===================================================================
-            Seção: Resumo do dia (Data + 3 Cards de Métricas)
+            Seção: Resumo do dia (Data + 3 Cards de Métricas Reais)
             =================================================================== */}
         <section className="dash-summary-section anim-stagger-item anim-delay-3" aria-label="Resumo do dia">
           <div className="dash-summary-header">
-            <h2 className="dash-summary-date">Segunda-feira, 06 de Outubro</h2>
-            <p className="dash-summary-desc">Aqui está o resumo do seu dia</p>
+            <h2 className="dash-summary-date">Terça-feira, 06 de Outubro</h2>
+            <p className="dash-summary-desc">Aqui está o resumo do seu estúdio</p>
           </div>
 
           <div className="dash-stats-grid">
@@ -137,11 +156,11 @@ export default function Dashboard({ onNavigateTab }) {
               <div className="dash-stat-icon-wrap">
                 <CalendarHeartIcon className="dash-stat-icon" />
               </div>
-              <span className="dash-stat-number">8</span>
+              <span className="dash-stat-number">{activeAppointments.length}</span>
               <span className="dash-stat-label">
                 Agendamentos
                 <br />
-                hoje
+                no sistema
               </span>
             </div>
 
@@ -150,7 +169,7 @@ export default function Dashboard({ onNavigateTab }) {
               <div className="dash-stat-icon-wrap">
                 <CheckCircleFilledIcon className="dash-stat-icon" />
               </div>
-              <span className="dash-stat-number">6</span>
+              <span className="dash-stat-number">{confirmedCount}</span>
               <span className="dash-stat-label">Confirmados</span>
             </div>
 
@@ -165,11 +184,13 @@ export default function Dashboard({ onNavigateTab }) {
               <div className="dash-stat-icon-wrap">
                 <CoinIcon className="dash-stat-icon" />
               </div>
-              <span className="dash-stat-number is-money">R$ 420,00</span>
+              <span className="dash-stat-number is-money">
+                R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </span>
               <span className="dash-stat-label">
                 Faturamento
                 <br />
-                do dia
+                recebido
               </span>
               <span className="dash-stat-badge-link">
                 <span>Ver finanças</span>
@@ -196,9 +217,9 @@ export default function Dashboard({ onNavigateTab }) {
             <div className="dash-finance-info">
               <div className="dash-finance-headline">
                 <strong className="dash-finance-title">Painel Financeiro</strong>
-                <span className="dash-finance-tag-new">Novo</span>
+                <span className="dash-finance-tag-new">Tempo Real</span>
               </div>
-              <span className="dash-finance-desc">Faturamento do mês, ticket médio e relatórios</span>
+              <span className="dash-finance-desc">Faturamento do mês, ticket médio e controle de entradas</span>
             </div>
           </div>
           <div className="dash-finance-action">
@@ -240,44 +261,64 @@ export default function Dashboard({ onNavigateTab }) {
           </div>
 
           <div className="dash-appointments-list">
-            {appointments.map((item, idx) => {
-              const { id, time, name, service, status, statusType, avatar } = item
-
-              return (
-                <div
-                  key={id}
-                  id={`apt-card-${id}`}
-                  className="dash-apt-card anim-stagger-item"
-                  style={{ animationDelay: `${0.25 + idx * 0.06}s` }}
+            {upcomingAppointments.length === 0 ? (
+              <div className="dash-empty-apts">
+                <div className="dash-empty-icon">📅</div>
+                <p>Nenhum atendimento agendado no momento.</p>
+                <button
+                  type="button"
+                  className="agenda-new-apt-btn"
+                  onClick={() => onNavigateTab?.('agenda')}
                 >
-                  {/* Horário */}
-                  <span className="dash-apt-time">{time}</span>
+                  Abrir Agenda
+                </button>
+              </div>
+            ) : (
+              upcomingAppointments.map((item, idx) => {
+                const id = item.id
+                const time = item.time || '09:00'
+                const name = item.clientName || 'Cliente'
+                const service = item.serviceTitle || 'Atendimento'
+                const isFinalizado = item.status === 'finalizado'
+                const isConfirmado = item.status === 'confirmado' || !item.status
+                const statusLabel = isFinalizado ? 'Finalizado' : isConfirmado ? 'Confirmado' : 'Pendente'
+                const statusType = isFinalizado || isConfirmado ? 'confirmed' : 'pending'
 
-                  {/* Avatar do cliente */}
-                  <div className="dash-apt-avatar">
-                    <img
-                      src={avatar}
-                      alt={`Foto de ${name}`}
-                      className="dash-apt-avatar-img"
-                    />
+                return (
+                  <div
+                    key={id}
+                    id={`apt-card-${id}`}
+                    className="dash-apt-card anim-stagger-item"
+                    style={{ animationDelay: `${0.1 + idx * 0.05}s`, cursor: 'pointer' }}
+                    onClick={() => onNavigateTab?.('agenda')}
+                  >
+                    {/* Horário */}
+                    <span className="dash-apt-time">{time}</span>
+
+                    {/* Avatar Monograma com Inicial */}
+                    <div className="dash-apt-avatar">
+                      <div className="clientes-avatar-initial" style={{ width: 40, height: 40, fontSize: 15 }}>
+                        {name.charAt(0).toUpperCase()}
+                      </div>
+                    </div>
+
+                    {/* Nome e Serviço */}
+                    <div className="dash-apt-info">
+                      <h3 className="dash-apt-name">{name}</h3>
+                      <span className="dash-apt-service">{service}</span>
+                    </div>
+
+                    {/* Badge de Status */}
+                    <span className={`dash-apt-status ${statusType}`}>
+                      {statusLabel}
+                    </span>
+
+                    {/* Seta indicativa */}
+                    <ChevronRightIcon className="dash-apt-chevron" />
                   </div>
-
-                  {/* Nome e Serviço */}
-                  <div className="dash-apt-info">
-                    <h3 className="dash-apt-name">{name}</h3>
-                    <span className="dash-apt-service">{service}</span>
-                  </div>
-
-                  {/* Badge de Status (Confirmado ou Pendente) */}
-                  <span className={`dash-apt-status ${statusType}`}>
-                    {status}
-                  </span>
-
-                  {/* Seta indicativa */}
-                  <ChevronRightIcon className="dash-apt-chevron" />
-                </div>
-              )
-            })}
+                )
+              })
+            )}
           </div>
         </section>
       </div>

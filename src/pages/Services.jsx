@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import manicureImg from '../assets/services/manicure.png'
 import pedicureImg from '../assets/services/pedicure.png'
 import alongamentoImg from '../assets/services/alongamento.png'
@@ -19,6 +19,13 @@ import {
   SearchIcon,
 } from '../icons.jsx'
 import { useBottomSheetDrag } from '../hooks/useBottomSheetDrag.js'
+import {
+  subscribeToServices,
+  saveService,
+  deleteService,
+  toggleServiceActive,
+  initializeDefaultServicesIfEmpty,
+} from '../firebase/services.js'
 import './Services.css'
 
 const PRESET_IMAGES = [
@@ -29,11 +36,9 @@ const PRESET_IMAGES = [
   { name: 'Nail art', img: nailartImg },
 ]
 
-
-
 const initialServices = [
   {
-    id: 1,
+    id: 'manicure',
     name: 'Manicure',
     description: 'Cuidado das suas unhas com muito mais brilho.',
     duration: '45 min',
@@ -42,7 +47,7 @@ const initialServices = [
     active: true,
   },
   {
-    id: 2,
+    id: 'pedicure',
     name: 'Pedicure',
     description: 'Bem-estar e beleza dos pés.',
     duration: '50 min',
@@ -51,7 +56,7 @@ const initialServices = [
     active: true,
   },
   {
-    id: 3,
+    id: 'alongamento',
     name: 'Alongamento em gel',
     description: 'Unhas mais fortes e duradouras.',
     duration: '1h 30 min',
@@ -60,7 +65,7 @@ const initialServices = [
     active: true,
   },
   {
-    id: 4,
+    id: 'banho',
     name: 'Banho de gel',
     description: 'Brilho e resistência para suas unhas.',
     duration: '1h 00 min',
@@ -69,7 +74,7 @@ const initialServices = [
     active: true,
   },
   {
-    id: 5,
+    id: 'nailart',
     name: 'Nail art',
     description: 'Detalhes que fazem a diferença.',
     duration: '15 min',
@@ -83,6 +88,25 @@ export default function Services({ onNavigateTab }) {
   const [filter, setFilter] = useState('todos')
   const [searchQuery, setSearchQuery] = useState('')
   const [services, setServices] = useState(initialServices)
+
+  // Escuta serviços reais no Firebase
+  useEffect(() => {
+    initializeDefaultServicesIfEmpty()
+    const unsubscribe = subscribeToServices((realList) => {
+      if (realList && realList.length > 0) {
+        // Preserva imagens locais caso o firestore não tenha URL
+        const merged = realList.map((item) => {
+          const preset = PRESET_IMAGES.find((p) => p.name.toLowerCase() === (item.name || '').toLowerCase())
+          return {
+            ...item,
+            image: item.image || (preset ? preset.img : manicureImg),
+          }
+        })
+        setServices(merged)
+      }
+    })
+    return () => unsubscribe()
+  }, [])
 
   // Estado do Modal de Criar / Editar
   const [showModal, setShowModal] = useState(false)
@@ -107,11 +131,15 @@ export default function Services({ onNavigateTab }) {
     }
   }
 
-  // Alternar Ativo / Inativo de um serviço
-  const handleToggleActive = (id) => {
+  // Alternar Ativo / Inativo de um serviço no Firebase
+  const handleToggleActive = async (id) => {
+    const item = services.find((s) => s.id === id)
+    if (!item) return
+    const nextActive = !item.active
     setServices((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, active: !s.active } : s))
+      prev.map((s) => (s.id === id ? { ...s, active: nextActive } : s))
     )
+    await toggleServiceActive(id, nextActive)
   }
 
   // Abrir modal de criação
@@ -136,39 +164,22 @@ export default function Services({ onNavigateTab }) {
     setShowModal(true)
   }
 
-  // Salvar serviço (criação ou edição)
-  const handleSaveService = (e) => {
+  // Salvar serviço (criação ou edição) diretamente no Firebase
+  const handleSaveService = async (e) => {
     e.preventDefault()
     if (!formName.trim()) return
 
-    if (editingService) {
-      setServices((prev) =>
-        prev.map((s) =>
-          s.id === editingService.id
-            ? {
-                ...s,
-                name: formName,
-                description: formDesc,
-                duration: formDuration,
-                price: formPrice,
-                image: formImage || s.image || manicureImg,
-              }
-            : s
-        )
-      )
-    } else {
-      const newSvc = {
-        id: Date.now(),
-        name: formName,
-        description: formDesc || 'Cuidado especial para suas unhas.',
-        duration: formDuration,
-        price: formPrice,
-        image: formImage || manicureImg,
-        active: true,
-      }
-      setServices((prev) => [...prev, newSvc])
+    const id = editingService ? editingService.id : `svc_${Date.now()}`
+    const payload = {
+      id,
+      name: formName.trim(),
+      description: formDesc.trim() || 'Cuidado especial para suas unhas.',
+      duration: formDuration,
+      price: formPrice,
+      active: editingService ? editingService.active : true,
     }
 
+    await saveService(payload)
     setShowModal(false)
   }
 

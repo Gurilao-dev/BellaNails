@@ -14,6 +14,10 @@ import {
   UserOutlineIcon,
 } from '../../icons.jsx'
 import ClientBottomNav from '../../components/client/ClientBottomNav.jsx'
+import {
+  subscribeToClientAppointments,
+  updateAppointmentStatus,
+} from '../../firebase/services.js'
 import './ClientAppointments.css'
 
 export default function ClientAppointments({ onBookNew, onReschedule }) {
@@ -37,12 +41,46 @@ export default function ClientAppointments({ onBookNew, onReschedule }) {
     location: 'Studio Bella Nails - Rua das Flores, 123',
   })
 
-  // Recupera agendamento recente salvo se disponível
+  // Escuta agendamento real da cliente diretamente no Firebase Firestore
+  useEffect(() => {
+    let clientPhone = ''
+    try {
+      const u = JSON.parse(localStorage.getItem('bella_client_user') || '{}')
+      clientPhone = u.phone || localStorage.getItem('bella_client_phone') || ''
+    } catch (e) {}
+
+    const unsub = subscribeToClientAppointments(clientPhone, (list) => {
+      if (list && list.length > 0) {
+        // Pega o agendamento mais recente da cliente
+        const latest = list[list.length - 1]
+        setAppointment({
+          id: latest.id,
+          status: latest.status || 'confirmado',
+          serviceTitle: latest.serviceTitle || latest.service?.title || 'Alongamento em gel',
+          price: latest.price || latest.service?.price || 'R$ 90,00',
+          duration: latest.duration || latest.service?.duration || '1h 30 min',
+          professionalName: latest.professionalName || latest.professional?.name || 'Ana Paula',
+          dateLabel:
+            latest.dateLabel ||
+            (latest.date?.dayWeek
+              ? `${latest.date.dayWeek}, ${latest.date.dayNum} de out de 2026`
+              : 'Ter, 06 de out de 2026'),
+          time: latest.time || '14:00',
+          serviceImg: latest.serviceImg || latest.service?.image || defaultServiceImg,
+          location: 'Studio Bella Nails - Rua das Flores, 123',
+        })
+      }
+    })
+
+    return () => unsub()
+  }, [])
+
+  // Recupera agendamento recente salvo se disponível localmente
   useEffect(() => {
     try {
       const saved = localStorage.getItem('bella_client_confirmed_appointment')
       const currentAppt = localStorage.getItem('bella_client_appointment')
-      
+
       let data = null
       if (saved) {
         data = JSON.parse(saved)
@@ -53,17 +91,20 @@ export default function ClientAppointments({ onBookNew, onReschedule }) {
       if (data) {
         setAppointment((prev) => ({
           ...prev,
+          id: data.id || prev.id,
           serviceTitle: data.serviceTitle || data.service?.title || prev.serviceTitle,
           price: data.price || data.service?.price || prev.price,
           duration: data.duration || data.service?.duration || prev.duration,
           professionalName: data.professionalName || data.professional?.name || prev.professionalName,
-          dateLabel: data.dateLabel || (data.date?.dayWeek ? `${data.date.dayWeek}, ${data.date.dayNum} de out de 2026` : prev.dateLabel),
+          dateLabel:
+            data.dateLabel ||
+            (data.date?.dayWeek ? `${data.date.dayWeek}, ${data.date.dayNum} de out de 2026` : prev.dateLabel),
           time: data.time || prev.time,
           serviceImg: data.serviceImg || data.service?.image || prev.serviceImg,
         }))
       }
     } catch {
-      // Mantém os dados padrões idênticos ao design
+      // Mantém os dados padrões
     }
   }, [])
 
@@ -78,12 +119,15 @@ export default function ClientAppointments({ onBookNew, onReschedule }) {
     }
   }
 
-  // Cancelamento do agendamento
-  const handleConfirmCancel = () => {
+  // Cancelamento do agendamento sincronizado com o Firebase
+  const handleConfirmCancel = async () => {
     setAppointment((prev) => ({
       ...prev,
       status: 'cancelado',
     }))
+    if (appointment?.id) {
+      await updateAppointmentStatus(appointment.id, 'cancelado')
+    }
     setIsCancelModalOpen(false)
   }
 
